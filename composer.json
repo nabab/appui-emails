@@ -15,7 +15,7 @@
       "email": "mirko@bbn.solutions",
       "homepage": "http://bbn.solutions",
       "role": "Developer"
-    },
+    }
   ],
   "require": {
     "php": ">=7.1",
