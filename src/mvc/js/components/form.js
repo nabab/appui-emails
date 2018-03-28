@@ -24,12 +24,16 @@
       },
       success(d){
         if ( d.success ){
-          this.emails.$refs.table.updateData();
+          let t = bbn.vue.closest(this, 'bbn-tab').getComponent();
+          bbn.vue.find(t, 'bbn-table').updateData();
           if ( this.source.row.id ){
             appui.success(bbn._('Modified'));
           }
           else {
             appui.success(bbn._('Saved'));
+          }
+          if ( d.count ){
+            t.source.count = d.count;
           }
         }
         else {

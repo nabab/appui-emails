@@ -1,4 +1,6 @@
-<bbn-splitter orientation="horizontal">
+<bbn-splitter orientation="horizontal"
+              class="appui-emails-mailings"
+>
   <bbn-pane :size="250">
 		<bbn-splitter orientation="vertical">
 			<bbn-pane>
@@ -11,7 +13,34 @@
         >
         </bbn-tree>
       </bbn-pane>
-			<bbn-pane :size="200">
+			<bbn-pane :size="300">
+				<div class="bbn-100 k-block info">
+          <div class="k-header bbn-vmiddle title">
+            <span><strong><?=_('LIVE INFO')?></strong></span>
+            <bbn-switch @change="toggleGetInfo" :checked="true"></bbn-switch>
+          </div>
+					<div v-if="info.current.id"
+							 class="k-block"
+					>
+            <div class="k-header bbn-c"><?=_('CURRENT')?></div>
+						<div class="bbn-spadded">
+              <div><strong><?=_('Title')?>:</strong> {{info.current.title}}</div>
+              <div><strong><?=_('Recipients')?>:</strong> {{info.current.recipients}}</div>
+              <div><strong><?=_('Started')?>:</strong> {{fixDate(info.current.moment)}}</div>
+              <div><strong><?=_('Sent')?>:</strong> {{info.current.sent}}</div>
+            </div>
+					</div>
+					<div v-if="info.next.id"
+							 class="k-block"
+					>
+						<div class="k-header bbn-c"><?=_('NEXT')?></div>
+            <div class=" bbn-spadded">
+              <div><strong><?=_('Title')?>:</strong> {{info.next.title}}</div>
+              <div><strong><?=_('Recipients')?>:</strong> {{info.next.recipients}}</div>
+              <div><strong><?=_('Start')?>:</strong> {{fixDate(info.next.moment)}}</div>
+            </div>
+					</div>
+				</div>
 		  </bbn-pane>
 		</bbn-splitter>
 	</bbn-pane>
@@ -29,6 +58,10 @@
                  text: '<?=_('New mailing')?>',
                  icon: 'fa fa-plus',
                  command: insert
+               }, {
+                 text: '<?=_('Letters types')?>',
+                 icon: 'fa fa-list',
+                 command: openLettersTypes
                }]"
                editor="appui-emails-form"
                :order="[{field: 'envoi', dir: 'DESC'}]"
@@ -41,7 +74,7 @@
                   :render="renderFiles"
                   :width="50"
                   title="<i class='fa fa-paperclip bbn-xl'></i>"
-                  ftitle="<?=_("Nombre de fichiers attachés")?>"
+                  ftitle="<?=_("Number of attached files")?>"
                   type="number"
                   :sortable="false"
       ></bbn-column>
@@ -58,7 +91,7 @@
                   :render="(r) => {return get_field(source.recipients, 'value', r.destinataires, 'text')}"
                   :required="true"
       ></bbn-column>
-      <bbn-column title="<?=_("Envoi")?>"
+      <bbn-column title="<?=_("Send")?>"
                   field="envoi"
                   :width="100"
                   type="date"
@@ -73,7 +106,7 @@
                   :filterable="false"
                   :sortable="false"
       ></bbn-column>
-      <bbn-column title="<?=_("Reçus")?>"
+      <bbn-column title="<?=_("Received")?>"
                   field="num_accuses"
                   :width="60"
                   :render="renderSent"
@@ -81,7 +114,7 @@
                   :filterable="false"
                   :sortable="false"
       ></bbn-column>
-      <bbn-column :width="280"
+      <bbn-column :width="200"
                   ftitle="<?=_("Actions")?>"
                   :buttons="renderButtons"
 									cls="bbn-c"

@@ -13,6 +13,7 @@ if ( !empty($model->data['id']) &&
 ){
   return [
     'success' => true,
-    'id' => $model->db->last_id()
+    'id' => $model->db->last_id(),
+    'count' => $model->get_model(APPUI_EMAILS_ROOT.'data/count')
   ];
 }

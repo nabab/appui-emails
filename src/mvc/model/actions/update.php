@@ -50,7 +50,8 @@ if ( !empty($model->data['id']) &&
           'version' => $version,
           'destinataires' => $model->data['destinataires'],
           'envoi' => !empty($model->data['envoi']) && \bbn\date::validateSQL($model->data['envoi']) ? $model->data['envoi'] : NULL
-        ], ['id' => $model->data['id']])
+        ], ['id' => $model->data['id']]),
+        'count' => $model->get_model(APPUI_EMAILS_ROOT.'data/count')
       ];
     }
   }

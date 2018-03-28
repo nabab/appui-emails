@@ -6,6 +6,8 @@
     <bbn-tab url="home"
              :static="true"
              :load="true"
+						 title="<?=_('Mailings')?>"
+						 icon="fa fa-newspaper-o"
     ></bbn-tab>
   </bbn-tabnav>
 </div>

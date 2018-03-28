@@ -5,7 +5,20 @@
  * Date: 20/03/2018
  * Time: 16:02
  *
- * @var $controller \bbn\mvc\controller
+ * @var $ctrl \bbn\mvc\controller
  */
-
-$ctrl->combo('', true);
+if ( !empty($ctrl->arguments[0]) && \bbn\str::is_uid($ctrl->arguments[0]) ){
+  $ctrl->data = [
+    'id' => $ctrl->arguments[0],
+    'root' => APPUI_EMAILS_ROOT
+  ];
+  if ( $model = $ctrl->get_model() ){
+    if ( !empty($model['title']) && (strlen($model['title']) > 20) ){
+      $model['title'] = substr($model['title'], 0, 20) . '...';
+    }
+    echo $ctrl
+      ->set_title($model['title'] ?: _('Untitled'))
+      ->add_js($ctrl->data)
+      ->get_view();
+  }
+}

@@ -2,7 +2,7 @@
 /**
  * Created by BBN Solutions.
  * User: Mirko Argentino
- * Date: 20/03/2018
- * Time: 17:39
+ * Date: 23/03/2018
+ * Time: 16:36
  */
-$ctrl->combo();
+$ctrl->action();

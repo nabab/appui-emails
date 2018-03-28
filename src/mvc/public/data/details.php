@@ -7,6 +7,7 @@
  *
  * @var $ctrl \bbn\mvc\controller
  */
- if ( !empty($ctrl->arguments[0]) && \bbn\str::is_uid($ctrl->arguments[0]) ){
-	 $ctrl->obj = $ctrl->get_model(['id' => $ctrl->arguments[0]]);
+
+if ( !empty($ctrl->post['data']['id']) && \bbn\str::is_uid($ctrl->post['data']['id']) ){
+	$ctrl->action();
  }

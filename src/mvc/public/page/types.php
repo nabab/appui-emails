@@ -2,11 +2,11 @@
 /**
  * Created by BBN Solutions.
  * User: Mirko Argentino
- * Date: 20/03/2018
- * Time: 15:59
+ * Date: 23/03/2018
+ * Time: 13:36
  *
  * @var $ctrl \bbn\mvc\controller
  */
-
 $ctrl
-  ->combo(_("Mailings"), true);
+  ->set_icon('fa fa-list')
+  ->combo(_("Letters Types"), true);

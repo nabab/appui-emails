@@ -25,7 +25,25 @@
         menuSelected: null,
         treeReady: false,
         tableReady: false,
-        treePath: ['all']
+        treePath: ['all'],
+				info: {
+          current: {
+            id: '',
+            title: '',
+            idRecipients: '',
+            recipients: '',
+            sent: 0,
+            moment: ''
+          },
+          next: {
+            id: '',
+            title: '',
+            idRecipients: '',
+            recipients: '',
+            moment: ''
+          },
+					getInfo: false
+				}
       }
     },
     computed: {
@@ -44,8 +62,7 @@
               value: 'pret'
             }, {
               field: 'envoi',
-              operator: 'neq',
-              value: null
+              operator: 'isnotnull'
             }]
           }, {
             id: 'in_progress',
@@ -57,8 +74,7 @@
               value: 'en cours'
             }, {
               field: 'envoi',
-              operator: 'neq',
-              value: null
+              operator: 'isnotnull'
             }]
           }, {
             id: 'sent',
@@ -70,8 +86,7 @@
               value: 'envoye'
             }, {
               field: 'envoi',
-              operator: 'neq',
-              value: null
+              operator: 'isnotnull'
             }]
           }, {
             id: 'suspended',
@@ -81,16 +96,19 @@
               field: 'statut',
               operator: 'eq',
               value: 'suspendu'
-            },{
+            }, {
               field: 'envoi',
-              operator: 'neq',
-              value: null
+              operator: 'isnotnull'
             }]
           }, {
             id: 'draft',
             text: bbn._('Draft') + (this.source.count.draft > 0  ? ' ('+ this.source.count.draft + ')' : ''),
             icon: 'fa fa-paint-brush',
             filters: [{
+              field: 'statut',
+              operator: 'eq',
+              value: 'pret'
+            }, {
               field: 'envoi',
               operator: 'isnull'
             }]
@@ -112,46 +130,56 @@
           '-';
       },
       renderButtons(row){
-        return [{
+        let res = [{
           text: bbn._("See"),
           notext: true,
           icon: "fa fa-eye",
           command: this.see
-        }, {
-          text: bbn._("Open"),
-          notext: true,
-          icon: "fa fa-th-list",
-          command: this.open
-        }, {
+        }];
+        if ( (row.statut === 'envoye') || (row.statut === 'en cours') || (row.statut === 'suspendu') ){
+         res.push({
+           text: bbn._("Open"),
+           notext: true,
+           icon: "fa fa-th-list",
+           command: this.open
+         });
+        }
+        res.push({
           text: bbn._("Duplicate"),
           notext: true,
           icon: "fa fa-copy",
           command: this.duplicate
-        }, {
-					text: bbn._("Suspend"),
-					notext: true,
-					icon: "fa fa-stop",
-					command: this.stop,
-					disabled: !!(row.statut !== 'en cours')
-				}, {
-					text: bbn._("Edit"),
-					notext: true,
-					icon: "fa fa-edit",
-					command: this.edit,
-					disabled: !!(row.statut !== 'pret')
-				}, {
-					text: bbn._("Delete"),
-					notext: true,
-					icon: "fa fa-trash-o",
-					command: this.remove,
-					disabled: !!(row.statut !== 'pret')
-				}, {
-					text: bbn._("Send"),
-					notext: true,
-					icon: "fa fa-paper-plane-o",
-					command: this.send,
-					disabled: !!((row.statut !== 'pret') && (row.envoi !== null))
-				}];
+        });
+        if ( row.statut === 'en cours' ){
+          res.push({
+            text: bbn._("Suspend"),
+            notext: true,
+            icon: "fa fa-hand-stop-o",
+            command: this.stop
+          });
+        }
+        if ( (row.statut === 'pret') ){
+          res.push({
+            text: bbn._("Edit"),
+            notext: true,
+            icon: "fa fa-edit",
+            command: this.edit
+          }, {
+            text: bbn._("Delete"),
+            notext: true,
+            icon: "fa fa-trash-o",
+            command: this.remove
+          });
+        }
+        if( (row.statut === 'pret') && (row.envoi === null) ){
+          res.push({
+            text: bbn._("Send"),
+            notext: true,
+            icon: "fa fa-paper-plane-o",
+            command: this.send
+          });
+        }
+        return res;
       },
       insert(){
         return this.$refs.table.insert({}, {
@@ -180,13 +208,18 @@
         }
       },
 			open(row){
-				bbn.fn.link(this.source.root + 'page/details');
+        if ( row.id ){
+          bbn.fn.link(this.source.root + 'page/details/' + row.id);
+        }
 			},
       duplicate(row){
         if ( row.id ){
           bbn.fn.confirm(bbn._("Are you sure you want duplicate this mailing?"), () => {
             bbn.fn.post(this.source.root + "actions/duplicate", {id: row.id}, (d) => {
               if ( d.success ){
+                if ( d.count ){
+                  this.source.count = d.count;
+                }
                 appui.success(bbn._('Duplicated'));
                 this.$refs.table.updateData();
               }
@@ -217,6 +250,9 @@
           bbn.fn.confirm(bbn._("Are you sure you want to delete this mailing?"), () => {
             bbn.fn.post(this.source.root + 'actions/delete', {id: row.id}, d => {
               if ( d.success ){
+                if ( d.count ){
+                  this.source.count = d.count;
+                }
                 this.$refs.table.updateData();
                 appui.success(bbn._('Deleted'));
               }
@@ -264,6 +300,61 @@
             }
           }
         }
+      },
+      openLettersTypes(){
+        bbn.fn.link(this.source.root + 'page/types');
+      },
+      fixDate(d){
+        return moment(d).format('DD/MM/YYYY HH:mm:ss');
+      },
+      setGetInfo(){
+        this.info.getInfo = setInterval(() => {
+          bbn.fn.post(this.source.root + 'data/info', d => {
+            if ( d.success ){
+              this.info.current.id = d.data.current.id;
+              this.info.current.title = d.data.current.title;
+              this.info.current.idRecipients = d.data.current.recipients;
+              this.info.current.sent = d.data.current.sent;
+              this.info.current.moment = d.data.current.moment;
+              this.info.next.id = d.data.next.id;
+              this.info.next.title = d.data.next.title;
+              this.info.next.idRecipients = d.data.next.recipients;
+              this.info.next.moment = d.data.next.moment;
+            }
+          });
+        }, 3000);
+      },
+			clearGetInfo(){
+				if ( this.info.getInfo ){
+					clearInterval(this.info.getInfo);
+					this.info.getInfo = false;
+				}
+			},
+      toggleGetInfo(){
+        if ( this.info.getInfo ){
+          this.clearGetInfo();
+        }
+        else {
+          this.setGetInfo();
+        }
+      }
+    },
+    watch: {
+      'info.current.idRecipients'(newVal){
+        if ( newVal && this.source.recipients ){
+          this.info.current.recipients = bbn.fn.get_field(this.source.recipients, 'value', this.info.current.idRecipients, 'text');
+        }
+        else {
+          this.info.current.recipients = '';
+        }
+      },
+      'info.next.idRecipients'(newVal){
+        if ( newVal && this.source.recipients ){
+          this.info.next.recipients = bbn.fn.get_field(this.source.recipients, 'value', this.info.next.idRecipients, 'text');
+        }
+        else {
+          this.info.next.recipients = '';
+        }
       }
     },
     created(){
@@ -276,8 +367,15 @@
       bbn.vue.setComponentRule(this.source.root + 'components/', 'appui-emails');
       bbn.vue.addComponent('form', mixins);
       bbn.vue.addComponent('view', mixins);
-      bbn.vue.addComponent('subgrid', mixins);
       bbn.vue.unsetComponentRule();
-    }
+    },
+		mounted(){
+			this.clearGetInfo();
+			this.setGetInfo();
+
+		},
+		beforeDestroy(){
+			this.clearGetInfo();
+		}
   }
 })();

@@ -38,6 +38,9 @@ if ( isset($model->data['texte'], $model->data['objet']) ){
         }
       }
     }
-    return ['success' => true];
+    return [
+      'success' => true,
+      'count' => $model->get_model(APPUI_EMAILS_ROOT.'data/count')
+    ];
   }
 }

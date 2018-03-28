@@ -1,8 +1,7 @@
 <bbn-table :source="source.categories"
-           editable="true"
-           :editor="$options.components.form_lettres_types"
+           :editable="false"
            ref="table"
-           :order="[{text:'ASC'}]"
+           :order="[{field: 'text', dir: 'ASC'}]"
            :groupable="true"
            :group-by="3"
            uid="id_note"
@@ -11,61 +10,49 @@
               field="id_note"
               :width="100"
               :hidden="true"
-
   ></bbn-column>
-
-  <bbn-column title="<?=_("Défaut")?>"
+  <bbn-column title="<i class='fa fa-check bbn-c bbn-xl'></i>"
+              ftitle="<?=_("Default")?>"
               field="default"
               :width="50"
-              :component="$options.components.def"
-
+              component="appui-emails-types-default"
+              cls="bbn-c"
   ></bbn-column>
-
   <bbn-column title="<?=_("Version")?>"
               field="version"
               type="number"
               :width="50"
-
+              cls="bbn-c"
   ></bbn-column>
-
-  <bbn-column title="<?=_("Type de lettre")?>"
+  <bbn-column title="<?=_("Type")?>"
               field="type"
-              :component="$options.components.cat"
+              component="appui-emails-types-type"
   ></bbn-column>
-
-  <bbn-column title="<?=_("Objet")?>"
+  <bbn-column title="<?=_("Object")?>"
               field="title"
   ></bbn-column>
-
-
   <bbn-column title="<?=_("User")?>"
               field="id_user"
-              :render="render_user"
-
+              :render="renderUser"
   ></bbn-column>
-
-  <bbn-column title="<?=_("Last modified")?>"
+  <bbn-column title="<?=_("Last edit")?>"
               field="creation"
               type="date"
-
+              :width="120"
+              cls="bbn-c"
   ></bbn-column>
-
   <bbn-column title="<?=_("Text")?>"
               field="content"
               :hidden="true"
-
   ></bbn-column>
-
   <bbn-column field="id_type"
               :hidden="true"
               :editable="false"
   ></bbn-column>
-
-
-  <bbn-column width='160'
-              :title="_('Actions')"
-              :buttons="table_buttons"
+  <bbn-column width='100'
+              ftitle="<?=_('Actions')?>"
+              :buttons="renderButtons"
+              cls="bbn-c"
   ></bbn-column>
-
 </bbn-table>
 
