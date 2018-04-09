@@ -12,10 +12,12 @@
               field="etat"
               :render="etat"
               :width="120"
+              cls="bbn-c"
   ></bbn-column>
   <bbn-column title="<?=_("Envoi")?>"
               field="envoi"
               type="date"
               :width="150"
+              cls="bbn-c"
   ></bbn-column>
 </bbn-table>

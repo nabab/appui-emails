@@ -28,7 +28,6 @@ if ( isset($model->data['start']) && !empty($model->data['limit']) ){
       SELECT COUNT(id) 
       FROM bbn_emailings
     ",
-    'group_by' => 'bbn_emailings.id',
     'filters' => ['actif' => 1]
   ]);
   if ( $grid->check() &&

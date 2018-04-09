@@ -37,5 +37,6 @@ return [
   'data' => [
     'current' => $current,
     'next' => $next
-  ]
+  ],
+  'count' => !empty($model->data['updateCount']) ? $model->get_model(APPUI_EMAILS_ROOT.'data/count') : false
 ];

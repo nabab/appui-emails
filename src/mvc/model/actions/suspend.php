@@ -11,6 +11,7 @@ if ( !empty($model->data['id']) &&
   $model->db->update('bbn_emailings', ['statut' => 'suspendu'], ['id' => $model->data['id']])
 ){
   return [
-    'success' => true
+    'success' => true,
+		'count' => $model->get_model(APPUI_EMAILS_ROOT.'data/count')
   ];
 }

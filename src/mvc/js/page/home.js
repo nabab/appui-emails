@@ -22,9 +22,6 @@
           text: bbn._("In progress"),
           value: "en cours"
         }],
-        menuSelected: null,
-        treeReady: false,
-        tableReady: false,
         treePath: ['all'],
 				info: {
           current: {
@@ -43,7 +40,8 @@
             moment: ''
           },
 					getInfo: false
-				}
+				},
+        updateCount: 0
       }
     },
     computed: {
@@ -67,7 +65,7 @@
           }, {
             id: 'in_progress',
             text: bbn._('In progress') + (this.source.count.in_progress > 0  ? ' (' + this.source.count.in_progress + ')' : ''),
-            icon: 'fa fa-paper-plane-o',
+						icon: 'fa fa-spinner',
             filters: [{
               field: 'statut',
               operator: 'eq',
@@ -79,7 +77,7 @@
           }, {
             id: 'sent',
             text: bbn._('Sent') + (this.source.count.sent > 0  ? ' ('+ this.source.count.sent + ')' : ''),
-            icon: 'fa fa-envelope',
+            icon: 'fa fa-send-o',
             filters: [{
               field: 'statut',
               operator: 'eq',
@@ -91,7 +89,7 @@
           }, {
             id: 'suspended',
             text: bbn._('Suspended') + (this.source.count.suspended > 0  ? ' ('+ this.source.count.suspended + ')' : ''),
-            icon: 'fa fa-close',
+            icon: 'fa fa-pause',
             filters: [{
               field: 'statut',
               operator: 'eq',
@@ -235,8 +233,12 @@
           bbn.fn.confirm(bbn._("Are you sure you want suspend this mailing?"), () => {
             bbn.fn.post(this.source.root + "actions/suspend", {id: row.id}, (d) => {
               if ( d.success ){
+								if ( d.count ){
+                  this.source.count = d.count;
+                }
                 row.statut = 'suspendu';
                 appui.success(bbn._('Suspended'));
+								this.$refs.table.updateData();
               }
               else {
                 appui.error(bbn._('Error'));
@@ -268,6 +270,9 @@
           bbn.fn.confirm(bbn._("Are you sure you want to send this mailing?"), () => {
             bbn.fn.post(this.source.root + 'actions/send', {id: row.id}, (d) => {
               if ( d.success ){
+                if ( d.count ){
+                  this.source.count = d.count;
+                }
                 this.$refs.table.updateData();
                 appui.success(bbn._('Saved'));
               }
@@ -280,8 +285,10 @@
       },
       setFilter(node){
         if ( node.level === 0 ){
+          this.treePath = ['all'];
           return this.$refs.table.unsetFilter();
         }
+        this.treePath = ['all', node.data.id];
         this.$refs.table.currentFilters = {
           conditions: node.data.filters,
           logic: 'AND'
@@ -309,7 +316,7 @@
       },
       setGetInfo(){
         this.info.getInfo = setInterval(() => {
-          bbn.fn.post(this.source.root + 'data/info', d => {
+          bbn.fn.post(this.source.root + 'data/info', {updateCount: this.updateCount === 3}, d => {
             if ( d.success ){
               this.info.current.id = d.data.current.id;
               this.info.current.title = d.data.current.title;
@@ -320,6 +327,13 @@
               this.info.next.title = d.data.next.title;
               this.info.next.idRecipients = d.data.next.recipients;
               this.info.next.moment = d.data.next.moment;
+              this.updateCount++;
+              if ( this.updateCount > 3 ){
+                this.updateCount = 0;
+                if ( d.count ){
+                  this.source.count = d.count;
+                }
+              }
             }
           });
         }, 3000);
@@ -364,6 +378,12 @@
               return {emails: emails}
             }
           }];
+      if ( Vue.options.components['appui-emails-form'] !== undefined ){
+        delete Vue.options.components['appui-emails-form'];
+      }
+      if ( Vue.options.components['appui-emails-view'] !== undefined ){
+        delete Vue.options.components['appui-emails-view'];
+      }
       bbn.vue.setComponentRule(this.source.root + 'components/', 'appui-emails');
       bbn.vue.addComponent('form', mixins);
       bbn.vue.addComponent('view', mixins);

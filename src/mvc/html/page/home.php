@@ -22,7 +22,7 @@
 					<div v-if="info.current.id"
 							 class="k-block"
 					>
-            <div class="k-header bbn-c"><?=_('CURRENT')?></div>
+            <div class="k-header bbn-c"><?=_('IN PROGRESS')?></div>
 						<div class="bbn-spadded">
               <div><strong><?=_('Title')?>:</strong> {{info.current.title}}</div>
               <div><strong><?=_('Recipients')?>:</strong> {{info.current.recipients}}</div>
