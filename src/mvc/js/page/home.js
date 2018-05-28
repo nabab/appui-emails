@@ -212,7 +212,7 @@
 			},
       duplicate(row){
         if ( row.id ){
-          bbn.fn.confirm(bbn._("Are you sure you want duplicate this mailing?"), () => {
+          appui.confirm(bbn._("Are you sure you want duplicate this mailing?"), () => {
             bbn.fn.post(this.source.root + "actions/duplicate", {id: row.id}, (d) => {
               if ( d.success ){
                 if ( d.count ){
@@ -230,7 +230,7 @@
       },
       stop(row){
         if ( row.id ){
-          bbn.fn.confirm(bbn._("Are you sure you want suspend this mailing?"), () => {
+          appui.confirm(bbn._("Are you sure you want suspend this mailing?"), () => {
             bbn.fn.post(this.source.root + "actions/suspend", {id: row.id}, (d) => {
               if ( d.success ){
 								if ( d.count ){
@@ -249,7 +249,7 @@
       },
       remove(row){
         if ( row.id ){
-          bbn.fn.confirm(bbn._("Are you sure you want to delete this mailing?"), () => {
+          appui.confirm(bbn._("Are you sure you want to delete this mailing?"), () => {
             bbn.fn.post(this.source.root + 'actions/delete', {id: row.id}, d => {
               if ( d.success ){
                 if ( d.count ){
@@ -267,7 +267,7 @@
       },
       send(row){
         if ( row.id ){
-          bbn.fn.confirm(bbn._("Are you sure you want to send this mailing?"), () => {
+          appui.confirm(bbn._("Are you sure you want to send this mailing?"), () => {
             bbn.fn.post(this.source.root + 'actions/send', {id: row.id}, (d) => {
               if ( d.success ){
                 if ( d.count ){

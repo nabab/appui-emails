@@ -43,7 +43,7 @@
       },
       remove(row){
         if ( row.id_note ){
-          bbn.fn.confirm(bbn._("Are you sure you want to delete this letter?"), () => {
+          appui.confirm(bbn._("Are you sure you want to delete this letter?"), () => {
             bbn.fn.post(this.source.root + 'actions/types/delete', {id_note: row.id_note}, (d) => {
               if ( d.success ){
 								let idx = bbn.fn.search(this.source.categories, 'id_note', row.id_note);
