@@ -10,7 +10,7 @@
     methods: {
       success(d){
         if ( d.success ){
-					let t = bbn.vue.closest(this, 'bbn-tab').getComponent(),
+					let t = bbn.vue.closest(this, 'bbns-tab').getComponent(),
 							table = bbn.vue.find(t, 'bbn-table');
           if ( this.source.id_note ){
             let idx = bbn.fn.search(table.currentData, 'id_note', d.data.id_note);

@@ -3,11 +3,11 @@
               :scrollable="true"
               :autoload="true"
   >
-    <bbn-tab url="home"
+    <bbns-tab url="home"
              :static="true"
              :load="true"
 						 title="<?=_('Mailings')?>"
-						 icon="fa fa-newspaper-o"
-    ></bbn-tab>
+						 icon="far fa-newspaper"
+    ></bbns-tab>
   </bbn-tabnav>
 </div>

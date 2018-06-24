@@ -9,12 +9,12 @@
     props: ['source'],
     computed:{
       num(){
-        return bbn.fn.count(bbn.vue.closest(this, 'bbn-tab').getComponent().source.categories, {id_type: this.source.id_type});
+        return bbn.fn.count(bbn.vue.closest(this, 'bbns-tab').getComponent().source.categories, {id_type: this.source.id_type});
       }
     },
     methods: {
       insert(){
-        bbn.vue.closest(this, 'bbn-tab').popup().open({
+        this.getPopup().open({
           width: 800,
           height: '90%',
           component: 'appui-emails-types-form',

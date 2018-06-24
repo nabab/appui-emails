@@ -48,12 +48,12 @@
       menu(){
         return [{
           text: bbn._('All'),
-          icon: 'fa fa-envelope-o',
+          icon: 'far fa-envelope',
           id: 'all',
           items: [{
             id: 'ready',
             text: bbn._('Ready') + (this.source.count.ready > 0  ? ' (' + this.source.count.ready + ')' : ''),
-            icon: 'fa fa-clock-o',
+            icon: 'far fa-clock',
             filters: [{
               field: 'statut',
               operator: 'eq',
@@ -77,7 +77,7 @@
           }, {
             id: 'sent',
             text: bbn._('Sent') + (this.source.count.sent > 0  ? ' ('+ this.source.count.sent + ')' : ''),
-            icon: 'fa fa-send-o',
+            icon: 'fas fa-envelope',
             filters: [{
               field: 'statut',
               operator: 'eq',
@@ -118,7 +118,6 @@
       get_field: bbn.fn.get_field,
       renderFiles(row){
         return row.fichiers ?
-          '<i class="fa fa-paperclip" style="font-size:medium"></i>' +
           ($.isArray(row.fichiers) ? row.fichiers.length : JSON.parse(row.fichiers).length)
           : '-';
       },
@@ -152,7 +151,7 @@
           res.push({
             text: bbn._("Suspend"),
             notext: true,
-            icon: "fa fa-hand-stop-o",
+            icon: "fas fa-hand-paper",
             command: this.stop
           });
         }
@@ -165,7 +164,7 @@
           }, {
             text: bbn._("Delete"),
             notext: true,
-            icon: "fa fa-trash-o",
+            icon: "fas fa-trash",
             command: this.remove
           });
         }
@@ -173,8 +172,16 @@
           res.push({
             text: bbn._("Send"),
             notext: true,
-            icon: "fa fa-paper-plane-o",
+            icon: "far fa-paper-plane",
             command: this.send
+          });
+        }
+        if ( row.statut !== 'en cours' ){
+          res.push({
+            text: bbn._("Test"),
+            notext: true,
+            icon: "fas fa-magic",
+            command: this.test
           });
         }
         return res;
@@ -193,7 +200,7 @@
       },
       see(row){
         if ( row.id_note ){
-          this.popup().open({
+          this.getPopup().open({
             width: 850,
             height: 500,
             title: row.objet,
@@ -278,6 +285,22 @@
               }
               else {
                 appui.error(bbn._('Error'));
+              }
+            });
+          });
+        }
+      },
+      test(row){
+        if ( row.id ){
+          appui.confirm(bbn._('Are you sure you want to test this mailing?'), () => {
+            this.getPopup().open({
+              title: bbn._('Select users'),
+              width: 350,
+              height: 500,
+              component: 'appui-emails-test',
+              source: {
+                users: null,
+                id: row.id
               }
             });
           });
@@ -384,10 +407,6 @@
       if ( Vue.options.components['appui-emails-view'] !== undefined ){
         delete Vue.options.components['appui-emails-view'];
       }
-      bbn.vue.setComponentRule(this.source.root + 'components/', 'appui-emails');
-      bbn.vue.addComponent('form', mixins);
-      bbn.vue.addComponent('view', mixins);
-      bbn.vue.unsetComponentRule();
     },
 		mounted(){
 			this.clearGetInfo();

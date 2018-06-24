@@ -31,7 +31,7 @@
           version: row.version
         } , (d) => {
           if ( d.success && d.data ){
-            bbn.vue.closest(this, 'bbn-tab').popup().open({
+            this.getPopup().open({
               width: 800,
               height: '90%',
               component: 'appui-emails-types-form',
@@ -68,15 +68,10 @@
               return {types: types}
             }
           }];
-      bbn.vue.setComponentRule(this.source.root + 'components/', 'appui-emails');
-      bbn.vue.addComponent('types/default', mixins);
-      bbn.vue.addComponent('types/form', mixins);
-      bbn.vue.addComponent('types/type', mixins);
-      bbn.vue.unsetComponentRule();
     },
     mounted(){
       this.$nextTick(() => {
-        bbn.vue.closest(this, 'bbn-tab').popup().open({
+        this.getPopup().open({
           width: 850,
           height: 200,
           title: bbn._("Avertissement sur les lettres types"),

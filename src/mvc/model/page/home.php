@@ -10,6 +10,7 @@
 
 return [
   'root' => APPUI_EMAILS_ROOT,
+  'root_usergroup' => $model->plugin_url('appui-usergroup').'/',
   'types' => $model->db->get_rows("
     SELECT bbn_notes_masks.id_note AS id, bbn_notes_versions.title AS text
     FROM bbn_notes_masks

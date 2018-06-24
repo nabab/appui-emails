@@ -9,7 +9,7 @@
     props: ['source'],
     data(){
       return {
-        link: 'notes/note/' + this.source.id_note
+        link: 'emails/view/' + this.source.id_note
       }
     }
   }

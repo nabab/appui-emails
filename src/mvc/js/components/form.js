@@ -24,7 +24,7 @@
       },
       success(d){
         if ( d.success ){
-          let t = bbn.vue.closest(this, 'bbn-tab').getComponent();
+          let t = bbn.vue.closest(this, 'bbns-tab').getComponent();
           bbn.vue.find(t, 'bbn-table').updateData();
           if ( this.source.row.id ){
             appui.success(bbn._('Modified'));

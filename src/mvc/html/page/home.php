@@ -6,7 +6,7 @@
 			<bbn-pane>
         <bbn-tree :source="menu"
                   :opened="true"
-                  @select="setFilter"
+                  @activate="setFilter"
                   ref="tree"
                   :path="treePath"
                   uid="id"
@@ -17,7 +17,7 @@
 				<div class="bbn-100 k-block info">
           <div class="k-header bbn-vmiddle title">
             <span><strong><?=_('LIVE INFO')?></strong></span>
-            <bbn-switch @change="toggleGetInfo" :checked="true"></bbn-switch>
+            <bbn-switch @change="toggleGetInfo" :checked="!!info.getInfo"></bbn-switch>
           </div>
 					<div v-if="info.current.id"
 							 class="k-block"
@@ -66,59 +66,59 @@
                editor="appui-emails-form"
                :order="[{field: 'envoi', dir: 'DESC'}]"
     >
-      <bbn-column title="<?=_("Object")?>"
+      <bbns-column title="<?=_("Object")?>"
                   field="objet"
                   :required="true"
-      ></bbn-column>
-      <bbn-column field="fichiers"
+      ></bbns-column>
+      <bbns-column field="fichiers"
                   :render="renderFiles"
                   :width="50"
                   title="<i class='fa fa-paperclip bbn-xl'></i>"
                   ftitle="<?=_("Number of attached files")?>"
                   type="number"
                   :sortable="false"
-      ></bbn-column>
-      <bbn-column title="<?=_("Status")?>"
+      ></bbns-column>
+      <bbns-column title="<?=_("Status")?>"
                   field="statut"
                   :width="80"
                   :source="status"
                   :render="(r) => {return get_field(status, 'value', r.statut, 'text')}"
-      ></bbn-column>
-      <bbn-column title="<?=_("Recipients")?>"
+      ></bbns-column>
+      <bbns-column title="<?=_("Recipients")?>"
                   field="destinataires"
                   :width="160"
                   :source="source.recipients"
                   :render="(r) => {return get_field(source.recipients, 'value', r.destinataires, 'text')}"
                   :required="true"
-      ></bbn-column>
-      <bbn-column title="<?=_("Send")?>"
+      ></bbns-column>
+      <bbns-column title="<?=_("Send")?>"
                   field="envoi"
                   :width="100"
                   type="date"
                   :required="true"
                   :nullable="true"
-      ></bbn-column>
-      <bbn-column title="<?=_("Sent")?>"
+      ></bbns-column>
+      <bbns-column title="<?=_("Sent")?>"
                   field="num_accuses"
                   :width="60"
                   type="number"
                   :editable="false"
                   :filterable="false"
                   :sortable="false"
-      ></bbn-column>
-      <bbn-column title="<?=_("Received")?>"
+      ></bbns-column>
+      <bbns-column title="<?=_("Received")?>"
                   field="num_accuses"
                   :width="60"
                   :render="renderSent"
                   :editable="false"
                   :filterable="false"
                   :sortable="false"
-      ></bbn-column>
-      <bbn-column :width="200"
+      ></bbns-column>
+      <bbns-column :width="200"
                   ftitle="<?=_("Actions")?>"
                   :buttons="renderButtons"
 									cls="bbn-c"
-      ></bbn-column>
+      ></bbns-column>
     </bbn-table>
   </bbn-pane>
 </bbn-splitter>

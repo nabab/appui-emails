@@ -4,20 +4,20 @@
            :pageable="true"
            :sortable="true"
 >
-  <bbn-column title="<?=_("Recipient")?>"
+  <bbns-column title="<?=_("Recipient")?>"
               field="email"
               type="email"
-  ></bbn-column>
-  <bbn-column title="<?=_("État")?>"
+  ></bbns-column>
+  <bbns-column title="<?=_("État")?>"
               field="etat"
               :render="etat"
               :width="120"
               cls="bbn-c"
-  ></bbn-column>
-  <bbn-column title="<?=_("Envoi")?>"
+  ></bbns-column>
+  <bbns-column title="<?=_("Envoi")?>"
               field="envoi"
               type="date"
               :width="150"
               cls="bbn-c"
-  ></bbn-column>
+  ></bbns-column>
 </bbn-table>
