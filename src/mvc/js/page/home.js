@@ -201,8 +201,8 @@
       see(row){
         if ( row.id_note ){
           this.getPopup().open({
-            width: 850,
-            height: 500,
+            width: 1050,
+            height: "90%",
             title: row.objet,
             component: 'appui-emails-view',
             source: row
@@ -341,15 +341,15 @@
         this.info.getInfo = setInterval(() => {
           bbn.fn.post(this.source.root + 'data/info', {updateCount: this.updateCount === 3}, d => {
             if ( d.success ){
-              this.info.current.id = d.data.current.id;
-              this.info.current.title = d.data.current.title;
-              this.info.current.idRecipients = d.data.current.recipients;
-              this.info.current.sent = d.data.current.sent;
-              this.info.current.moment = d.data.current.moment;
-              this.info.next.id = d.data.next.id;
-              this.info.next.title = d.data.next.title;
-              this.info.next.idRecipients = d.data.next.recipients;
-              this.info.next.moment = d.data.next.moment;
+              this.info.current.id = d.data.current.id || '';
+              this.info.current.title = d.data.current.title || '';
+              this.info.current.idRecipients = d.data.current.recipients || '';
+              this.info.current.sent = d.data.current.sent || 0;
+              this.info.current.moment = d.data.current.moment || '';
+              this.info.next.id = d.data.next.id || '';
+              this.info.next.title = d.data.next.title || '';
+              this.info.next.idRecipients = d.data.next.recipients || '';
+              this.info.next.moment = d.data.next.moment || '';
               this.updateCount++;
               if ( this.updateCount > 3 ){
                 this.updateCount = 0;
@@ -395,12 +395,6 @@
       }
     },
     created(){
-      let emails = this,
-          mixins = [{
-            data(){
-              return {emails: emails}
-            }
-          }];
       if ( Vue.options.components['appui-emails-form'] !== undefined ){
         delete Vue.options.components['appui-emails-form'];
       }
@@ -410,8 +404,7 @@
     },
 		mounted(){
 			this.clearGetInfo();
-			this.setGetInfo();
-
+			//this.setGetInfo();
 		},
 		beforeDestroy(){
 			this.clearGetInfo();

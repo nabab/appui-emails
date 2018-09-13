@@ -114,7 +114,7 @@
                   :filterable="false"
                   :sortable="false"
       ></bbns-column>
-      <bbns-column :width="200"
+      <bbns-column :width="240"
                   ftitle="<?=_("Actions")?>"
                   :buttons="renderButtons"
 									cls="bbn-c"

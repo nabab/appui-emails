@@ -102,7 +102,7 @@ if ( isset($model->data['action']) ){
           'data' => $model->db->get_rows("
           SELECT *
           FROM bbn_notes_masks
-          WHERE actif = 1
+          WHERE bbn_h = 1
           AND categorie = ?",
             $info['categorie'])
         ];

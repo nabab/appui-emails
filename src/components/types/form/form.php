@@ -2,7 +2,7 @@
           :source="source"
           ref="form"
           @success="success"
-          :action="types.source.root + 'actions/types/' + (source.id_note ? 'update' : 'insert')"
+          :action="root + '/actions/types/' + (source.id_note ? 'update' : 'insert')"
 >
   <div class="bbn-grid-fields bbn-padded">
     <label><?=_('Object')?></label>

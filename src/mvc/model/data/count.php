@@ -9,38 +9,75 @@
  */
 
 return [
-  'ready' => $model->db->get_one("
-    SELECT COUNT(id)
-    FROM bbn_emailings
-    WHERE statut LIKE 'pret'
-      AND envoi IS NOT NULL
-      AND actif = 1
-  "),
-  'in_progress' => $model->db->get_one("
-    SELECT COUNT(id)
-    FROM bbn_emailings
-    WHERE statut LIKE 'en cours'
-      AND envoi IS NOT NULL
-      AND actif = 1
-  "),
-  'sent'  => $model->db->get_one("
-    SELECT COUNT(id)
-    FROM bbn_emailings
-    WHERE statut LIKE 'envoye'
-      AND envoi IS NOT NULL
-      AND actif = 1
-  "),
-  'suspended' =>  $model->db->get_one("
-    SELECT COUNT(id)
-    FROM bbn_emailings
-    WHERE statut LIKE 'suspendu'
-      AND envoi IS NOT NULL
-      AND actif = 1
-  "),
-  'draft' =>  $model->db->get_one("
-    SELECT COUNT(id)
-    FROM bbn_emailings
-    WHERE envoi IS NULL
-      AND actif = 1
-  ")
+  'ready' => $model->db->select_one([
+    'table' => 'bbn_emailings',
+    'fields' => ['COUNT(id)'],
+    'where' => [
+      'logic' => 'AND',
+      'conditions' => [[
+        'field' => 'statut',
+        'operator' => '=',
+        'value' => 'pret'
+      ], [
+        'field' => 'envoi',
+        'operator' => 'isnotnull'
+      ]]
+    ]
+  ]),
+  'in_progress' => $model->db->select_one([
+    'table' => 'bbn_emailings',
+    'fields' => ['COUNT(id)'],
+    'where' => [
+      'logic' => 'AND',
+      'conditions' => [[
+        'field' => 'statut',
+        'operator' => '=',
+        'value' => 'en cours'
+      ], [
+        'field' => 'envoi',
+        'operator' => 'isnotnull'
+      ]]
+    ]
+  ]),
+  'sent'  => $model->db->select_one([
+    'table' => 'bbn_emailings',
+    'fields' => ['COUNT(id)'],
+    'where' => [
+      'logic' => 'AND',
+      'conditions' => [[
+        'field' => 'statut',
+        'operator' => '=',
+        'value' => 'envoye'
+      ], [
+        'field' => 'envoi',
+        'operator' => 'isnotnull'
+      ]]
+    ]
+  ]),
+  'suspended' =>  $model->db->select_one([
+    'table' => 'bbn_emailings',
+    'fields' => ['COUNT(id)'],
+    'where' => [
+      'logic' => 'AND',
+      'conditions' => [[
+        'field' => 'statut',
+        'operator' => '=',
+        'value' => 'suspendu'
+      ], [
+        'field' => 'envoi',
+        'operator' => 'isnotnull'
+      ]]
+    ]
+  ]),
+  'draft' =>  $model->db->select_one([
+    'table' => 'bbn_emailings',
+    'fields' => ['COUNT(id)'],
+    'where' => [
+      'logic' => 'AND',
+      'conditions' => [[
+        'field' => 'envoi',
+        'operator' => 'isnull'
+      ]]
+    ]
+  ])
 ];

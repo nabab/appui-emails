@@ -10,7 +10,8 @@
     data(){
       return {
         ref: (new Date()).getTime(),
-        today: moment().format('YYYY-MM-DD HH:mm:ss')
+        today: moment().format('YYYY-MM-DD HH:mm:ss'),
+        emails: bbn.vue.closest(this, 'bbns-tab').getComponent()
       }
     },
     methods: {

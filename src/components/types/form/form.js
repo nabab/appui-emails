@@ -7,6 +7,11 @@
 (() => {
   return {
     props: ['source'],
+		data(){
+			return {
+				root: appui.plugins['appui-emails']
+			}
+		},
     methods: {
       success(d){
         if ( d.success ){
