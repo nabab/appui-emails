@@ -2,6 +2,7 @@
           :scrollable="false"
           class="bbn-full-screen"
           :action="emails.source.root + 'actions/test'"
+          confirm-message="<?=_('Are you sure you want to test this mailing?')?>"
 >
   <div class="bbn-full-screen bbn-hpadded bbn-vspadded">
     <appui-usergroup-picker :multi="true"

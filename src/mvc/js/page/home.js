@@ -292,17 +292,15 @@
       },
       test(row){
         if ( row.id ){
-          appui.confirm(bbn._('Are you sure you want to test this mailing?'), () => {
-            this.getPopup().open({
-              title: bbn._('Select users'),
-              width: 350,
-              height: 500,
-              component: 'appui-emails-test',
-              source: {
-                users: null,
-                id: row.id
-              }
-            });
+          this.getPopup().open({
+            title: bbn._('Select users'),
+            width: 350,
+            height: 500,
+            component: 'appui-emails-test',
+            source: {
+              users: null,
+              id: row.id
+            }
           });
         }
       },

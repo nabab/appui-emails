@@ -9,7 +9,7 @@
  */
 if ( isset($model->data['start']) && !empty($model->data['limit']) ){
   $grid = new \bbn\appui\grid($model->db, $model->data, [
-    /*'table' => 'bbn_emailings',
+    'table' => 'bbn_emailings',
     'fields' => [
       'bbn_emailings.id',
       'bbn_emailings.id_note',
@@ -49,34 +49,34 @@ if ( isset($model->data['start']) && !empty($model->data['limit']) ){
         ]]
       ]
     ]],
-    'group_by' => 'bbn_emailings.id'*/
+    'group_by' => 'bbn_emailings.id'
 
-    'tables' => ['bbn_emailings'],
-    'query' => "
-      SELECT bbn_emailings.*,
-        (
-          SELECT COUNT(bbn_emails.id)
-          FROM bbn_emails 
-          WHERE bbn_emails.id_mailing = bbn_emailings.id
-        ) AS num_accuses,
-        (
-          SELECT COUNT(bbn_emails.id)
-          FROM bbn_emails
-          WHERE bbn_emails.id_mailing = bbn_emailings.id
-            AND bbn_emails.etat LIKE 'succes'
-        ) AS recus
-      FROM bbn_emailings
-        JOIN bbn_history_uids
-          ON bbn_emailings.id = bbn_history_uids.bbn_uid
-          AND bbn_history_uids.bbn_active = 1
-    ",
-    'count' => "
-      SELECT COUNT(id) 
-      FROM bbn_emailings
-        JOIN bbn_history_uids
-          ON bbn_emailings.id = bbn_history_uids.bbn_uid
-          AND bbn_history_uids.bbn_active = 1
-    "
+    // 'tables' => ['bbn_emailings'],
+    // 'query' => "
+    //   SELECT bbn_emailings.*,
+    //     (
+    //       SELECT COUNT(bbn_emails.id)
+    //       FROM bbn_emails
+    //       WHERE bbn_emails.id_mailing = bbn_emailings.id
+    //     ) AS num_accuses,
+    //     (
+    //       SELECT COUNT(bbn_emails.id)
+    //       FROM bbn_emails
+    //       WHERE bbn_emails.id_mailing = bbn_emailings.id
+    //         AND bbn_emails.etat LIKE 'succes'
+    //     ) AS recus
+    //   FROM bbn_emailings
+    //     JOIN bbn_history_uids
+    //       ON bbn_emailings.id = bbn_history_uids.bbn_uid
+    //       AND bbn_history_uids.bbn_active = 1
+    // ",
+    // 'count' => "
+    //   SELECT COUNT(id)
+    //   FROM bbn_emailings
+    //     JOIN bbn_history_uids
+    //       ON bbn_emailings.id = bbn_history_uids.bbn_uid
+    //       AND bbn_history_uids.bbn_active = 1
+    // "
   ]);
   if ( $grid->check() &&
     ($ret = $grid->get_datatable())
