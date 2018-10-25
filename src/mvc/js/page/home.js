@@ -329,8 +329,11 @@
           }
         }
       },
-      openLettersTypes(){
+      openLettersTypesTab() {
         bbn.fn.link(this.source.root + 'page/types');
+      },
+      openEmailsTab() {
+        bbn.fn.link(this.source.root + 'page/emails');
       },
       fixDate(d){
         return moment(d).format('DD/MM/YYYY HH:mm:ss');

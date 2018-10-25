@@ -61,7 +61,11 @@
                }, {
                  text: '<?=_('Letters types')?>',
                  icon: 'fa fa-list',
-                 command: openLettersTypes
+                 command: openLettersTypesTab
+               }, {
+                 text: '<?=_('Emails ready')?>',
+                 icon: 'fas fa-envelope-open-text',
+                 command: openEmailsTab
                }]"
                editor="appui-emails-form"
                :order="[{field: 'envoi', dir: 'DESC'}]"

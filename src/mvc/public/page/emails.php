@@ -1,0 +1,12 @@
+<?php
+$ctrl->set_icon('fas fa-envelope-open-text');
+$d = $ctrl->get_plugin_model('page/emails', $ctrl->data);
+if ( is_null($d) ){
+  $d = $ctrl->get_model($ctrl->data);
+}
+$ctrl->set_title($model['title'] ?? _("e-Mails ready"));
+$views = $ctrl->get_plugin_views('page/emails', $d);
+$ctrl->obj->data = $d;
+echo $views['html'] ?: $ctrl->get_view();
+$ctrl->add_script($views['js'] ?: $ctrl->get_view('', 'js'));
+$ctrl->obj->css = $views['css'] ?: $ctrl->get_less();

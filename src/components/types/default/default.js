@@ -9,16 +9,18 @@
     props: ['source'],
     methods: {
       setDefault(source){
-        let table = bbn.vue.closest(this, 'bbn-table'),
-            idx = bbn.fn.search(table.currentData, {id_type: this.source.id_type, default: 1});
-        bbn.fn.post(this.types.source.root + 'actions/types/default', {id_note: this.source.id_note}, (d) => {
+
+        bbn.fn.post(appui.plugins['appui-emails'] + '/actions/types/default', {id_note: this.source.id_note}, (d) => {
+          let table = this.closest('bbn-table'),
+              defaults = table.findAll('appui-emails-types-default').filter((a) => {
+                return (a.source.id_type === this.source.id_type) && (a.source.default === 1);
+              });
           if ( d.success ){
-            this.source.default = 1;
-            if ( idx > -1 ){
-              table.currentData[idx].default = 0;
+            if ( defaults.length ){
+              defaults[0].source.default = 0;
             }
-            table.updateData();
-						appui.success(bbn._('Saved'));
+            this.$set(this.source, 'default', 1);
+            appui.success(bbn._('Saved'));
           }
 					else {
 						appui.error(bbn._('Error'));

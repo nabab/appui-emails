@@ -8,6 +8,8 @@
  * @var $model \bbn\mvc\model
  */
 
+//$recipients = $model->inc->options->full_options($model->inc->options->from_code('emails_listes'));
+//die(var_dump($model->inc->options->from_code('emails_listes')));
 return [
   'root' => APPUI_EMAILS_ROOT,
   'root_usergroup' => $model->plugin_url('appui-usergroup').'/',

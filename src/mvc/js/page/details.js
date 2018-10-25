@@ -6,20 +6,43 @@
  */
 (() => {
   return {
-    props: ['source'],
+    data(){
+      return {
+        status: [{
+          text: bbn._('Error'),
+          value: 'echec'
+        }, {
+          text: bbn._('Success'),
+          value: 'succes'
+        }, {
+          text: bbn._('Ready'),
+          value: 'pret'
+        }]
+      }
+    },
     methods:{
-      etat(row){
-        if ( row.etat === 'succes'){
-          this.etat_class = 'bbn-green';
-          return bbn._('Success');
+      renderEtat(row){
+        if ( row.etat ){
+          let color = '',
+            text = '';
+          switch (row.etat) {
+            case 'succes':
+              text = bbn._('Success');
+              color = 'green';
+              break;
+            case 'echec':
+              text = bbn._('Error');
+              color = 'red';
+              break;
+            case 'pret':
+              text = bbn._('Ready');
+              color = 'orange';
+              break;
+          }
+          return '<span class="bbn-' + color + '">' + text + '</span>';
         }
-        if ( row.etat === 'echec'){
-          return bbn._('Échec');
-        }
-        if ( row.etat === 'pret'){
-          return bbn._('Prêt');
-        }
-      },
+        return '';
+      }
     }
 	}
 })();

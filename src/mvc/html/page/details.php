@@ -3,6 +3,7 @@
            :info="true"
            :pageable="true"
            :sortable="true"
+           :filterable="true"
 >
   <bbns-column title="<?=_("Recipient")?>"
               field="email"
@@ -10,9 +11,10 @@
   ></bbns-column>
   <bbns-column title="<?=_("État")?>"
               field="etat"
-              :render="etat"
+              :render="renderEtat"
               :width="120"
               cls="bbn-c"
+              :source="status"
   ></bbns-column>
   <bbns-column title="<?=_("Envoi")?>"
               field="envoi"
