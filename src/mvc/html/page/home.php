@@ -71,7 +71,7 @@
                :order="[{field: 'envoi', dir: 'DESC'}]"
     >
       <bbns-column title="<?=_("Object")?>"
-                  field="objet"
+                  field="title"
                   :required="true"
       ></bbns-column>
       <bbns-column field="fichiers"
@@ -81,6 +81,7 @@
                   ftitle="<?=_("Number of attached files")?>"
                   type="number"
                   :sortable="false"
+                  :filterable="false"
       ></bbns-column>
       <bbns-column title="<?=_("Status")?>"
                   field="statut"

@@ -18,13 +18,17 @@
 					let t = bbn.vue.closest(this, 'bbns-tab').getComponent(),
 							table = bbn.vue.find(t, 'bbn-table');
           if ( this.source.id_note ){
-            let idx = bbn.fn.search(table.currentData, 'id_note', d.data.id_note);
+            let idx = bbn.fn.search(t.source.categories, 'id_note', d.data.id_note);
             if ( idx > -1 ){
-              table.currentData[idx] = d.data;
+              bbn.fn.each(d.data, (v, i) => {
+                if ( i !== 'content' ){
+                  this.$set(t.source.categories[idx], i, v); 
+                }
+              });
             }
           }
           else {
-            table.currentData.push(d.data);
+            t.source.categories.push(d.data);
           }
           table.updateData();
           appui.success(bbn._('Saved'));

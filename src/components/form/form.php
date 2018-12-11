@@ -1,7 +1,7 @@
 <bbn-form :source="source.row"
           :data="{ref: ref}"
           ref="form"
-          confirm-leave="<?=_("Êtes-vous sûr de vouloir quitter ce formulaire sans enregistrer vos modifications?")?>"
+          confirm-leave="<?=_("Are you sure you want to leave this form without saving your changes?")?>"
           :action="emails.source.root + 'actions/' + (source.row.id ? 'update' : 'insert')"
           @success="success"
           @failure="failure"
@@ -22,7 +22,7 @@
     ></bbn-dropdown>
     <label><?=_("Object")?></label>
     <bbn-input required="required"
-               v-model="source.row.objet"
+               v-model="source.row.title"
                maxlength="128"
     ></bbn-input>
     <label><?=_("Attachments")?></label>
@@ -32,7 +32,7 @@
     ></bbn-upload>
     <label><?=_("Text")?></label>
     <bbn-rte rows="30"
-             v-model="source.row.texte"
+             v-model="source.row.content"
     ></bbn-rte>
     <label><?=_("Sending time")?></label>
     <bbn-datetimepicker v-model="source.row.envoi"

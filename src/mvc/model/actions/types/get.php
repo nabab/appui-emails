@@ -8,12 +8,12 @@
  * @var $model \bbn\mvc\model
  */
 
-if ( !empty($model->data['id_note']) && !empty($model->data['version']) ){
-  $notes = new \bbn\appui\notes($model->db);
-  if ( $note = $notes->get($model->data['id_note'], $model->data['version']) ){
+if ( !empty($model->data['id_note']) ){
+  $masks = new \bbn\appui\masks($model->db);
+  if ( $mask = $masks->get($model->data['id_note']) ){
     return [
       'success' => true,
-      'data' => $note
+      'data' => $mask
     ];
   }
 }

@@ -11,10 +11,11 @@
 if ( !empty($model->data['id_type']) &&
   !empty($model->data['title']) &&
   !empty($model->data['content']) &&
+  !empty($model->data['name']) &&
   \bbn\str::is_uid($model->data['id_type'])
 ){
   $masks = new \bbn\appui\masks($model->db);
-  if ( $mask = $masks->insert($model->data['id_type'], $model->data['title'], $model->data['content']) ){
+  if ( $mask = $masks->insert($model->data['name'], $model->data['id_type'], $model->data['title'], $model->data['content']) ){
     return [
       'success' => true,
       'data' => $masks->get($mask)

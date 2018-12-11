@@ -7,6 +7,6 @@
  *
  * @var $ctrl \bbn\mvc\controller
  */
-if ( isset($ctrl->post['objet']) && !empty($ctrl->post['id']) ){
+if ( isset($ctrl->post['title']) && !empty($ctrl->post['id']) ){
   $ctrl->action();
 }

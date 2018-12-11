@@ -8,13 +8,20 @@
  * @var $model \bbn\mvc\model
  */
 
-if ( !empty($model->data['id_note']) &&
+if ( 
+  !empty($model->data['id_note']) &&
   !empty($model->data['content']) &&
-  !empty($model->data['title'])
+  !empty($model->data['title']) &&
+  !empty($model->data['name'])
 ){
-  $notes = new \bbn\appui\notes($model->db);
   $masks = new \bbn\appui\masks($model->db);
-  if ( $notes->insert_version($model->data['id_note'], $model->data['title'], $model->data['content']) ){
+  if ( $masks->update([
+    'id_note' => $model->data['id_note'],
+    'title' => $model->data['title'],
+    'content' => $model->data['content'],
+    'name' => $model->data['name'],
+    'default' => $model->data['default']
+  ]) ){
     return [
       'success' => true,
       'data' => $masks->get($model->data['id_note'])

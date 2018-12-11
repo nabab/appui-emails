@@ -22,6 +22,7 @@
             id_type: this.source.id_type,
             title: '',
             content: '',
+            name: ''
           },
           title: bbn._("New letter type")
         });

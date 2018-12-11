@@ -21,7 +21,7 @@
         }
       },
       failure(){
-        appui.error(bbn._('Un problème est survenu'));
+        appui.error(bbn._('A problem occurred'));
       },
       success(d){
         if ( d.success ){
@@ -45,8 +45,8 @@
         if ( id ){
           bbn.fn.post("com/lettre_type", {id: id}, (e) => {
             if ( e.success && e.content ){
-              this.source.row.objet = e.content.titre;
-              this.source.row.texte = e.content.texte;
+              this.source.row.title = e.content.titre;
+              this.source.row.content = e.content.texte;
             }
           });
         }

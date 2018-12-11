@@ -11,14 +11,14 @@
 if ( empty($model->data['destinataires']) && !empty($model->data['envoi']) ){
   return false;
 }
-if ( isset($model->data['texte'], $model->data['objet']) ){
+if ( isset($model->data['content'], $model->data['title']) ){
   $notes = new \bbn\appui\notes($model->db);
   if ( empty($model->data['envoi']) || !\bbn\date::validateSQL($model->data['envoi']) ){
     $model->data['envoi'] = null;
   }
   if ( ($id_note = $notes->insert(
-    $model->data['objet'],
-    $model->data['texte'],
+    $model->data['title'],
+    $model->data['content'],
     $model->inc->options->from_code('mailings','types', 'notes' , 'appui')
   )) &&
     $model->db->insert('bbn_emailings', [

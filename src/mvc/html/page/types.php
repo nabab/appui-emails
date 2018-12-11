@@ -1,5 +1,5 @@
 <bbn-table :source="source.categories"
-           :editable="false"
+           editable="popup"
            ref="table"
            :order="[{field: 'text', dir: 'ASC'}]"
            :groupable="true"
@@ -27,6 +27,9 @@
   <bbns-column title="<?=_("Type")?>"
               field="type"
               component="appui-emails-types-type"
+  ></bbns-column>
+  <bbns-column title="<?=_("Name")?>"
+               field="name"
   ></bbns-column>
   <bbns-column title="<?=_("Object")?>"
               field="title"

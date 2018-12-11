@@ -11,8 +11,8 @@ if ( empty($model->data['destinataires']) && !empty($model->data['envoi']) ){
   return false;
 }
 if ( !empty($model->data['id']) &&
-  !empty($model->data['texte']) &&
-  !empty($model->data['objet']) &&
+  !empty($model->data['content']) &&
+  !empty($model->data['title']) &&
   !empty($model->data['ref']) &&
   isset($model->data['destinataires'])
 ){
@@ -23,7 +23,7 @@ if ( !empty($model->data['id']) &&
     // Get note's info
     $note = $notes->get($info['id_note'], $info['version']);
     // Insert the new note's verion and get the version number
-    if ( $notes->insert_version($info['id_note'], $model->data['objet'], $model->data['texte']) &&
+    if ( $notes->insert_version($info['id_note'], $model->data['title'], $model->data['content']) &&
       ($version = $notes->latest($info['id_note']))
     ){
       $ok = true;

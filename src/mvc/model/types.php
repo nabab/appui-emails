@@ -52,7 +52,7 @@ if ( isset($model->data['action']) ){
 
     case 'insert':
       $res = ['success' => false];
-      if ( isset($model->data['content'], $model->data['id_user'], $model->data['title'], $model->data['id_type']) ){
+      if ( isset($model->data['name'], $model->data['content'], $model->data['id_user'], $model->data['title'], $model->data['id_type']) ){
         $masks = new \bbn\appui\masks($model->db);
         $defaut = 0;
         if (
@@ -61,7 +61,7 @@ if ( isset($model->data['action']) ){
         ){
           $model->db->update('bbn_notes_masks', ['def' => 0], ['id_note' => $id_defaut]);
         }
-        if ( $id_note = $masks->insert($model->data['id_type'], $model->data['title'], $model->data['content']) ){
+        if ( $id_note = $masks->insert($model->data['name'], $model->data['id_type'], $model->data['title'], $model->data['content']) ){
           $res['data']  = $masks->get($id_note);
           $res['success'] = true;
           return $res;
@@ -73,10 +73,10 @@ if ( isset($model->data['action']) ){
     case 'update':
       $res = ['success' => false];
       if ( isset($model->data['id_note'], $model->data['content'], $model->data['id_user'], $model->data['title'],
-        $model->data['id_type'])){
-        if ( $notes->insert_version($model->data['id_note'], $model->data['title'], $model->data['content']) ){
+        $model->data['name']) ){
+        if ( $masks->update($model->data['id_note'], $model->data['name'], $model->data['title'], $model->data['content']) ){
           $res['success'] = true;
-          $res['data'] = $notes->get($model->data['id_note']);
+          $res['data'] = $masks->get($model->data['id_note']);
           $res['data']['type'] = $model->data['type'];
           $res['data']['id_type'] = $model->data['id_type'];
           return $res;
@@ -86,11 +86,11 @@ if ( isset($model->data['action']) ){
       break;
 
     case 'copy':
-      if ( isset($model->data['id']) && ($info = $model->db->rselect('bbn_notes_masks', [], ['id' => $model->data['id']])) ){
+      if ( isset($model->data['id']) && ($info = $model->db->rselect('bbn_notes_masks', [], ['id_note' => $model->data['id']])) ){
         unset($info['id']);
         $info['defaut'] = 0;
         $i = 1;
-        $title = $info['nom'].' - copie '.$i;
+        $title = $info['name'].' - copie '.$i;
         while ( $model->db->select_one('bbn_notes_masks', 'id', ['categorie' => $info['categorie'], 'nom' => $title]) ){
           $i++;
           $title = $info['nom'].' - copie '.$i;
