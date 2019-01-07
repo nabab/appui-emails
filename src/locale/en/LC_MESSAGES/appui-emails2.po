@@ -7,10 +7,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2018-12-10 14:01+0100\n"
-"POT-Revision-Date: 2018-12-10 14:01+0100\n"
+"POT-Creation-Date: 2018-12-26 12:25+0100\n"
+"POT-Revision-Date: 2018-12-26 12:25+0100\n"
 "Language: en\n"
-"X-Domain: appui-emails6\n"
+"X-Domain: appui-emails2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.js
@@ -21,10 +21,15 @@ msgstr "A problem occurred"
 msgid "Modified"
 msgstr "Modified"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.js
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/default/default.js
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/form/form.js
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/page/home.js
 msgid "Saved"
 msgstr "Saved"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.js
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/default/default.js
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/page/details.js
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/page/emails.js
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/page/home.js
@@ -36,6 +41,7 @@ msgstr "Error"
 msgid "Are you sure you want to leave this form without saving your changes?"
 msgstr "Are you sure you want to leave this form without saving your changes?"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.php
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/home.php
 msgid "Recipients"
 msgstr "Recipients"
@@ -48,6 +54,8 @@ msgstr "Choose"
 msgid "Letter type"
 msgstr "Letter type"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.php
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/form/form.php
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/home.php
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/types.php
 msgid "Object"
@@ -57,6 +65,8 @@ msgstr "Object"
 msgid "Attachments"
 msgstr "Attachments"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.php
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/form/form.php
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/types.php
 msgid "Text"
 msgstr "Text"
@@ -69,6 +79,7 @@ msgstr "Sending time"
 msgid "Are you sure you want to test this mailing?"
 msgstr "Are you sure you want to test this mailing?"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/form/form.php
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/types.php
 msgid "Name"
 msgstr "Name"

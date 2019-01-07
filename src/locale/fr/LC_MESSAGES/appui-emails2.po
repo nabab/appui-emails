@@ -7,24 +7,29 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2018-12-10 14:01+0100\n"
-"POT-Revision-Date: 2018-12-10 14:01+0100\n"
+"POT-Creation-Date: 2018-12-26 12:25+0100\n"
+"POT-Revision-Date: 2018-12-26 12:25+0100\n"
 "Language: fr\n"
-"X-Domain: appui-emails6\n"
+"X-Domain: appui-emails2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.js
 msgid "A problem occurred"
-msgstr ""
+msgstr "Un problème est survenu"
 
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.js
 msgid "Modified"
 msgstr "Modifié"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.js
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/default/default.js
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/form/form.js
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/page/home.js
 msgid "Saved"
 msgstr "Sauvegardé"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.js
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/default/default.js
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/page/details.js
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/page/emails.js
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/page/home.js
@@ -35,7 +40,10 @@ msgstr "Erreur"
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.php
 msgid "Are you sure you want to leave this form without saving your changes?"
 msgstr ""
+"Êtes-vous sûr de vouloir quitter ce formulaire sans enregistrer vos modification"
+"s?"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.php
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/home.php
 msgid "Recipients"
 msgstr "Destinataires"
@@ -48,6 +56,8 @@ msgstr "Choisir"
 msgid "Letter type"
 msgstr "Lettre-type"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.php
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/form/form.php
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/home.php
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/types.php
 msgid "Object"
@@ -57,6 +67,8 @@ msgstr "Objet"
 msgid "Attachments"
 msgstr "Pièces jointes"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/form/form.php
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/form/form.php
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/types.php
 msgid "Text"
 msgstr "Texte"
@@ -69,6 +81,7 @@ msgstr "Heure d'envoi"
 msgid "Are you sure you want to test this mailing?"
 msgstr "Êtes-vous sûr de vouloir tester ce mailing?"
 
+#: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/components/types/form/form.php
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/types.php
 msgid "Name"
 msgstr "Nom"
@@ -96,7 +109,7 @@ msgstr "État"
 
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/details.php
 msgid "Envoi"
-msgstr ""
+msgstr "Envoi"
 
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/emails.php
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/types.php
@@ -299,7 +312,7 @@ msgstr "Mod."
 
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/page/types.js
 msgid "Suppr."
-msgstr ""
+msgstr "Suppr."
 
 #: /home/thomas/domains/apstapp2.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/page/types.js
 msgid "Edit letter type"
