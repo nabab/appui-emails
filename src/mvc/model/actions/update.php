@@ -37,7 +37,7 @@ if ( !empty($model->data['id']) &&
              $ok = false;
             }
           }
-          else if ( ($idx = \bbn\x::find($note['medias'], ['name' => $f['name']])) !== false ) {
+          else if ( !empty($note['medias']) && is_array($note['medias']) && (($idx = \bbn\x::find($note['medias'], ['name' => $f['name']])) !== false) ) {
             // Add an existing media to the new version
             if ( !$notes->media2version($note['medias'][$idx]['id'], $info['id_note'], $version) ){
               $ok = false;
