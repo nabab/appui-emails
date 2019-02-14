@@ -14,7 +14,7 @@ return [
   'root' => APPUI_EMAILS_ROOT,
   'root_usergroup' => $model->plugin_url('appui-usergroup').'/',
   'types' => $model->db->get_rows("
-    SELECT bbn_notes_masks.id_note AS id, bbn_notes_versions.title AS text
+    SELECT bbn_notes_masks.id_note AS id, bbn_notes_masks.name AS text
     FROM bbn_notes_masks
       JOIN bbn_notes_versions
         ON bbn_notes_versions.id_note = bbn_notes_masks.id_note
@@ -23,6 +23,7 @@ return [
         AND bbn_notes_versions.version > v_old.version)
     WHERE v_old.id_note IS NULL
     GROUP BY bbn_notes_masks.id_note
+    ORDER BY text
   "),
   'count' => $model->get_model(APPUI_EMAILS_ROOT.'data/count'),
   'recipients' => $model->inc->options->text_value_options('emails_listes')

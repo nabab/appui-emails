@@ -25,8 +25,20 @@
       },
       success(d){
         if ( d.success ){
-          let t = bbn.vue.closest(this, 'bbns-tab').getComponent();
-          bbn.vue.find(t, 'bbn-table').updateData();
+          let t = this.closest('bbns-tab').getComponent(),
+              treePath = ['all'];
+          if ( this.source.envoi && this.source.envoi.length ){
+            treePath.push('ready');
+          }
+          else {
+            treePath.push('draft');
+          }
+          if ( bbn.fn.isSame(t.treePath, treePath) ){
+            bbn.vue.find(t, 'bbn-table').updateData();
+          }
+          else {
+            t.$set(t, 'treePath', treePath);
+          }
           if ( this.source.row.id ){
             appui.success(bbn._('Modified'));
           }

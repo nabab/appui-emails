@@ -11,7 +11,7 @@ if ( !empty($model->data['id']) &&
   ( $email = $model->db->rselect('bbn_emailings', ['id_note', 'version', 'envoi', 'destinataires'], ['id' => $model->data['id']])) 
   
 ){
-  $email['envoi'] = NULL;
+  $email['envoi'] = null;
   $model->db->insert('bbn_emailings', $email);
   return [
     'success' => true,

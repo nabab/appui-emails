@@ -6,10 +6,11 @@
 			<bbn-pane>
         <bbn-tree :source="menu"
                   :opened="true"
-                  @activate="setFilter"
+                  @select="setFilter"
                   ref="tree"
                   :path="treePath"
                   uid="id"
+                  :style="{'pointer-events': disableTree ? 'none' : 'auto'}"
         >
         </bbn-tree>
       </bbn-pane>
@@ -68,7 +69,12 @@
                  command: openEmailsTab
                }]"
                editor="appui-emails-form"
-               :order="[{field: 'envoi', dir: 'DESC'}]"
+               :order="[{
+                 field: 'envoi',
+                 dir: 'DESC'
+               }]"
+               @startloading="disableTree = true"
+               @endloading="disableTree = false"
     >
       <bbns-column title="<?=_("Object")?>"
                   field="title"
@@ -119,10 +125,10 @@
                   :filterable="false"
                   :sortable="false"
       ></bbns-column>
-      <bbns-column :width="240"
+      <bbns-column :width="130"
                   ftitle="<?=_("Actions")?>"
                   :buttons="renderButtons"
-									cls="bbn-c"
+									cls="bbn-l appui-emails-tbuttons"
       ></bbns-column>
     </bbn-table>
   </bbn-pane>

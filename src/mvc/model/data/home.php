@@ -108,7 +108,7 @@
         JOIN bbn_notes_versions
           ON bbn_emailings.id_note = bbn_notes_versions.id_note
           AND bbn_emailings.version = bbn_notes_versions.version
-    ",
+    "
   ]);
   
   if ( $grid->check() &&

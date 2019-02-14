@@ -1,5 +1,5 @@
 <bbn-form :source="source"
-          :scrollable="false"
+          :scrollable="true"
           class="bbn-full-screen"
           :action="emails.source.root + 'actions/test'"
           confirm-message="<?=_('Are you sure you want to test this mailing?')?>"

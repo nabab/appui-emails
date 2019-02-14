@@ -41,7 +41,8 @@
           },
 					getInfo: false
 				},
-        updateCount: 0
+        updateCount: 0,
+        disableTree: false
       }
     },
     computed: {
@@ -112,6 +113,20 @@
             }]
           }]
         }];
+      },
+      getOrder(){
+        if ( this.treePath.includes('draft') ){
+          return [{
+            field: 'bbn_notes_versions.creation',
+            dir: 'DESC'
+          }];
+        }
+        else {
+          return [{
+            field: 'envoi',
+            dir: 'DESC'
+          }];
+        }
       }
     },
     methods: {
@@ -139,6 +154,14 @@
            notext: true,
            icon: "fa fa-th-list",
            command: this.open
+         });
+        }
+        if ( (row.statut === 'pret') ){
+         res.push({
+           text: bbn._("See recipients"),
+           notext: true,
+           icon: "fa fa-th-list",
+           command: this.openList
          });
         }
         res.push({
@@ -184,18 +207,39 @@
             command: this.test
           });
         }
+        res.push({
+          text: bbn._('Send this email to ') + appui.app.user.name,
+          notext: true,
+          icon: "far fa-envelope",
+          command: this.selfSend
+        });
         return res;
       },
+      selfSend(row){
+        this.confirm(bbn._('Do you really want to send this email to') + ' ' + appui.app.user.name, () => {
+          bbn.fn.post('emails/actions/test', {
+            id: row.id,
+            users: appui.app.user.id
+          }, (d) => {
+            if ( d.success ){
+              appui.success(bbn._('Email sent'));
+            }
+          });
+        })
+      }, 
       insert(){
         return this.$refs.table.insert({}, {
           title: bbn._("New mailing"),
-          width: 800
+          width: this.getPopup().defaultWidth,
+          height: this.getPopup().defaultHeight
         });
       },
+      
       edit(row, col, idx){
         return this.$refs.table.edit(row, {
           title: bbn._("Mailing edit"),
-          width: 800
+          width: this.getPopup().defaultWidth,
+          height: this.getPopup().defaultHeight
         }, idx);
       },
       see(row){
@@ -216,7 +260,10 @@
         if ( row.id ){
           bbn.fn.link(this.source.root + 'page/details/' + row.id);
         }
-			},
+      },
+      openList(row){
+        bbn.fn.link('listes/liste/' + row.destinataires);
+      },
       duplicate(row){
         if ( row.id ){
           appui.confirm(bbn._("Are you sure you want duplicate this mailing?"), () => {
@@ -306,8 +353,16 @@
       },
       setFilter(node){
         if ( node.level === 0 ){
+          let idx = bbn.fn.search(this.getRef('table').currentOrder, {field: 'bbn_notes_versions.creation'});
+          if ( idx > -1 ){
+            this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'envoi');
+          }
           this.treePath = ['all'];
           return this.$refs.table.unsetFilter();
+        }
+        let idx = bbn.fn.search(this.getRef('table').currentOrder, { field: 'envoi' });
+        if ( idx > -1 ){
+          this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'bbn_notes_versions.creation');
         }
         this.treePath = ['all', node.data.id];
         this.$refs.table.currentFilters = {
@@ -396,15 +451,15 @@
       }
     },
     created(){
-      if ( Vue.options.components['appui-emails-form'] !== undefined ){
+      /* if ( Vue.options.components['appui-emails-form'] !== undefined ){
         delete Vue.options.components['appui-emails-form'];
       }
       if ( Vue.options.components['appui-emails-view'] !== undefined ){
         delete Vue.options.components['appui-emails-view'];
-      }
+      } */
     },
 		mounted(){
-			this.clearGetInfo();
+      this.clearGetInfo();
 			//this.setGetInfo();
 		},
 		beforeDestroy(){
