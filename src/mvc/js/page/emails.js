@@ -22,15 +22,15 @@
               color= '';
           switch ( row.etat ){
             case 'echec':
-              ico = 'fas fa-times-circle';
+              ico = 'nf nf-fa-times_circle';
               color = 'red';
               break;
             case 'succes':
-              ico = 'fas fa-check-circle';
+              ico = 'nf nf-fa-check_circle';
               color = 'green';
               break;
             case 'succes':
-              ico = 'fas fa-clock';
+              ico = 'nf nf-fa-clock';
               color = 'orange';
               break;
           }
@@ -38,10 +38,10 @@
         }
       },
       renderMailing(row){
-        return row.id_mailing !== null ? '<i class="bbn-large fas fa-check-circle bbn-green"></i>' : '';
+        return row.id_mailing !== null ? '<i class="bbn-large nf nf-fa-check_circle bbn-green"></i>' : '';
       },
       renderTitre(row){
-        return row.titre || '<div class="bbn-c"><i class="bbn-large fas fa-envelope"></i></div>';
+        return row.titre || '<div class="bbn-c"><i class="bbn-large nf nf-fa-envelope"></i></div>';
       }
     }
   }

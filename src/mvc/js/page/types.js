@@ -11,12 +11,12 @@
       renderButtons(row){
         return [{
           text: bbn._("Mod."),
-          icon: "fa fa-edit",
+          icon: "nf nf-fa-edit",
           notext: true,
           command: this.edit,
         }, {
           text: bbn._("Suppr."),
-          icon: "fa fa-trash",
+          icon: "nf nf-fa-trash",
           notext: true,
           command: this.remove,
           disabled: !!row.default

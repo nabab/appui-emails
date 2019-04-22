@@ -10,7 +10,7 @@
     data(){
       return {
         link: 'emails/view/' + this.source.id_note,
-        emails: bbn.vue.closest(this, 'bbns-tab').getComponent()
+        emails: bbn.vue.closest(this, 'bbn-container').getComponent()
       }
     }
   }

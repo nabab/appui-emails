@@ -11,7 +11,7 @@
               :width="100"
               :hidden="true"
   ></bbns-column>
-  <bbns-column title="<i class='fa fa-check bbn-c bbn-xl'></i>"
+  <bbns-column title="<i class='nf nf-fa-check bbn-c bbn-xl'></i>"
               ftitle="<?=_("Default")?>"
               field="default"
               :width="50"

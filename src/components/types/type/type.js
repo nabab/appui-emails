@@ -9,7 +9,7 @@
     props: ['source'],
     computed:{
       num(){
-        return bbn.fn.count(bbn.vue.closest(this, 'bbns-tab').getComponent().source.categories, {id_type: this.source.id_type});
+        return bbn.fn.count(bbn.vue.closest(this, 'bbn-container').getComponent().source.categories, {id_type: this.source.id_type});
       }
     },
     methods: {

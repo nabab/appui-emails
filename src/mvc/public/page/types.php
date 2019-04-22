@@ -8,5 +8,5 @@
  * @var $ctrl \bbn\mvc\controller
  */
 $ctrl
-  ->set_icon('fa fa-list')
+  ->set_icon('nf nf-fa-list')
   ->combo(_("Letters Types"), true);

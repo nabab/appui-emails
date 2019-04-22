@@ -11,7 +11,7 @@
       return {
         ref: (new Date()).getTime(),
         today: moment().format('YYYY-MM-DD HH:mm:ss'),
-        emails: bbn.vue.closest(this, 'bbns-tab').getComponent()
+        emails: bbn.vue.closest(this, 'bbn-container').getComponent()
       }
     },
     methods: {
@@ -25,7 +25,7 @@
       },
       success(d){
         if ( d.success ){
-          let t = this.closest('bbns-tab').getComponent(),
+          let t = this.closest('bbns-container').getComponent(),
               treePath = ['all'];
           if ( this.source.envoi && this.source.envoi.length ){
             treePath.push('ready');

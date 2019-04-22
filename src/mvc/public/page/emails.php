@@ -1,5 +1,5 @@
 <?php
-$ctrl->set_icon('fas fa-envelope-open-text');
+$ctrl->set_icon('nf nf-fa-envelope_open_text');
 $d = $ctrl->get_plugin_model('page/emails', $ctrl->data);
 if ( is_null($d) ){
   $d = $ctrl->get_model($ctrl->data);

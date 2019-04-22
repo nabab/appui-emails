@@ -9,6 +9,6 @@
  */
 $ctrl
   ->set_color('red', 'white')
-  ->set_icon('fa fa-envelope')
+  ->set_icon('nf nf-fa-envelope')
   ->combo(_("eMails"), ['root' => APPUI_EMAILS_ROOT]);
 $ctrl->obj->url = APPUI_EMAILS_ROOT . 'page';

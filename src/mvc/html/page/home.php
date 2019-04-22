@@ -57,15 +57,15 @@
                :editable="true"
                :toolbar="[{
                  text: '<?=_('New mailing')?>',
-                 icon: 'fa fa-plus',
+                 icon: 'nf nf-fa-plus',
                  command: insert
                }, {
                  text: '<?=_('Letters types')?>',
-                 icon: 'fa fa-list',
+                 icon: 'nf nf-fa-list',
                  command: openLettersTypesTab
                }, {
                  text: '<?=_('Emails ready')?>',
-                 icon: 'fas fa-envelope-open-text',
+                 icon: 'nf nf-fa-envelope_open_text',
                  command: openEmailsTab
                }]"
                editor="appui-emails-form"
@@ -83,7 +83,7 @@
       <bbns-column field="fichiers"
                   :render="renderFiles"
                   :width="50"
-                  title="<i class='fa fa-paperclip bbn-xl'></i>"
+                  title="<i class='nf nf-fa-paperclip bbn-xl'></i>"
                   ftitle="<?=_("Number of attached files")?>"
                   type="number"
                   :sortable="false"

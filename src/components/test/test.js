@@ -9,7 +9,7 @@
     props: ['source'],
     data(){
       return {
-        emails: bbn.vue.closest(this, 'bbns-tab').getComponent()
+        emails: bbn.vue.closest(this, 'bbn-container').getComponent()
       }
     }
   }

@@ -49,12 +49,12 @@
       menu(){
         return [{
           text: bbn._('All'),
-          icon: 'far fa-envelope',
+          icon: 'nf nf-fa-envelope',
           id: 'all',
           items: [{
             id: 'ready',
             text: bbn._('Ready') + (this.source.count.ready > 0  ? ' (' + this.source.count.ready + ')' : ''),
-            icon: 'far fa-clock',
+            icon: 'nf nf-fa-clock',
             filters: [{
               field: 'statut',
               operator: 'eq',
@@ -66,7 +66,7 @@
           }, {
             id: 'in_progress',
             text: bbn._('In progress') + (this.source.count.in_progress > 0  ? ' (' + this.source.count.in_progress + ')' : ''),
-						icon: 'fa fa-spinner',
+						icon: 'nf nf-fa-spinner',
             filters: [{
               field: 'statut',
               operator: 'eq',
@@ -78,7 +78,7 @@
           }, {
             id: 'sent',
             text: bbn._('Sent') + (this.source.count.sent > 0  ? ' ('+ this.source.count.sent + ')' : ''),
-            icon: 'fas fa-envelope',
+            icon: 'nf nf-fa-envelope',
             filters: [{
               field: 'statut',
               operator: 'eq',
@@ -90,7 +90,7 @@
           }, {
             id: 'suspended',
             text: bbn._('Suspended') + (this.source.count.suspended > 0  ? ' ('+ this.source.count.suspended + ')' : ''),
-            icon: 'fa fa-pause',
+            icon: 'nf nf-fa-pause',
             filters: [{
               field: 'statut',
               operator: 'eq',
@@ -102,7 +102,7 @@
           }, {
             id: 'draft',
             text: bbn._('Draft') + (this.source.count.draft > 0  ? ' ('+ this.source.count.draft + ')' : ''),
-            icon: 'fa fa-paint-brush',
+            icon: 'nf nf-fa-paint_brush',
             filters: [{
               field: 'statut',
               operator: 'eq',
@@ -145,14 +145,14 @@
         let res = [{
           text: bbn._("See"),
           notext: true,
-          icon: "fa fa-eye",
+          icon: "nf nf-fa-eye",
           command: this.see
         }];
         if ( (row.statut === 'envoye') || (row.statut === 'en cours') || (row.statut === 'suspendu') ){
          res.push({
            text: bbn._("Open"),
            notext: true,
-           icon: "fa fa-th-list",
+           icon: "nf nf-fa-th_list",
            command: this.open
          });
         }
@@ -160,21 +160,21 @@
          res.push({
            text: bbn._("See recipients"),
            notext: true,
-           icon: "fa fa-th-list",
+           icon: "nf nf-fa-th_list",
            command: this.openList
          });
         }
         res.push({
           text: bbn._("Duplicate"),
           notext: true,
-          icon: "fa fa-copy",
+          icon: "nf nf-fa-copy",
           command: this.duplicate
         });
         if ( row.statut === 'en cours' ){
           res.push({
             text: bbn._("Suspend"),
             notext: true,
-            icon: "fas fa-hand-paper",
+            icon: "nf nf-fa-hand_paper",
             command: this.stop
           });
         }
@@ -182,12 +182,12 @@
           res.push({
             text: bbn._("Edit"),
             notext: true,
-            icon: "fa fa-edit",
+            icon: "nf nf-fa-edit",
             command: this.edit
           }, {
             text: bbn._("Delete"),
             notext: true,
-            icon: "fas fa-trash",
+            icon: "nf nf-fa-trash",
             command: this.remove
           });
         }
@@ -195,7 +195,7 @@
           res.push({
             text: bbn._("Send"),
             notext: true,
-            icon: "far fa-paper-plane",
+            icon: "nf nf-fa-paper_plane",
             command: this.send
           });
         }
@@ -203,14 +203,14 @@
           res.push({
             text: bbn._("Test"),
             notext: true,
-            icon: "fas fa-magic",
+            icon: "nf nf-fa-magic",
             command: this.test
           });
         }
         res.push({
           text: bbn._('Send this email to ') + appui.app.user.name,
           notext: true,
-          icon: "far fa-envelope",
+          icon: "nf nf-fa-envelope",
           command: this.selfSend
         });
         return res;
@@ -358,7 +358,9 @@
             this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'envoi');
           }
           this.treePath = ['all'];
-          return this.$refs.table.unsetFilter();
+          if ( this.$refs.table !== undefined ){
+            return this.$refs.table.unsetFilter();
+          }
         }
         let idx = bbn.fn.search(this.getRef('table').currentOrder, { field: 'envoi' });
         if ( idx > -1 ){
