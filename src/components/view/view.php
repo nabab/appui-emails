@@ -1,3 +1,3 @@
-<div class="bbn-full-screen">
-  <iframe class="bbn-100 k-widget" :src="link"></iframe>
+<div class="bbn-overlay">
+  <iframe class="bbn-100 bbn-widget" :src="link"></iframe>
 </div>

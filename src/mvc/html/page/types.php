@@ -5,6 +5,7 @@
            :groupable="true"
            :group-by="3"
            uid="id_note"
+           :toolbar="source.empty_categories.length ? toolbar : []"
 >
   <bbns-column title="<?=_("ID")?>"
               field="id_note"

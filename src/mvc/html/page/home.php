@@ -15,15 +15,15 @@
         </bbn-tree>
       </bbn-pane>
 			<bbn-pane :size="300">
-				<div class="bbn-100 k-block info">
-          <div class="k-header bbn-vmiddle title">
+				<div class="bbn-100 bbn-block info">
+          <div class="bbn-header bbn-vmiddle title">
             <span><strong><?=_('LIVE INFO')?></strong></span>
             <bbn-switch @change="toggleGetInfo" :checked="!!info.getInfo"></bbn-switch>
           </div>
 					<div v-if="info.current.id"
-							 class="k-block"
+							 class="bbn-block"
 					>
-            <div class="k-header bbn-c"><?=_('IN PROGRESS')?></div>
+            <div class="bbn-header bbn-c"><?=_('IN PROGRESS')?></div>
 						<div class="bbn-spadded">
               <div><strong><?=_('Title')?>:</strong> {{info.current.title}}</div>
               <div><strong><?=_('Recipients')?>:</strong> {{info.current.recipients}}</div>
@@ -32,9 +32,9 @@
             </div>
 					</div>
 					<div v-if="info.next.id"
-							 class="k-block"
+							 class="bbn-block"
 					>
-						<div class="k-header bbn-c"><?=_('NEXT')?></div>
+						<div class="bbn-header bbn-c"><?=_('NEXT')?></div>
             <div class=" bbn-spadded">
               <div><strong><?=_('Title')?>:</strong> {{info.next.title}}</div>
               <div><strong><?=_('Recipients')?>:</strong> {{info.next.recipients}}</div>
@@ -65,7 +65,7 @@
                  command: openLettersTypesTab
                }, {
                  text: '<?=_('Emails ready')?>',
-                 icon: 'nf nf-fa-envelope_open_text',
+                 icon: 'nf nf-fa-envelope_o',
                  command: openEmailsTab
                }]"
                editor="appui-emails-form"
@@ -73,8 +73,7 @@
                  field: 'envoi',
                  dir: 'DESC'
                }]"
-               @startloading="disableTree = true"
-               @endloading="disableTree = false"
+               
     >
       <bbns-column title="<?=_("Object")?>"
                   field="title"

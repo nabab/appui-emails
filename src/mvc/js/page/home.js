@@ -54,7 +54,7 @@
           items: [{
             id: 'ready',
             text: bbn._('Ready') + (this.source.count.ready > 0  ? ' (' + this.source.count.ready + ')' : ''),
-            icon: 'nf nf-fa-clock',
+            icon: 'nf nf-fa-clock_o',
             filters: [{
               field: 'statut',
               operator: 'eq',
@@ -133,7 +133,7 @@
       get_field: bbn.fn.get_field,
       renderFiles(row){
         return row.fichiers ?
-          ($.isArray(row.fichiers) ? row.fichiers.length : JSON.parse(row.fichiers).length)
+          (bbn.fn.isArray(row.fichiers) ? row.fichiers.length : JSON.parse(row.fichiers).length)
           : '-';
       },
       renderSent(row){
@@ -375,7 +375,7 @@
       setSelected(){
         let filters = [];
         for ( let filter of this.$refs.table.currentFilters.conditions ){
-          filters.push($.extend({}, filter));
+          filters.push(bbn.fn.extend({}, filter));
         }
         if ( filters.length ){
           for ( let m of this.menu[0].items ){

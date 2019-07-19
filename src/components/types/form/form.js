@@ -8,10 +8,20 @@
   return {
     props: ['source'],
 		data(){
+      let emptyCategories = this.source.empty_categories || false;
+      if ( this.source.empty_categories ){
+        delete this.source.empty_categories;
+      }
 			return {
-				root: appui.plugins['appui-emails']
-			}
+        root: appui.plugins['appui-emails'], 
+        emptyCategories: emptyCategories
+      }
 		},
+    computed: {
+      action(){
+        return this.root + '/actions/types/' + (this.source.id_note ? 'update' : 'insert');
+      }
+    },
     methods: {
       success(d){
         if ( d.success ){
@@ -33,6 +43,13 @@
           table.updateData();
           appui.success(bbn._('Saved'));
         }
+      }
+    },
+    created(){
+      if ( this.emptyCategories ){
+        this.$watch('source.id_type', (newVal) => {
+          this.source.name = bbn.fn.get_field(this.emptyCategories, 'id', newVal, 'text');
+        });
       }
     }
   }

@@ -5,7 +5,7 @@
           :action="emails.source.root + 'actions/' + (source.row.id ? 'update' : 'insert')"
           @success="success"
           @failure="failure"
-          class="bbn-full-screen"
+          class="bbn-overlay"
 >
   <div class="bbn-padded bbn-grid-fields">
     <label><?=_("Recipients")?></label>
@@ -35,9 +35,11 @@
              v-model="source.row.content"
     ></bbn-rte>
     <label><?=_("Sending time")?></label>
-    <bbn-datetimepicker v-model="source.row.envoi"
-                        :min="today"
-                        @change="changeDate"
-    ></bbn-datetimepicker>
+    <div>
+      <bbn-datetimepicker v-model="source.row.envoi"
+                          :min="today"
+                          @change="changeDate"
+      ></bbn-datetimepicker>
+    </div>
   </div>
 </bbn-form>

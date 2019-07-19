@@ -1,4 +1,4 @@
-<div class="appui-emails bbn-full-screen">
+<div class="appui-emails bbn-overlay">
   <bbn-tabnav class="appui_emails_tabnav"
               :scrollable="true"
               :autoload="true"

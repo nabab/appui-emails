@@ -30,7 +30,7 @@
               color = 'green';
               break;
             case 'succes':
-              ico = 'nf nf-fa-clock';
+              ico = 'nf nf-fa-clock_o';
               color = 'orange';
               break;
           }
