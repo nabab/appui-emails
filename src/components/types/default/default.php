@@ -10,6 +10,6 @@
   <bbn-button :key="source.id_note"
               icon="nf nf-fa-check bbn-red"
               @click="setDefault"
-
+              class=" bbn-button-icon-only"
   ></bbn-button>
 </div>

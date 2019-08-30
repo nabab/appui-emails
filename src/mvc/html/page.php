@@ -4,10 +4,10 @@
               :autoload="true"
   >
     <bbns-container url="home"
-             :static="true"
-             :load="true"
-						 title="<?=_('Mailings')?>"
-						 icon="nf nf-fa-newspaper"
+                    :static="true"
+                    :load="true"
+                    title="<?=_('Mailings')?>"
+                    icon="nf nf-fa-newspaper"
     ></bbns-container>
   </bbn-tabnav>
 </div>

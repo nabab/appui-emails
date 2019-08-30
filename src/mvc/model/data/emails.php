@@ -23,6 +23,7 @@ if ( isset($model->data['limit']) ){
     ]]
   ]);
   if ( $grid->check() ){
+    
     return $grid->get_datatable();
   }
 }

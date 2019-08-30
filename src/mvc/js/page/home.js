@@ -42,7 +42,8 @@
 					getInfo: false
 				},
         updateCount: 0,
-        disableTree: false
+        disableTree: false,
+        mountedTable: false
       }
     },
     computed: {
@@ -352,25 +353,27 @@
         }
       },
       setFilter(node){
-        if ( node.level === 0 ){
-          let idx = bbn.fn.search(this.getRef('table').currentOrder, {field: 'bbn_notes_versions.creation'});
+        if ( this.mountedTable ){
+          if ( node.level === 0 ){
+            let idx = bbn.fn.search(this.getRef('table').currentOrder, {field: 'bbn_notes_versions.creation'});
+            if ( idx > -1 ){
+              this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'envoi');
+            }
+            this.treePath = ['all'];
+            if ( this.$refs.table !== undefined ){
+              return this.$refs.table.unsetFilter();
+            }
+          }
+          let idx = bbn.fn.search(this.getRef('table').currentOrder, { field: 'envoi' });
           if ( idx > -1 ){
-            this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'envoi');
+            this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'bbn_notes_versions.creation');
           }
-          this.treePath = ['all'];
-          if ( this.$refs.table !== undefined ){
-            return this.$refs.table.unsetFilter();
-          }
+          this.treePath = ['all', node.data.id];
+          this.$refs.table.currentFilters = {
+            conditions: node.data.filters,
+            logic: 'AND'
+          };
         }
-        let idx = bbn.fn.search(this.getRef('table').currentOrder, { field: 'envoi' });
-        if ( idx > -1 ){
-          this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'bbn_notes_versions.creation');
-        }
-        this.treePath = ['all', node.data.id];
-        this.$refs.table.currentFilters = {
-          conditions: node.data.filters,
-          logic: 'AND'
-        };
       },
       setSelected(){
         let filters = [];
@@ -385,6 +388,7 @@
             }
           }
         }
+        this.mountedTable = true;
       },
       openLettersTypesTab() {
         bbn.fn.link(this.source.root + 'page/types');

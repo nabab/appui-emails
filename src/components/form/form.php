@@ -4,8 +4,7 @@
           confirm-leave="<?=_("Are you sure you want to leave this form without saving your changes?")?>"
           :action="emails.source.root + 'actions/' + (source.row.id ? 'update' : 'insert')"
           @success="success"
-          @failure="failure"
-          class="bbn-overlay"
+          @failure="failure"          
 >
   <div class="bbn-padded bbn-grid-fields">
     <label><?=_("Recipients")?></label>
