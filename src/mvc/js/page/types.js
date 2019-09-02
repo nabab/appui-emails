@@ -57,7 +57,7 @@
               width: 800,
               height: '90%',
               component: 'appui-emails-types-form',
-              source: d.data,
+              source: d.data,              
               title: bbn._("Edit letter type")
             })
           }

@@ -55,7 +55,7 @@
       },
       loadLettre(id){
         if ( id ){
-          bbn.fn.post("com/lettre_type", {id: id}, (e) => {
+          bbn.fn.post(this.emails.source.root + "actions/get", {id: id}, (e) => {
             if ( e.success && e.content ){
               this.source.row.title = e.content.titre;
               this.source.row.content = e.content.texte;

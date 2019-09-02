@@ -4,6 +4,7 @@
             @success="success"
             :action="action"
             :scrollable="false"
+            
   >
     <div class="bbn-padded bbn-grid-fields">
       <label v-if="emptyCategories && emptyCategories.length"><?=_('Type')?></label>
@@ -18,8 +19,8 @@
       <label><?=_('Object')?></label>
       <bbn-input v-model="source.title"></bbn-input>
       <label><?=_('Text')?></label>
-      <div style="overflow: initial">
-        <bbn-rte v-model="source.content"></bbn-rte>
+      <div class="bbn-h-100" style="height: 100%; overflow: initial">
+        <bbn-rte v-model="source.content" class="bbn-h-100" style="height: 100%"></bbn-rte>
       </div>
     </div>
   </bbn-form>

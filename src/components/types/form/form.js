@@ -28,7 +28,7 @@
 					let t = bbn.vue.closest(this, 'bbn-container').getComponent(),
 							table = bbn.vue.find(t, 'bbn-table');
           if ( this.source.id_note ){
-            let idx = bbn.fn.search(t.source.categories, 'id_note', d.data.id_note);
+            let idx = bbn.fn.search(t.source.categories, 'id_note', d.data.id_note);           
             if ( idx > -1 ){
               bbn.fn.each(d.data, (v, i) => {
                 if ( i !== 'content' ){
