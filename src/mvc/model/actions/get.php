@@ -1,17 +1,15 @@
 <?php
 $r = [
   'success' => false,
-  'content'=> []
+  'template'=> []
 ];
 
 if ( isset($model->data['id']) ){
-  $lettre = new \bbn\appui\masks($model->db);
-  $item = $lettre->get($model->data['id']);
-  if ( $item ){
-    /** @todo change the variables!!! */
+  $masks = new \bbn\appui\masks($model->db);
+  $template = $masks->get($model->data['id']);
+  if ( $template ){
     $r['success'] = true;
-    $r['content']['texte'] = $item['content'];
-    $r['content']['titre'] = $item['title'];
+    $r['template'] = $template;
   }
 }
 return $r;

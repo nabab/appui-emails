@@ -25,7 +25,7 @@
       },
       success(d){
         if ( d.success ){
-          let t = this.closest('bbns-container').getComponent(),
+          let t = this.closest('bbn-container').getComponent(),
               treePath = ['all'];
           if ( this.source.envoi && this.source.envoi.length ){
             treePath.push('ready');
@@ -55,10 +55,10 @@
       },
       loadLettre(id){
         if ( id ){
-          bbn.fn.post(this.emails.source.root + "actions/get", {id: id}, (e) => {
-            if ( e.success && e.content ){
-              this.source.row.title = e.content.titre;
-              this.source.row.content = e.content.texte;
+          bbn.fn.post(appui.plugins['appui-emails'] + "/actions/get", {id: id}, (e) => {
+            if ( e.success && e.template ){
+              this.source.row.title = e.template.title;
+              this.source.row.content = e.template.content;
             }
           });
         }

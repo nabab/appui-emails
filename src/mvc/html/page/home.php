@@ -21,7 +21,7 @@
             <bbn-switch @change="toggleGetInfo" :checked="!!info.getInfo"></bbn-switch>
           </div>
 					<div v-if="info.current.id"
-							 class="bbn-block"
+							 class="bbn-block bbn-w-100"
 					>
             <div class="bbn-header bbn-c"><?=_('IN PROGRESS')?></div>
 						<div class="bbn-spadded">
@@ -32,7 +32,7 @@
             </div>
 					</div>
 					<div v-if="info.next.id"
-							 class="bbn-block"
+							 class="bbn-block bbn-w-100"
 					>
 						<div class="bbn-header bbn-c"><?=_('NEXT')?></div>
             <div class=" bbn-spadded">
