@@ -10,14 +10,14 @@
               type="email"
   ></bbns-column>
   <bbns-column title="<?=_("État")?>"
-              field="etat"
-              :render="renderEtat"
+              field="status"
               :width="120"
               cls="bbn-c"
               :source="status"
+              :render="renderEtat"
   ></bbns-column>
   <bbns-column title="<?=_("Envoi")?>"
-              field="envoi"
+              field="delivery"
               type="date"
               :width="150"
               cls="bbn-c"

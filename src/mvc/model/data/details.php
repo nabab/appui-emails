@@ -11,7 +11,7 @@
  if ( !empty($model->data['data']) && !empty($model->data['data']['id']) ){
    $grid = new \bbn\appui\grid($model->db, $model->data, [
      'table' => 'bbn_emails',
-     'fields' => ['email', 'etat', 'envoi'],
+     'fields' => ['email', 'status', 'delivery'],
      'filters' => [
        'conditions' => [[
          'field' => 'id_mailing',

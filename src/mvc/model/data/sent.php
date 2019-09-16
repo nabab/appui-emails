@@ -30,6 +30,10 @@ if ( isset($model->data['limit']) ){
         'field' => 'bbn_emailings.version',
         'exp' => 'bbn_notes_versions.version'
       ]]
+    ]], 
+    'order' => [[
+      'field' => 'bbn_emails.delivery',
+      'dir' => 'DESC'
     ]]
   ]);
   if ( $grid->check() ){

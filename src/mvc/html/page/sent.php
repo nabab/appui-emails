@@ -1,15 +1,13 @@
-<bbn-table :source="root + 'data/emails'"
+<bbn-table :source="root + 'data/sent'"
            :pageable="true"
            :editable="false"
            :filterable="true"
-           :selection="true"
-           :toolbar="toolbar"
            :filters="{
              logic: 'AND',
              conditions: [{
                field: 'status',
                operator: 'eq',
-               value: 'ready'
+               value: 'success'
              }]
            }"
 >
@@ -41,7 +39,7 @@
   <bbns-column field="delivery"
                title="<?=_('Date')?>"
                cls="bbn-c"
-               type="date"
+               type="datetime"
                :width="120"
   ></bbns-column>
   <bbns-column field="read"
@@ -49,14 +47,4 @@
                :width="80"
                :hidden="true"
   ></bbns-column>
-  <bbns-column width="60"
-               cls="bbn-buttons-grid"
-              :buttons="[{
-                icon: 'nf nf-mdi-close',
-                title: 'Cancel email',
-                command: cancelEmail
-              }]"
-  >
-
-  </bbns-column>
 </bbn-table>

@@ -8,13 +8,13 @@
  * @var $model \bbn\mvc\model
  */
 
-if ( empty($model->data['destinataires']) && !empty($model->data['envoi']) ){
+if ( empty($model->data['recipients']) && !empty($model->data['sent']) ){
   return false;
 }
 if ( isset($model->data['content'], $model->data['title']) ){
   $notes = new \bbn\appui\notes($model->db);
-  if ( empty($model->data['envoi']) || !\bbn\date::validateSQL($model->data['envoi']) ){
-    $model->data['envoi'] = null;
+  if ( empty($model->data['sent']) || !\bbn\date::validateSQL($model->data['sent']) ){
+    $model->data['sent'] = null;
   }
   if ( ($id_note = $notes->insert(
     $model->data['title'],
@@ -24,8 +24,8 @@ if ( isset($model->data['content'], $model->data['title']) ){
     $model->db->insert('bbn_emailings', [
       'id_note' => $id_note,
       'version' => 1,
-      'destinataires' => $model->data['destinataires'],
-      'envoi' => $model->data['envoi']
+      'recipients' => $model->data['recipients'],
+      'sent' => $model->data['sent']
     ])
   ){
     $model->data['id'] = $model->db->last_id();

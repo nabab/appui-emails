@@ -48,7 +48,7 @@
         return appui.app.getUserName(row.id_user)
       },
       edit(row){
-        bbn.fn.post(this.source.root + 'actions/types/get', {
+        this.post(this.source.root + 'actions/types/get', {
           id_note: row.id_note,
           version: row.version
         } , (d) => {
@@ -66,7 +66,7 @@
       remove(row){
         if ( row.id_note ){
           appui.confirm(bbn._("Are you sure you want to delete this letter?"), () => {
-            bbn.fn.post(this.source.root + 'actions/types/delete', {id_note: row.id_note}, (d) => {
+            this.post(this.source.root + 'actions/types/delete', {id_note: row.id_note}, (d) => {
               if ( d.success ){
 								let idx = bbn.fn.search(this.source.categories, 'id_note', row.id_note);
 								if ( idx > -1 ){

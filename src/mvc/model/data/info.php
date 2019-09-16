@@ -12,8 +12,8 @@ $cfg = [
   'tables' => ['bbn_emailings'],
   'fields' => [
     'id',
-    'moment' => 'envoi',
-    'recipients' => 'destinataires',
+    'moment' => 'sent',
+    'recipients' => 'recipients',
     'title' => 'bbn_notes_versions.title'
   ],
   'join' => [[
@@ -34,9 +34,9 @@ $cfg = [
   'where' => [
     'logic' => 'AND',
     'conditions' => [[
-      'field' => 'statut',
+      'field' => 'state',
       'operator' => '=',
-      'value' => 'en cours'
+      'value' => 'sending'
     ]]
   ]
 ];
@@ -44,19 +44,19 @@ $cfg = [
 $current = $model->db->rselect($cfg) ?: [];
 $current['sent'] = !empty($current['id']) ? $model->db->count('bbn_emails', [
   'id_mailing' => $current['id'],
-  'etat' => 'succes'
+  'state' => 'success'
 ]) : 0;
 
 $cfg['where']['conditions'] = [[
-  'field' => 'statut',
+  'field' => 'state',
   'operator' => '=',
-  'value' => 'pret'
+  'value' => 'ready'
 ], [
-  'field' => 'envoi',
+  'field' => 'sent',
   'operator' => 'isnotnull'
 ]];
 $cfg['order'] = [[
-  'field' => 'envoi',
+  'field' => 'sent',
   'dir' => 'ASC'
 ]];
 $next = $model->db->rselect($cfg) ?: [];

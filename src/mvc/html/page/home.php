@@ -1,7 +1,7 @@
 <bbn-splitter orientation="horizontal"
               class="appui-emails-mailings"
 >
-  <bbn-pane :size="250">
+  <bbn-pane :size="250" class="bbn-bordered-right">
 		<bbn-splitter orientation="vertical">
 			<bbn-pane>
         <bbn-tree :source="menu"
@@ -48,6 +48,7 @@
   <bbn-pane>
     <bbn-table ref="table"
                @ready="setSelected"
+               
                :source="source.root + 'data/home'"
                :info="true"
                :pageable="true"
@@ -58,19 +59,27 @@
                :toolbar="[{
                  text: '<?=_('New mailing')?>',
                  icon: 'nf nf-fa-plus',
-                 command: insert
-               }, {
-                 text: '<?=_('Letters types')?>',
-                 icon: 'nf nf-fa-list',
-                 command: openLettersTypesTab
+                 command: insert,
+                 class:'bbn-bg-teal bbn-white bbn-medium'
                }, {
                  text: '<?=_('Emails ready')?>',
                  icon: 'nf nf-fa-envelope_o',
-                 command: openEmailsTab
+                 command: openEmailsTab,
+                 class:'bbn-bg-teal bbn-white bbn-medium'
+               },{
+                 text: '<?=_('Emails sent')?>',
+                 icon: 'nf nf-fa-envelope',
+                 command: openEmailsSentTab,
+                 class:'bbn-bg-teal bbn-white bbn-medium'
+               },{
+                 text: '<?=_('Letters types')?>',
+                 icon: 'nf nf-fa-list',
+                 command: openLettersTypesTab, 
+                 class:'bbn-bg-teal bbn-white bbn-medium'
                }]"
                editor="appui-emails-form"
                :order="[{
-                 field: 'envoi',
+                 field: 'sent',
                  dir: 'DESC'
                }]"
                
@@ -89,20 +98,18 @@
                   :filterable="false"
       ></bbns-column>
       <bbns-column title="<?=_("Status")?>"
-                  field="statut"
+                  field="state"
                   :width="80"
                   :source="status"
-                  :render="(r) => {return get_field(status, 'value', r.statut, 'text')}"
       ></bbns-column>
       <bbns-column title="<?=_("Recipients")?>"
-                  field="destinataires"
+                  field="recipients"
                   :width="160"
                   :source="source.recipients"
-                  :render="(r) => {return get_field(source.recipients, 'value', r.destinataires, 'text')}"
                   :required="true"
       ></bbns-column>
       <bbns-column title="<?=_("Send")?>"
-                  field="envoi"
+                  field="sent"
                   :width="100"
                   type="date"
                   :required="true"
@@ -127,7 +134,7 @@
       <bbns-column :width="130"
                   ftitle="<?=_("Actions")?>"
                   :buttons="renderButtons"
-									cls="bbn-l appui-emails-tbuttons"
+									cls="bbn-l appui-emails-tbuttons bbn-buttons-grid"
       ></bbns-column>
     </bbn-table>
   </bbn-pane>

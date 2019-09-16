@@ -66,9 +66,9 @@
       'bbn_emailings.id',
       'bbn_emailings.id_note',
       'bbn_emailings.version',
-      'bbn_emailings.statut',
-      'bbn_emailings.destinataires',
-      'bbn_emailings.envoi',
+      'bbn_emailings.state',
+      'bbn_emailings.recipients',
+      'bbn_emailings.sent',
       'bbn_notes_versions.title',
       'bbn_notes_versions.content'
     ],
@@ -83,7 +83,7 @@
           SELECT COUNT(bbn_emails.id)
           FROM bbn_emails
           WHERE bbn_emails.id_mailing = bbn_emailings.id
-            AND bbn_emails.etat LIKE 'succes'
+            AND bbn_emails.status LIKE 'success'
         ) AS recus
       FROM bbn_emailings
         JOIN bbn_history_uids

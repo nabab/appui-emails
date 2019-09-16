@@ -9,7 +9,7 @@
  */
 
 if ( !empty($model->data['id']) &&
-  $model->db->update('bbn_emailings', ['envoi' => date('Y-m-d H:i:s')], ['id' => $model->data['id']])
+  $model->db->update('bbn_emailings', ['sent' => date('Y-m-d H:i:s')], ['id' => $model->data['id']])
 ){
   return [
     'success' => true,

@@ -7,14 +7,14 @@
  *
  * @var $model \bbn\mvc\model
  */
-if ( empty($model->data['destinataires']) && !empty($model->data['envoi']) ){
+if ( empty($model->data['recipients']) && !empty($model->data['sent']) ){
   return false;
 }
 if ( !empty($model->data['id']) &&
   !empty($model->data['content']) &&
   !empty($model->data['title']) &&
   !empty($model->data['ref']) &&
-  isset($model->data['destinataires'])
+  isset($model->data['recipients'])
 ){
   $notes = new \bbn\appui\notes($model->db);
   // Get emailing's info
@@ -48,8 +48,8 @@ if ( !empty($model->data['id']) &&
       return [
         'success' => !empty($ok) && $model->db->update('bbn_emailings', [
           'version' => $version,
-          'destinataires' => $model->data['destinataires'],
-          'envoi' => !empty($model->data['envoi']) && \bbn\date::validateSQL($model->data['envoi']) ? $model->data['envoi'] : NULL
+          'recipients' => $model->data['recipients'],
+          'sent' => !empty($model->data['sent']) && \bbn\date::validateSQL($model->data['sent']) ? $model->data['sent'] : NULL
         ], ['id' => $model->data['id']]),
         'count' => $model->get_model(APPUI_EMAILS_ROOT.'data/count')
       ];

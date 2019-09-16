@@ -16,8 +16,8 @@
     },
     methods: {
       changeDate(){
-        if ( this.source.row.envoi < (new Date()) ){
-          this.source.row.envoi = new Date()
+        if ( this.source.row.sent < (new Date()) ){
+          this.source.row.sent = new Date()
         }
       },
       failure(){
@@ -27,7 +27,7 @@
         if ( d.success ){
           let t = this.closest('bbn-container').getComponent(),
               treePath = ['all'];
-          if ( this.source.envoi && this.source.envoi.length ){
+          if ( this.source.row.sent && this.source.row.sent.length ){
             treePath.push('ready');
           }
           else {
@@ -45,8 +45,8 @@
           else {
             appui.success(bbn._('Saved'));
           }
-          if ( d.count ){
-            t.source.count = d.count;
+          if ( t.source.row.count && d.count ){
+            t.source.row.count = d.count;
           }
         }
         else {
@@ -55,7 +55,7 @@
       },
       loadLettre(id){
         if ( id ){
-          bbn.fn.post(appui.plugins['appui-emails'] + "/actions/get", {id: id}, (e) => {
+          this.post(appui.plugins['appui-emails'] + "/actions/get", {id: id}, (e) => {
             if ( e.success && e.template ){
               this.source.row.title = e.template.title;
               this.source.row.content = e.template.content;

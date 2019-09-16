@@ -1,27 +1,26 @@
-<div class="bbn-padded">
-  <bbn-form :source="source"
-            ref="form"
-            @success="success"
-            :action="action"
-            :scrollable="false"
-            
-  >
-    <div class="bbn-padded bbn-grid-fields">
-      <label v-if="emptyCategories && emptyCategories.length"><?=_('Type')?></label>
-      <bbn-dropdown v-if="emptyCategories && emptyCategories.length" 
-                    v-model="source.id_type" 
-                    :source="emptyCategories"
-                    source-value="id"
-                    :nullable="false"
-      ></bbn-dropdown>
-      <label><?=_('Name')?></label>
-      <bbn-input v-model="source.name"></bbn-input>
-      <label><?=_('Object')?></label>
-      <bbn-input v-model="source.title"></bbn-input>
-      <label><?=_('Text')?></label>
-      <div class="bbn-h-100" style="height: 100%; overflow: initial">
-        <bbn-rte v-model="source.content" class="bbn-h-100" style="height: 100%"></bbn-rte>
+
+<bbn-form :source="source"
+          ref="form"
+          @success="success"
+          :action="action"
+>
+  <div class="bbn-padded bbn-grid-fields">
+    <label v-if="emptyCategories && emptyCategories.length"><?=_('Type')?></label>
+    <bbn-dropdown v-if="emptyCategories && emptyCategories.length" 
+                  v-model="source.id_type" 
+                  :source="emptyCategories"
+                  source-value="id"
+                  :nullable="false"
+    ></bbn-dropdown>
+    <label><?=_('Name')?></label>
+    <bbn-input v-model="source.name"></bbn-input>
+    <label><?=_('Object')?></label>
+    <bbn-input v-model="source.title"></bbn-input>
+    <label><?=_('Text')?></label>
+    <div style="height: 400px;">
+      <div class="bbn-h-100">
+        <bbn-rtef v-model="source.content"></bbn-rtef>
       </div>
     </div>
-  </bbn-form>
-</div>
+  </div>
+</bbn-form>

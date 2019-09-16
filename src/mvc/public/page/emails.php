@@ -15,4 +15,4 @@ $ctrl->add_script($views['js'] ?: $ctrl->get_view('', 'js'));
 $ctrl->obj->css = $views['css'] ?: $ctrl->get_less();*/
 $ctrl
   ->set_icon('nf nf-fa-list')
-  ->combo(_("e-Mails ready"), true);
+  ->combo(_("e-Mails ready"));

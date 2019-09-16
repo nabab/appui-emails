@@ -8,10 +8,11 @@
  * @var $model \bbn\mvc\model
  */
 if ( !empty($model->data['id']) &&
-  ( $email = $model->db->rselect('bbn_emailings', ['id_note', 'version', 'envoi', 'destinataires'], ['id' => $model->data['id']])) 
+  ( $email = $model->db->rselect('bbn_emailings', ['id_note', 'version', 'sent', 'recipients'], ['id' => $model->data['id']])) 
   
 ){
-  $email['envoi'] = null;
+  $email['state'] = 'ready';
+  $email['sent'] = null;
   $model->db->insert('bbn_emailings', $email);
   return [
     'success' => true,

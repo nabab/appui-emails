@@ -9,7 +9,7 @@
   <div class="bbn-padded bbn-grid-fields">
     <label><?=_("Recipients")?></label>
     <bbn-dropdown placeholder="<?=_("Choose")?>"
-                  v-model="source.row.destinataires"
+                  v-model="source.row.recipients"
                   :source="emails.source.recipients"
     ></bbn-dropdown>
     <label><?=_("Letter type")?></label>
@@ -30,9 +30,11 @@
                 v-model="source.row.fichiers"
     ></bbn-upload>
     <label><?=_("Text")?></label>
-    <bbn-rte rows="30"
-             v-model="source.row.content"
-    ></bbn-rte>
+    <div style="height: 400px">
+      <div class="bbn-100">
+        <bbn-rtef v-model="source.row.content"></bbn-rtef>
+      </div>
+    </div>
     <label><?=_("Sending time")?></label>
     <div>
       <bbn-datetimepicker v-model="source.row.envoi"

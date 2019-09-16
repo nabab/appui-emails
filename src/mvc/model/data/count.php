@@ -8,76 +8,23 @@
  * @var $model \bbn\mvc\model
  */
 
-return [
-  'ready' => $model->db->select_one([
+$states = ['ready', 'sending', 'sent', 'suspended', 'error'. 'draft'];
+$res = [];
+foreach ( $states as $s ){
+  $res[$s] = $model->db->select_one([
     'table' => 'bbn_emailings',
     'fields' => ['COUNT(id)'],
     'where' => [
       'logic' => 'AND',
       'conditions' => [[
-        'field' => 'statut',
+        'field' => 'state',
         'operator' => '=',
-        'value' => 'pret'
+        'value' => $s === 'draft' ? 'ready' : $s
       ], [
-        'field' => 'envoi',
-        'operator' => 'isnotnull'
+        'field' => 'sent',
+        'operator' => $s === 'draft' ? 'isnull' : 'isnotnull'
       ]]
     ]
-  ]),
-  'in_progress' => $model->db->select_one([
-    'table' => 'bbn_emailings',
-    'fields' => ['COUNT(id)'],
-    'where' => [
-      'logic' => 'AND',
-      'conditions' => [[
-        'field' => 'statut',
-        'operator' => '=',
-        'value' => 'en cours'
-      ], [
-        'field' => 'envoi',
-        'operator' => 'isnotnull'
-      ]]
-    ]
-  ]),
-  'sent'  => $model->db->select_one([
-    'table' => 'bbn_emailings',
-    'fields' => ['COUNT(id)'],
-    'where' => [
-      'logic' => 'AND',
-      'conditions' => [[
-        'field' => 'statut',
-        'operator' => '=',
-        'value' => 'envoye'
-      ], [
-        'field' => 'envoi',
-        'operator' => 'isnotnull'
-      ]]
-    ]
-  ]),
-  'suspended' =>  $model->db->select_one([
-    'table' => 'bbn_emailings',
-    'fields' => ['COUNT(id)'],
-    'where' => [
-      'logic' => 'AND',
-      'conditions' => [[
-        'field' => 'statut',
-        'operator' => '=',
-        'value' => 'suspendu'
-      ], [
-        'field' => 'envoi',
-        'operator' => 'isnotnull'
-      ]]
-    ]
-  ]),
-  'draft' =>  $model->db->select_one([
-    'table' => 'bbn_emailings',
-    'fields' => ['COUNT(id)'],
-    'where' => [
-      'logic' => 'AND',
-      'conditions' => [[
-        'field' => 'envoi',
-        'operator' => 'isnull'
-      ]]
-    ]
-  ])
-];
+  ]);
+}
+return $res;

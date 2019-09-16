@@ -15,21 +15,101 @@
         }]
       }
     },
+    computed:{
+      toolbar(){
+        let res  = [{
+              text: bbn._('Check/uncheck all emails'),
+              icon: 'nf nf-fa-check',
+              command: this.checkAll,
+              class: 'bbn-bg-teal bbn-white'
+            },{
+              text: bbn._('Cancel selected emails'),
+              icon: 'nf nf-fae-thin_close',
+              command: this.cancelSelected,
+              class: 'bbn-bg-teal bbn-white',
+          }];
+          
+        return res;
+      },
+    },
     methods: {
+      checkAll(){
+        let cbs = this.find('bbn-table').findAll('bbn-checkbox');
+        bbn.fn.log(cbs)
+        if ( Array.isArray(cbs) ){
+          let checked = cbs.filter((cb) => {
+            return !!cb.state;
+          });
+          if ( checked.length ){
+            checked.forEach((cb) => {
+              cb.toggle();
+            });
+          }
+          else {
+            cbs.forEach((cb) => {
+              if ( !cb.state ){
+                cb.toggle();
+              }
+            });
+          }
+        }
+      },
+      //cancel all selected emails
+      cancelSelected(){
+        let res = [], 
+          table = this.find('bbn-table'), 
+          selected = table.currentSelected;
+
+        if ( selected.length > 1 ){
+          this.confirm(bbn._('Are you sure you want to cancel all selected emails? '), () => {
+            bbn.fn.each(table.currentSelected, (v, i) => {
+              res.push( table.currentData[v].data);
+            })
+            this.post(this.root + 'actions/cancel_email', {selected: res}, (d) => {
+              if (d.success){
+                table.currentSelected = [];
+                appui.success(bbn._('Emails successfully cancelleded'));
+                table.updateData()
+                
+                
+              }
+            })
+          })
+        }
+        else {
+          this.alert(bbn._('Remove the single row'))
+        }
+        bbn.fn.log(this.find('bbn-table').currentSelected)
+      },
+      //cancel a single email
+      cancelEmail(row, obj, idx){
+        bbn.fn.log(row, idx)
+        this.confirm(bbn._('Do you want to cancel this email? '), () => {
+          this.post(this.root + 'actions/cancel_email', row, (d) => {
+            if ( d.success ){
+              this.find('bbn-table').currentData.splice(idx, 1);
+              appui.success(bbn._('Email successfully cancelled'))
+            }
+            else{
+              appui.error(bbn._('Something went wrong while cancelling the email'))
+            }
+          })
+        })
+      },
       renderEtat(row){
-        if ( row.etat ){
+        if ( row.status ){
           let ico = '',
               color= '';
-          switch ( row.etat ){
-            case 'echec':
+          switch ( row.status ){
+            case 'failure':
               ico = 'nf nf-fa-times_circle';
               color = 'red';
               break;
-            case 'succes':
+            case 'success':
               ico = 'nf nf-fa-check_circle';
               color = 'green';
               break;
-            case 'succes':
+            case 'ready':
               ico = 'nf nf-fa-clock_o';
               color = 'orange';
               break;
@@ -41,7 +121,7 @@
         return row.id_mailing !== null ? '<i class="bbn-large nf nf-fa-check_circle bbn-green"></i>' : '';
       },
       renderTitre(row){
-        return row.titre || '<div class="bbn-c"><i class="bbn-large nf nf-fa-envelope"></i></div>';
+        return row.subject || '<div class="bbn-c"><i class="bbn-large nf nf-fa-envelope"></i></div>';
       }
     }
   }

@@ -10,31 +10,31 @@
       return {
         status: [{
           text: bbn._('Error'),
-          value: 'echec'
+          value: 'failure'
         }, {
           text: bbn._('Success'),
-          value: 'succes'
+          value: 'success'
         }, {
           text: bbn._('Ready'),
-          value: 'pret'
+          value: 'ready'
         }]
       }
     },
     methods:{
       renderEtat(row){
-        if ( row.etat ){
+        if ( row.status ){
           let color = '',
             text = '';
-          switch (row.etat) {
-            case 'succes':
+          switch (row.status) {
+            case 'success':
               text = bbn._('Success');
               color = 'green';
               break;
-            case 'echec':
+            case 'failure':
               text = bbn._('Error');
               color = 'red';
               break;
-            case 'pret':
+            case 'ready':
               text = bbn._('Ready');
               color = 'orange';
               break;

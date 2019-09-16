@@ -11,16 +11,16 @@
       return {
         status: [{
           text: bbn._("Suspended"),
-          value: "suspendu"
+          value: "suspended"
         }, {
           text: bbn._("Ready"),
-          value: "pret"
+          value: "ready"
         }, {
           text: bbn._("Sent"),
-          value: "envoye"
+          value: "sent"
         }, {
           text: bbn._("In progress"),
-          value: "en cours"
+          value: "sending"
         }],
         treePath: ['all'],
 				info: {
@@ -57,23 +57,23 @@
             text: bbn._('Ready') + (this.source.count.ready > 0  ? ' (' + this.source.count.ready + ')' : ''),
             icon: 'nf nf-fa-clock_o',
             filters: [{
-              field: 'statut',
+              field: 'state',
               operator: 'eq',
-              value: 'pret'
+              value: 'ready'
             }, {
-              field: 'envoi',
+              field: 'sent',
               operator: 'isnotnull'
             }]
           }, {
-            id: 'in_progress',
-            text: bbn._('In progress') + (this.source.count.in_progress > 0  ? ' (' + this.source.count.in_progress + ')' : ''),
+            id: 'sending',
+            text: bbn._('In progress') + (this.source.count.sending > 0  ? ' (' + this.source.count.sending + ')' : ''),
 						icon: 'nf nf-fa-spinner',
             filters: [{
-              field: 'statut',
+              field: 'state',
               operator: 'eq',
-              value: 'en cours'
+              value: 'sending'
             }, {
-              field: 'envoi',
+              field: 'sent',
               operator: 'isnotnull'
             }]
           }, {
@@ -81,11 +81,11 @@
             text: bbn._('Sent') + (this.source.count.sent > 0  ? ' ('+ this.source.count.sent + ')' : ''),
             icon: 'nf nf-fa-envelope',
             filters: [{
-              field: 'statut',
+              field: 'state',
               operator: 'eq',
-              value: 'envoye'
+              value: 'sent'
             }, {
-              field: 'envoi',
+              field: 'sent',
               operator: 'isnotnull'
             }]
           }, {
@@ -93,11 +93,11 @@
             text: bbn._('Suspended') + (this.source.count.suspended > 0  ? ' ('+ this.source.count.suspended + ')' : ''),
             icon: 'nf nf-fa-pause',
             filters: [{
-              field: 'statut',
+              field: 'state',
               operator: 'eq',
-              value: 'suspendu'
+              value: 'suspended'
             }, {
-              field: 'envoi',
+              field: 'sent',
               operator: 'isnotnull'
             }]
           }, {
@@ -105,11 +105,11 @@
             text: bbn._('Draft') + (this.source.count.draft > 0  ? ' ('+ this.source.count.draft + ')' : ''),
             icon: 'nf nf-fa-paint_brush',
             filters: [{
-              field: 'statut',
+              field: 'state',
               operator: 'eq',
-              value: 'pret'
+              value: 'ready'
             }, {
-              field: 'envoi',
+              field: 'sent',
               operator: 'isnull'
             }]
           }]
@@ -124,7 +124,7 @@
         }
         else {
           return [{
-            field: 'envoi',
+            field: 'sent',
             dir: 'DESC'
           }];
         }
@@ -138,7 +138,7 @@
           : '-';
       },
       renderSent(row){
-        return (row.statut === 'envoye') && (row.recus !== 0) ?
+        return (row.state === 'sent') && (row.recus !== 0) ?
           Math.round(100 / row.num_accuses * row.recus) + ' %' :
           '-';
       },
@@ -149,7 +149,7 @@
           icon: "nf nf-fa-eye",
           command: this.see
         }];
-        if ( (row.statut === 'envoye') || (row.statut === 'en cours') || (row.statut === 'suspendu') ){
+        if ( ['sent', 'sending', 'suspended'].includes(row.state) ){
          res.push({
            text: bbn._("Open"),
            notext: true,
@@ -157,7 +157,7 @@
            command: this.open
          });
         }
-        if ( (row.statut === 'pret') ){
+        if ( (row.state === 'ready') ){
          res.push({
            text: bbn._("See recipients"),
            notext: true,
@@ -171,7 +171,7 @@
           icon: "nf nf-fa-copy",
           command: this.duplicate
         });
-        if ( row.statut === 'en cours' ){
+        if ( row.state === 'en cours' ){
           res.push({
             text: bbn._("Suspend"),
             notext: true,
@@ -179,7 +179,7 @@
             command: this.stop
           });
         }
-        if ( (row.statut === 'pret') ){
+        if ( (row.state === 'pret') ){
           res.push({
             text: bbn._("Edit"),
             notext: true,
@@ -192,7 +192,7 @@
             command: this.remove
           });
         }
-        if( (row.statut === 'pret') && (row.envoi === null) ){
+        if( (row.state === 'ready') && (row.sent === null) ){
           res.push({
             text: bbn._("Send"),
             notext: true,
@@ -200,7 +200,15 @@
             command: this.send
           });
         }
-        if ( row.statut !== 'en cours' ){
+        if( (row.state === 'ready') && (row.sent === null) ){
+          res.push({
+            text: bbn._("Edit draft"),
+            notext: true,
+            icon: "nf nf-fa-edit",
+            command: this.edit
+          });
+        }
+        if ( row.state !== 'sending' ){
           res.push({
             text: bbn._("Test"),
             notext: true,
@@ -218,7 +226,7 @@
       },
       selfSend(row){
         this.confirm(bbn._('Do you really want to send this email to') + ' ' + appui.app.user.name, () => {
-          bbn.fn.post('emails/actions/test', {
+          this.post('emails/actions/test', {
             id: row.id,
             users: appui.app.user.id
           }, (d) => {
@@ -248,7 +256,7 @@
           this.getPopup().open({
             width: 1050,
             height: "90%",
-            title: row.objet,
+            title: row.title,
             component: 'appui-emails-view',
             source: row
           });
@@ -263,18 +271,27 @@
         }
       },
       openList(row){
-        bbn.fn.link('listes/liste/' + row.destinataires);
+        bbn.fn.link('listes/liste/' + row.recipients);
       },
-      duplicate(row){
+      duplicate(row, ob){
         if ( row.id ){
           appui.confirm(bbn._("Are you sure you want duplicate this mailing?"), () => {
-            bbn.fn.post(this.source.root + "actions/duplicate", {id: row.id}, (d) => {
-              if ( d.success ){
+            this.post(this.source.root + "actions/duplicate", {id: row.id}, (d) => {
+              if ( d.success && d.id ){
                 if ( d.count ){
                   this.source.count = d.count;
                 }
-                appui.success(bbn._('Duplicated'));
-                this.$refs.table.updateData();
+                //gets all the nodes to find the one with text  'draft'
+                let nodes = this.findAll('bbn-tree-node'),
+                  idx = bbn.fn.search(nodes, 'data.id', 'draft')
+                if ( idx > -1 ){
+                  this.setFilter(nodes[idx]);
+                  let copiedRow = bbn.fn.clone(row);
+                  copiedRow.id = d.id;
+                  copiedRow.state = 'ready'
+                  copiedRow.sent = null; 
+                  this.getRef('table').edit(copiedRow);
+                }
               }
               else {
                 appui.error(bbn._('Error'));
@@ -286,12 +303,12 @@
       stop(row){
         if ( row.id ){
           appui.confirm(bbn._("Are you sure you want suspend this mailing?"), () => {
-            bbn.fn.post(this.source.root + "actions/suspend", {id: row.id}, (d) => {
+            this.post(this.source.root + "actions/suspend", {id: row.id}, (d) => {
               if ( d.success ){
 								if ( d.count ){
                   this.source.count = d.count;
                 }
-                row.statut = 'suspendu';
+                row.state = 'suspended';
                 appui.success(bbn._('Suspended'));
 								this.$refs.table.updateData();
               }
@@ -305,7 +322,7 @@
       remove(row){
         if ( row.id ){
           appui.confirm(bbn._("Are you sure you want to delete this mailing?"), () => {
-            bbn.fn.post(this.source.root + 'actions/delete', {id: row.id}, d => {
+            this.post(this.source.root + 'actions/delete', {id: row.id}, d => {
               if ( d.success ){
                 if ( d.count ){
                   this.source.count = d.count;
@@ -323,7 +340,7 @@
       send(row){
         if ( row.id ){
           appui.confirm(bbn._("Are you sure you want to send this mailing?"), () => {
-            bbn.fn.post(this.source.root + 'actions/send', {id: row.id}, (d) => {
+            this.post(this.source.root + 'actions/send', {id: row.id}, (d) => {
               if ( d.success ){
                 if ( d.count ){
                   this.source.count = d.count;
@@ -357,14 +374,14 @@
           if ( node.level === 0 ){
             let idx = bbn.fn.search(this.getRef('table').currentOrder, {field: 'bbn_notes_versions.creation'});
             if ( idx > -1 ){
-              this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'envoi');
+              this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'sent');
             }
             this.treePath = ['all'];
             if ( this.$refs.table !== undefined ){
               return this.$refs.table.unsetFilter();
             }
           }
-          let idx = bbn.fn.search(this.getRef('table').currentOrder, { field: 'envoi' });
+          let idx = bbn.fn.search(this.getRef('table').currentOrder, { field: 'sent' });
           if ( idx > -1 ){
             this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'bbn_notes_versions.creation');
           }
@@ -374,6 +391,7 @@
             logic: 'AND'
           };
         }
+        
       },
       setSelected(){
         let filters = [];
@@ -396,12 +414,15 @@
       openEmailsTab() {
         bbn.fn.link(this.source.root + 'page/emails');
       },
+      openEmailsSentTab(){
+        bbn.fn.link(this.source.root + 'page/sent');
+      },
       fixDate(d){
         return moment(d).format('DD/MM/YYYY HH:mm:ss');
       },
       setGetInfo(){
         this.info.getInfo = setInterval(() => {
-          bbn.fn.post(this.source.root + 'data/info', {updateCount: this.updateCount === 3}, d => {
+          this.post(this.source.root + 'data/info', {updateCount: this.updateCount === 3}, d => {
             if ( d.success ){
               this.info.current.id = d.data.current.id || '';
               this.info.current.title = d.data.current.title || '';
