@@ -158,24 +158,26 @@
           notext: true,
           icon: "nf nf-fa-eye",
           command: this.see
-        }];
-        if ( ['sent', 'sending', 'suspended', 'cancelled'].includes(row.state) ){
-         res.push({
-           text: bbn._("Open"),
-           notext: true,
-           icon: "nf nf-fa-th_list",
-           command: this.open
-         });
-        }
-        if ( (row.state === 'ready') ){
-         res.push();
-        }
-        res.push({
-          text: bbn._("Duplicate"),
+        },{
+          text: bbn._('Send this email to ') + appui.app.user.name,
           notext: true,
-          icon: "nf nf-fa-copy",
-          command: this.duplicate
-        });
+          icon: "nf nf-fa-envelope",
+          command: this.selfSend
+        },{
+            text: bbn._("Duplicate"),
+            notext: true,
+            icon: "nf nf-fa-copy",
+            command: this.duplicate
+          }];
+        if ( ['sent', 'sending', 'suspended', 'cancelled'].includes(row.state) ){
+          res.push({
+            text: bbn._("Open"),
+            notext: true,
+            icon: "nf nf-fa-th_list",
+            command: this.open
+          });
+        }
+        
         
         if ( (row.state === 'ready') ){
           res.push({
@@ -198,20 +200,13 @@
             command: this.remove
           })
         }
+        
         if( (row.state === 'ready') && (row.sent === null) ){
           res.push({
             text: bbn._("Send"),
             notext: true,
             icon: "nf nf-fa-paper_plane",
             command: this.send
-          });
-        }
-        if( (row.state === 'ready') && (row.sent === null) ){
-          res.push({
-            text: bbn._("Edit draft"),
-            notext: true,
-            icon: "nf nf-fa-edit",
-            command: this.edit
           });
         }
         if ( row.state !== 'sending' ){
@@ -234,12 +229,7 @@
             command: this.stop
           })  
         }
-        res.push({
-          text: bbn._('Send this email to ') + appui.app.user.name,
-          notext: true,
-          icon: "nf nf-fa-envelope",
-          command: this.selfSend
-        });
+        
         return res;
       },
       cancelMailing(row, obj, idx){
