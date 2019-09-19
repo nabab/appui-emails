@@ -7,18 +7,30 @@
           @failure="failure"          
 >
   <div class="bbn-padded bbn-grid-fields">
+    <label><?=_("Sender email")?></label>
+    <bbn-dropdown placeholder="<?=_("Choose")?>"
+                  v-model="source.row.sender"
+                  :source="emails.source.senders"
+    ></bbn-dropdown>
     <label><?=_("Recipients")?></label>
     <bbn-dropdown placeholder="<?=_("Choose")?>"
                   v-model="source.row.recipients"
                   :source="emails.source.recipients"
     ></bbn-dropdown>
-    <label><?=_("Letter type")?></label>
+    <label><?=_("Sending time")?></label>
+    <div>
+      <bbn-datetimepicker v-model="source.row.sent"
+                          :min="today"
+                          @change="changeDate"
+      ></bbn-datetimepicker>
+    </div>
+    <!--label><?=_("Letter type")?></label>
     <bbn-dropdown placeholder="<?=_("Choose")?>"
                   v-model="source.row.lettre_type"
                   :source="emails.source.types"
                   source-value="id"
                   @change="loadLettre"
-    ></bbn-dropdown>
+    ></bbn-dropdown-->
     <label><?=_("Object")?></label>
     <bbn-input required="required"
                v-model="source.row.title"
@@ -34,13 +46,6 @@
       <div class="bbn-100">
         <bbn-rtef v-model="source.row.content"></bbn-rtef>
       </div>
-    </div>
-    <label><?=_("Sending time")?></label>
-    <div>
-      <bbn-datetimepicker v-model="source.row.envoi"
-                          :min="today"
-                          @change="changeDate"
-      ></bbn-datetimepicker>
     </div>
   </div>
 </bbn-form>

@@ -1,0 +1,56 @@
+<bbn-table :source="root + tableSource"
+           :pageable="true"
+           :editable="false"
+           :filterable="filterable"
+           :selection="true"
+           :toolbar="toolbar"
+           :filters="filters"
+           :data="tableData"
+           ref="table"
+>
+  <bbns-column field="id"
+               title="<?=_('ID')?>"
+               :hidden=true
+  ></bbns-column>
+  <bbns-column field="email"
+               title="<?=_('e-Mail address')?>"
+               type="email"
+  ></bbns-column>
+  <bbns-column field="subject"
+               title="<?=_('Title')?>"
+               :render="renderTitre"
+               v-if="context !== 'details'"
+  ></bbns-column>
+  <bbns-column field="id_mailing"
+               title="<?=_('e-Mailing')?>"
+               :render="renderMailing"
+               :width="100"
+               cls="bbn-c"
+               v-if="context !== 'details'"
+  ></bbns-column>
+  <bbns-column field="status"
+               title="<?=_('Status')?>"
+               :source="status"
+               :render="renderEtat"
+               cls="bbn-c"
+               :width="80"
+  ></bbns-column>
+  <bbns-column field="delivery"
+               title="<?=_('Date')?>"
+               cls="bbn-c"
+               type="date"
+               :width="120"
+  ></bbns-column>
+  <bbns-column field="read"
+               title="<?=_('Read')?>"
+               :width="80"
+               :hidden="true"
+  ></bbns-column>
+  <bbns-column width="100"
+               cls="bbn-buttons-grid"
+              :buttons="renderButtons"
+              
+  >
+
+  </bbns-column>
+</bbn-table>

@@ -54,6 +54,7 @@
                :pageable="true"
                :sortable="true"
                :filterable="true"
+               :showable="true"
                :multifilter="true"
                :editable="true"
                :toolbar="[{
@@ -84,6 +85,12 @@
                }]"
                
     >
+      <bbns-column title="<?=_("ID")?>"
+                  field="id"
+                  :editable="false"
+                  :sortable="false"
+                  :hidden="true"
+      ></bbns-column>
       <bbns-column title="<?=_("Object")?>"
                   field="title"
                   :required="true"
@@ -102,10 +109,19 @@
                   :width="80"
                   :source="status"
       ></bbns-column>
+      <bbns-column title="<?=_("Sender")?>"
+                  field="sender"
+                  :width="160"
+                  :sortable="false"
+                  :source="source.senders"
+                  :required="true"
+                  :hidden="true"
+      ></bbns-column>
       <bbns-column title="<?=_("Recipients")?>"
                   field="recipients"
                   :width="160"
-                  :source="source.recipients"
+                  :render="renderRecipients"
+                  
                   :required="true"
       ></bbns-column>
       <bbns-column title="<?=_("Send")?>"

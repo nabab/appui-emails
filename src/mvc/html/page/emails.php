@@ -1,62 +1,12 @@
-<bbn-table :source="root + 'data/emails'"
-           :pageable="true"
-           :editable="false"
-           :filterable="true"
-           :selection="true"
-           :toolbar="toolbar"
-           :filters="{
-             logic: 'AND',
-             conditions: [{
-               field: 'status',
-               operator: 'eq',
-               value: 'ready'
-             }]
-           }"
->
-  <bbns-column field="id"
-               title="<?=_('ID')?>"
-               :hidden=true
-  ></bbns-column>
-  <bbns-column field="email"
-               title="<?=_('e-Mail address')?>"
-               type="email"
-  ></bbns-column>
-  <bbns-column field="subject"
-               title="<?=_('Title')?>"
-               :render="renderTitre"
-  ></bbns-column>
-  <bbns-column field="id_mailing"
-               title="<?=_('e-Mailing')?>"
-               :render="renderMailing"
-               :width="100"
-               cls="bbn-c"
-  ></bbns-column>
-  <bbns-column field="status"
-               title="<?=_('Status')?>"
-               :source="status"
-               :render="renderEtat"
-               cls="bbn-c"
-               :width="80"
-  ></bbns-column>
-  <bbns-column field="delivery"
-               title="<?=_('Date')?>"
-               cls="bbn-c"
-               type="date"
-               :width="120"
-  ></bbns-column>
-  <bbns-column field="read"
-               title="<?=_('Read')?>"
-               :width="80"
-               :hidden="true"
-  ></bbns-column>
-  <bbns-column width="60"
-               cls="bbn-buttons-grid"
-              :buttons="[{
-                icon: 'nf nf-mdi-close',
-                title: 'Cancel email',
-                command: cancelEmail
-              }]"
-  >
-
-  </bbns-column>
-</bbn-table>
+<appui-emails-table :source="source" 
+                    tableSource="data/emails"
+                    :filters="{
+                      logic: 'AND',
+                      conditions: [{
+                        field: 'status',
+                        operator: 'eq',
+                        value: 'ready'
+                      }]
+                    }"
+                    context="ready"
+></appui-emails-table>

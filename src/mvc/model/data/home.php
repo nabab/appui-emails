@@ -67,6 +67,7 @@
       'bbn_emailings.id_note',
       'bbn_emailings.version',
       'bbn_emailings.state',
+      'bbn_emailings.sender',
       'bbn_emailings.recipients',
       'bbn_emailings.sent',
       'bbn_notes_versions.title',

@@ -10,7 +10,7 @@
 if ( !empty($ctrl->arguments[0]) && \bbn\str::is_uid($ctrl->arguments[0]) ){
   $ctrl->data = [
     'id' => $ctrl->arguments[0],
-    'root' => APPUI_EMAILS_ROOT
+    'root' => APPUI_EMAILS_ROOT,
   ];
   if ( $model = $ctrl->get_model() ){
     if ( !empty($model['title']) && (strlen($model['title']) > 20) ){

@@ -12,6 +12,9 @@
         status: [{
           text: bbn._("Suspended"),
           value: "suspended"
+        },{
+          text: bbn._("Cancelled"),
+          value: "cancelled"
         }, {
           text: bbn._("Ready"),
           value: "ready"
@@ -132,6 +135,13 @@
     },
     methods: {
       get_field: bbn.fn.get_field,
+      renderRecipients(row){
+        if ( row.recipients ){
+          let text = bbn.fn.get_field(this.source.recipients, 'value', row.recipients, 'text');
+          return '<a href="listes/liste/' + row.recipients+'">'+text+'</a>'
+        }
+        
+      },
       renderFiles(row){
         return row.fichiers ?
           (bbn.fn.isArray(row.fichiers) ? row.fichiers.length : JSON.parse(row.fichiers).length)
@@ -149,7 +159,7 @@
           icon: "nf nf-fa-eye",
           command: this.see
         }];
-        if ( ['sent', 'sending', 'suspended'].includes(row.state) ){
+        if ( ['sent', 'sending', 'suspended', 'cancelled'].includes(row.state) ){
          res.push({
            text: bbn._("Open"),
            notext: true,
@@ -158,12 +168,7 @@
          });
         }
         if ( (row.state === 'ready') ){
-         res.push({
-           text: bbn._("See recipients"),
-           notext: true,
-           icon: "nf nf-fa-th_list",
-           command: this.openList
-         });
+         res.push();
         }
         res.push({
           text: bbn._("Duplicate"),
@@ -171,26 +176,27 @@
           icon: "nf nf-fa-copy",
           command: this.duplicate
         });
-        if ( row.state === 'en cours' ){
-          res.push({
-            text: bbn._("Suspend"),
-            notext: true,
-            icon: "nf nf-fa-hand_paper",
-            command: this.stop
-          });
-        }
-        if ( (row.state === 'pret') ){
+        
+        if ( (row.state === 'ready') ){
           res.push({
             text: bbn._("Edit"),
             notext: true,
             icon: "nf nf-fa-edit",
             command: this.edit
-          }, {
+          }/*,{
+            text: bbn._("See recipients"),
+            notext: true,
+            icon: "nf nf-fa-th_list",
+            command: this.openList
+          }*/);
+        }
+        if ( (row.state === 'ready') || (row.state === 'cancelled') ){
+          res.push({
             text: bbn._("Delete"),
             notext: true,
-            icon: "nf nf-fa-trash",
+            icon: "nf nf-oct-trashcan",
             command: this.remove
-          });
+          })
         }
         if( (row.state === 'ready') && (row.sent === null) ){
           res.push({
@@ -216,6 +222,18 @@
             command: this.test
           });
         }
+        else {
+          res.push({
+            icon: 'nf nf-mdi-close',
+            title: 'Cancel mailing',
+            command: this.cancelMailing
+          },{
+            text: bbn._("Suspend"),
+            notext: true,
+            icon: "nf nf-fa-hand_stop_o",
+            command: this.stop
+          })  
+        }
         res.push({
           text: bbn._('Send this email to ') + appui.app.user.name,
           notext: true,
@@ -223,6 +241,23 @@
           command: this.selfSend
         });
         return res;
+      },
+      cancelMailing(row, obj, idx){
+        bbn.fn.log(arguments)
+        this.confirm(bbn._('Do you really want to cancel this mailing'), () => {
+          this.post('emails/actions/mailing/cancel', {
+            id: row.id,
+            state: row.state  
+          }, (d) => {
+            if ( d.success ){
+              this.getRef('table').currentData[idx].data.state = 'cancelled'
+              appui.success(bbn._('Mailing successfully cancelled'));
+            }
+            else {
+              appui.error(bbn._('Something went wrong while cancelling the mailing'));
+            }
+          });
+        })
       },
       selfSend(row){
         this.confirm(bbn._('Do you really want to send this email to') + ' ' + appui.app.user.name, () => {
@@ -322,7 +357,7 @@
       remove(row){
         if ( row.id ){
           appui.confirm(bbn._("Are you sure you want to delete this mailing?"), () => {
-            this.post(this.source.root + 'actions/delete', {id: row.id}, d => {
+            this.post(this.source.root + 'actions/mailing/delete', row, d => {
               if ( d.success ){
                 if ( d.count ){
                   this.source.count = d.count;

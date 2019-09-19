@@ -11,33 +11,28 @@
 if ( empty($model->data['recipients']) && !empty($model->data['sent']) ){
   return false;
 }
-if ( isset($model->data['content'], $model->data['title']) ){
-  $notes = new \bbn\appui\notes($model->db);
+if ( isset($model->data['content'], $model->data['title'], $model->data['sender']) ){
+  $mailings = new \bbn\appui\mailings($model->db);
   if ( empty($model->data['sent']) || !\bbn\date::validateSQL($model->data['sent']) ){
     $model->data['sent'] = null;
   }
-  if ( ($id_note = $notes->insert(
-    $model->data['title'],
-    $model->data['content'],
-    $model->inc->options->from_code('mailings','types', 'notes' , 'appui')
-  )) &&
-    $model->db->insert('bbn_emailings', [
-      'id_note' => $id_note,
-      'version' => 1,
-      'recipients' => $model->data['recipients'],
-      'sent' => $model->data['sent']
-    ])
-  ){
-    $model->data['id'] = $model->db->last_id();
-    if ( !empty($model->data['fichiers']) ){
-      $temp_path = BBN_USER_PATH.'tmp/'.$model->data['ref'].'/';
-      foreach ( $model->data['fichiers'] as $f ){
-        if ( is_file($temp_path.$f['name']) ){
-          // Add media
-          $notes->add_media($id_note, $temp_path.$f['name']);
-        }
+  $attachments = [];
+  if ( !empty($model->data['fichiers']) ){
+    foreach ( $model->data['fichiers'] as $f ){
+      if ( is_file($temp_path.$f['name']) ){
+        // Add media
+        $attachments[] = $temp_path.$f['name'];
       }
     }
+  }
+  if ( $model->data['id'] = $mailings->add([
+    'content' => $model->data['content'],
+    'title' => $model->data['title'],
+    'sender' => $model->data['sender'],
+    'recipients' => $model->data['recipients'],
+    'sent' => $model->data['sent'],
+    'attachments' => $attachments
+  ]) ){
     return [
       'success' => true,
       'count' => $model->get_model(APPUI_EMAILS_ROOT.'data/count')

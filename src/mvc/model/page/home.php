@@ -9,7 +9,6 @@
  */
 
 //$recipients = $model->inc->options->full_options($model->inc->options->from_code('emails_listes'));
-//die(var_dump($model->inc->options->from_code('emails_listes')));
 return [
   'root' => APPUI_EMAILS_ROOT,
   'root_usergroup' => $model->plugin_url('appui-usergroup').'/',
@@ -26,5 +25,6 @@ return [
     ORDER BY text
   "),
   'count' => $model->get_model(APPUI_EMAILS_ROOT.'data/count'),
-  'recipients' => $model->inc->options->text_value_options('emails_listes')
+  'recipients' => $model->inc->options->text_value_options('emails_listes'),
+  'senders' => $model->inc->options->text_value_options('senders', 'mailings', 'appui')
 ];

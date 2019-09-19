@@ -1,4 +1,4 @@
-<bbn-table :source="source.root + 'data/details'"
+<!--bbn-table :source="source.root + 'data/details'"
            :data="{id: source.id}"
            :info="true"
            :pageable="true"
@@ -22,4 +22,10 @@
               :width="150"
               cls="bbn-c"
   ></bbns-column>
-</bbn-table>
+</bbn-table-->
+<appui-emails-table :source="source"
+                    tableSource="data/details"  
+                    :tableData="{id: source.id}"
+                    :filterable="false"
+                    context="details"
+></appui-emails-table>
