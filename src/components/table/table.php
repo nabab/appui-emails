@@ -3,7 +3,7 @@
            :editable="false"
            :filterable="filterable"
            :selection="true"
-           :toolbar="toolbar"
+           :toolbar="$options.components['toolbar']"
            :filters="filters"
            :data="tableData"
            ref="table"
@@ -34,6 +34,7 @@
                :render="renderEtat"
                cls="bbn-c"
                :width="80"
+               :filterable="true"
   ></bbns-column>
   <bbns-column field="delivery"
                title="<?=_('Date')?>"
@@ -47,10 +48,11 @@
                :hidden="true"
   ></bbns-column>
   <bbns-column width="100"
-               cls="bbn-buttons-grid"
+               :cls="{
+                 'bbn-buttons-flex': (context !== 'sent'),
+                 'bbn-c' : (context === 'sent')
+               }"
               :buttons="renderButtons"
-              
   >
-
   </bbns-column>
 </bbn-table>

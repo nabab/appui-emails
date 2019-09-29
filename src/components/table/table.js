@@ -2,6 +2,7 @@
   return {
     data(){
       return {
+        isAdmin: appui.app.user.isAdmin,
         root: appui.plugins['appui-emails'] + '/',
         status: [{
           text: bbn._('Error'),
@@ -39,22 +40,13 @@
         }
       }
     },
-    computed:{
-      toolbar(){
-        let res  = [{
-              text: bbn._('Check/uncheck all emails'),
-              icon: 'nf nf-fa-check',
-              command: this.checkAll,
-              class: 'bbn-bg-teal bbn-white'
-            },{
-              text: bbn._('Cancel selected emails'),
-              icon: 'nf nf-fae-thin_close',
-              command: this.cancelSelected,
-              class: 'bbn-bg-teal bbn-white',
-          }];
-          
-        return res;
+    computed: {
+      disableButton(){
+        return this.getRef('toolbar').disableButtons
       },
+      disableButtonCancel(){
+        return this.getRef('toolbar').disableButtonCancel
+      }
     },
     methods: {
       renderButtons(row){
@@ -76,14 +68,24 @@
             cls: 'bbn-button-icon-only'
           });
         }
-        if ( (row.status === 'cancelled') || (row.status === 'ready') ){
+        if ( (row.status === 'cancelled') || (row.status === 'ready') || (row.status === 'success') ){
           res.push({
-            title: bbn._("Delete"),
+            title: ((row.status === 'success') && !appui.app.user.isAdmin) ? bbn._('Only admin users can delete sent emails') : bbn._("Delete the email from db"),
             notext: true,
             icon: "nf nf-oct-trashcan",
-            command: this.remove
+            command: this.remove, 
+            disabled: ((row.status === 'success') && !appui.app.user.isAdmin)
           })
         }
+        /*if ( (row.status === 'success') && (this.context !== 'sent' ) ){
+          res.push({
+            title: bbn._("Success"),
+            text: bbn._("Success"),
+            icon: "nf nf-fa-check",
+            disabled: true,
+            class: 'bbn-bg-teal'
+          })
+        }*/
         
         return res;
       },
@@ -102,6 +104,8 @@
       },
       remove(row, obj, idx){
         this.confirm(bbn._('Do you want to completely delete this email? '), () => {
+          //if the context is 'sent' send the id_user to the controller, there will be checked again if the user is an admin (only admin users can delete mails with status 'success')
+          ((this.context === 'sent') || (this.context === 'details')) ? bbn.fn.extend(row, {id_user: appui.app.user.id}) : '';
           this.post(this.root + 'actions/email/delete', row, (d) => {
             if ( d.success ){
               this.getRef('table').currentData.splice(idx,1)
@@ -112,54 +116,6 @@
             }
           })
         })
-      },
-      checkAll(){
-        let cbs = this.find('bbn-table').findAll('bbn-checkbox');
-        bbn.fn.log(cbs)
-        if ( Array.isArray(cbs) ){
-          let checked = cbs.filter((cb) => {
-            return !!cb.state;
-          });
-          if ( checked.length ){
-            checked.forEach((cb) => {
-              cb.toggle();
-            });
-          }
-          else {
-            cbs.forEach((cb) => {
-              if ( !cb.state ){
-                cb.toggle();
-              }
-            });
-          }
-        }
-      },
-      //cancel all selected emails
-      cancelSelected(){
-        let res = [], 
-          table = this.find('bbn-table'), 
-          selected = table.currentSelected;
-
-        if ( selected.length > 1 ){
-          this.confirm(bbn._('Are you sure you want to cancel all selected emails? '), () => {
-            bbn.fn.each(table.currentSelected, (v, i) => {
-              res.push( table.currentData[v].data);
-            })
-            this.post(this.root + 'actions/email/cancel', {selected: res}, (d) => {
-              if (d.success){
-                table.currentSelected = [];
-                appui.success(bbn._('Emails successfully cancelleded'));
-                table.updateData()
-                
-                
-              }
-            })
-          })
-        }
-        else {
-          this.alert(bbn._('Remove the single row'))
-        }
-        bbn.fn.log(this.find('bbn-table').currentSelected)
       },
       //cancel a single email
       cancelEmail(row, obj, idx){
@@ -207,11 +163,182 @@
         }
       },
       renderMailing(row){
-        return row.id_mailing !== null ? '<i class="bbn-large nf nf-fa-check_circle bbn-green"></i>' : '';
+        return row.id_mailing !== null ? '<i class="bbn-large nf nf-fa-check_circle bbn-green"></i>' : '-';
       },
       renderTitre(row){
         return row.subject || '<div class="bbn-c"><i class="bbn-large nf nf-fa-envelope"></i></div>';
       }
+    },
+    components: {
+      'toolbar': {
+        data(){
+          return {
+            table: false, 
+            root: '', 
+            context: '',
+            isAdmin: appui.app.user.isAdmin
+          }
+        },
+        template: `
+          <div class="bbn-xspadded bbn-l" ref="toolbar">
+            <bbn-button text="`+ bbn._('Check/uncheck all emails')+`" 
+                        icon="nf nf-fa-check"
+                        @click="checkAll"
+                        class="bbn-bg-teal bbn-white"
+                        
+            ></bbn-button>
+            <bbn-button text="`+bbn._('Cancel selected emails')+`"
+                        icon="nf nf-fae-thin_close"
+                        @click="cancelSelected"
+                        class="bbn-bg-teal bbn-white"
+                        :disabled="disableButtonCancel"
+                        :title="(disableButtonCancel && !disableButtons) ? _('Only emails with READY status can be cancelled') : _('Cancel selected emails')"
+            ></bbn-button>
+            <bbn-button text="`+ bbn._('Delete selected emails') +`"
+                        icon="nf nf-oct-trashcan"
+                        @click="deleteSelected"
+                        :disabled="( context === 'ready' ) ? disableButtons : (disableButtons || !isAdmin) "
+                        class="bbn-bg-teal bbn-white"
+                        :title="(!isAdmin) ? _('Only admin users can remove sent emails') :  _('Remove selected emails') " 
+
+            ></bbn-button>
+            <bbn-button text="`+ bbn._('Delete all emails') +`"
+                        icon="nf nf-oct-trashcan"
+                        @click="deleteAll"
+                        class="bbn-bg-teal bbn-white"
+                        title="`+ bbn._('Delete all ready or cancelled emails') +`"
+                        v-if="(context === 'ready') && isAdmin"
+            ></bbn-button>
+          </div>`,
+        props: ['source'],
+        computed: {
+          //the button of toolbar 'cancel selected emails' will be enabled only if there are rows selected in the table and only if the state of selected rows is 'ready'
+          disableButtonCancel(){
+            if ( this.table ){
+              let selected = this.table.currentSelected, 
+                  nr_ready = 0;
+              
+              bbn.fn.each(selected, (v, i) => {
+                if ( this.table.currentData[v].data.status === 'ready' ){
+                  nr_ready++;
+                }
+              })
+              if ( nr_ready > 0 ){
+                return false;
+              }
+              else if ( !selected.length || (nr_ready === 0) ) {
+                return true;
+              }
+            }
+            else{
+              return true
+            }
+          },
+          //disable buttons just basing on the row selected in the table
+          disableButtons(){
+            if ( this.table && ( this.table.currentSelected.length > 1 ) ){
+              return false;
+            }
+            else {
+              return true
+            }
+          },
+          
+        }, 
+        methods: {
+          checkAll(){
+            let cbs = this.table.findAll('bbn-checkbox');
+            bbn.fn.log(cbs)
+            if ( Array.isArray(cbs) ){
+              let checked = cbs.filter((cb) => {
+                return !!cb.state;
+              });
+              if ( checked.length ){
+                checked.forEach((cb) => {
+                  cb.toggle();
+                });
+              }
+              else {
+                cbs.forEach((cb) => {
+                  if ( !cb.state ){
+                    cb.toggle();
+                  }
+                });
+              }
+            }
+          },
+          //cancel all selected emails
+          cancelSelected(){
+            let res = [];
+            if ( this.table.currentSelected && this.table.currentSelected.length > 1 ){
+              this.confirm(bbn._('Are you sure you want to cancel all selected emails? '), () => {
+                bbn.fn.each(this.table.currentSelected, (v, i) => {
+                  if ( this.table.currentData[v].data.status === 'ready' ){
+                    res.push( this.table.currentData[v].data);
+                  }
+                })
+                this.post(this.root + 'actions/email/cancel', {selected: res}, (d) => {
+                  if (d.success){
+                    this.table.currentSelected = [];
+                    appui.success(bbn._('Emails successfully cancelleded'));
+                    this.table.updateData()
+                  }
+                })
+              })
+            }
+            else {
+              this.alert(bbn._('Change the status or remove the email using the buttons of the row'))
+            }
+          },
+          deleteSelected(){
+            if ( this.table.currentSelected && this.table.currentSelected.length > 1 ){
+              this.confirm(bbn._('Are you sure you want to completely delete all selected emails? '), () => {
+                let res = [];
+                bbn.fn.each(this.table.currentSelected, (v, i) => {
+                  if ( (this.table.currentData[v].data.status === 'ready') || (this.table.currentData[v].data.status === 'cancelled') ||
+                  (this.table.currentData[v].data.status === 'success' && this.isAdmin)){
+                    res.push( this.table.currentData[v].data);
+                  }
+                })
+                //if the user is admin send the id user to the controller to check again isAdmin
+               
+                this.post(this.root + 'actions/email/delete', {
+                  selected: res,
+                  id_user: this.isAdmin ? appui.app.user.id : false
+                  }, (d) => {
+                  if (d.success){
+                    this.table.currentSelected = [];
+                    appui.success(bbn._('Emails successfully deleted'));
+                    this.table.updateData()
+                  }
+                })
+              })
+            }
+            else {
+              this.alert(bbn._('Change the status or remove the email using the buttons of the row'))
+            }
+          },
+          deleteAll(){
+            this.confirm(bbn._('Are you sure you want to completely delete all ready and cancelled emails? '), () => {
+              let id = this.closest('appui-emails-table').source.id;
+              this.post(this.root + 'actions/email/delete_all', {id: id}, (d) => {
+                if (d.success){
+                  appui.success(bbn._('Emails successfully deleted'));
+                  this.table.updateData()
+                }
+              })
+            })
+          },
+        },
+        mounted(){
+          this.table = this.closest('appui-emails-table').find('bbn-table');
+          this.root = this.closest('appui-emails-table').root;
+          this.context = this.closest('appui-emails-table').context;
+
+        }, 
+
+        
+      }, 
     }
   }
 })();

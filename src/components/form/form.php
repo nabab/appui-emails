@@ -21,7 +21,7 @@
     <div>
       <bbn-datetimepicker v-model="source.row.sent"
                           :min="today"
-                          @change="changeDate"
+                          value-format="YYYY-MM-DD HH:mm:00"
       ></bbn-datetimepicker>
     </div>
     <!--label><?=_("Letter type")?></label>
@@ -40,6 +40,7 @@
     <bbn-upload :save-url="'file/save/' + ref"
                 :remove-url="'file/delete/' + ref"
                 v-model="source.row.fichiers"
+                :paste="true"
     ></bbn-upload>
     <label><?=_("Text")?></label>
     <div style="height: 400px">

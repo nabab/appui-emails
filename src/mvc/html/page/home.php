@@ -150,7 +150,7 @@
       <bbns-column :width="130"
                   ftitle="<?=_("Actions")?>"
                   :buttons="renderButtons"
-									cls="bbn-l appui-emails-tbuttons bbn-buttons-grid"
+									cls="bbn-l appui-emails-tbuttons bbn-buttons-flex"
       ></bbns-column>
     </bbn-table>
   </bbn-pane>

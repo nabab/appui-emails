@@ -11,6 +11,6 @@
       return {
         emails: bbn.vue.closest(this, 'bbn-container').getComponent()
       }
-    }
+    }, 
   }
 })();

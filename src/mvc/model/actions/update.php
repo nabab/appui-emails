@@ -7,6 +7,7 @@
  *
  * @var $model \bbn\mvc\model
  */
+
 if ( empty($model->data['recipients']) && !empty($model->data['sent']) ){
   return false;
 }

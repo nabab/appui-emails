@@ -15,11 +15,12 @@
       }
     },
     methods: {
+      /*
       changeDate(){
         if ( this.source.row.sent < (new Date()) ){
-          this.source.row.sent = new Date()
+          this.source.row.sent = this.today
         }
-      },
+      },*/
       failure(){
         appui.error(bbn._('A problem occurred'));
       },
@@ -38,6 +39,9 @@
           }
           else {
             t.$set(t, 'treePath', treePath);
+          }
+          if ( d.count ){
+            this.closest('bbn-container').getComponent().source.count = d.count;
           }
           if ( this.source.row.id ){
             appui.success(bbn._('Modified'));

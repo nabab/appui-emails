@@ -1,4 +1,4 @@
-<bbn-table :source="root + 'data/sent'"
+<!--bbn-table :source="root + 'data/sent'"
            :pageable="true"
            :editable="false"
            :filterable="true"
@@ -47,4 +47,16 @@
                :width="80"
                :hidden="true"
   ></bbns-column>
-</bbn-table>
+</bbn-table-->
+<appui-emails-table :source="source" 
+                    tableSource="data/sent"
+                    :filters="{
+                      logic: 'AND',
+                      conditions: [{
+                        field: 'status',
+                        operator: 'eq',
+                        value: 'success'
+                      }]
+                    }"
+                    context="sent"
+></appui-emails-table>

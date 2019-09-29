@@ -104,6 +104,18 @@
               operator: 'isnotnull'
             }]
           }, {
+            id: 'cancelled',
+            text: bbn._('Cancelled') + (this.source.count.cancelled > 0  ? ' ('+ this.source.count.cancelled + ')' : ''),
+            icon: 'nf nf-fa-close',
+            filters: [{
+              field: 'state',
+              operator: 'eq',
+              value: 'cancelled'
+            }, {
+              field: 'sent',
+              operator: 'isnotnull'
+            }]
+          }, {
             id: 'draft',
             text: bbn._('Draft') + (this.source.count.draft > 0  ? ' ('+ this.source.count.draft + ')' : ''),
             icon: 'nf nf-fa-paint_brush',
@@ -159,7 +171,7 @@
           icon: "nf nf-fa-eye",
           command: this.see
         },{
-          text: bbn._('Send this email to ') + appui.app.user.name,
+          text: bbn._('Send this email to') + ' ' + appui.app.user.name,
           notext: true,
           icon: "nf nf-fa-envelope",
           command: this.selfSend
@@ -169,7 +181,7 @@
             icon: "nf nf-fa-copy",
             command: this.duplicate
           }];
-        if ( ['sent', 'sending', 'suspended', 'cancelled'].includes(row.state) ){
+        if ( ['sent', 'sending', 'suspended', 'cancelled'].includes(row.state) && (row.num_accuses > 0)){
           res.push({
             text: bbn._("Open"),
             notext: true,
@@ -185,12 +197,12 @@
             notext: true,
             icon: "nf nf-fa-edit",
             command: this.edit
-          }/*,{
-            text: bbn._("See recipients"),
+          },{
+            text: bbn._("Send"),
             notext: true,
-            icon: "nf nf-fa-th_list",
-            command: this.openList
-          }*/);
+            icon: "nf nf-fa-paper_plane",
+            command: this.send
+          });
         }
         if ( (row.state === 'ready') || (row.state === 'cancelled') ){
           res.push({
@@ -209,6 +221,14 @@
             command: this.send
           });
         }
+        if ( row.state === 'suspended' ){
+          res.push({
+            text: bbn._("Reactivate mailing"),
+            notext: true,
+            icon: "nf nf-fa-play_circle_o",
+            command: this.play
+          });
+        }
         if ( row.state !== 'sending' ){
           res.push({
             text: bbn._("Test"),
@@ -225,7 +245,7 @@
           },{
             text: bbn._("Suspend"),
             notext: true,
-            icon: "nf nf-fa-hand_stop_o",
+            icon: "nf nf-fa-stop_circle_o",
             command: this.stop
           })  
         }
@@ -325,17 +345,40 @@
           });
         }
       },
-      stop(row){
+      stop(row, obj, idx){
         if ( row.id ){
           appui.confirm(bbn._("Are you sure you want suspend this mailing?"), () => {
-            this.post(this.source.root + "actions/suspend", {id: row.id}, (d) => {
+            this.post(this.source.root + "actions/mailing/change_state", {
+              id: row.id,
+              state: 'suspended'
+            }, (d) => {
               if ( d.success ){
 								if ( d.count ){
                   this.source.count = d.count;
                 }
-                row.state = 'suspended';
+                this.getRef('table').currentData[idx].data.state = 'suspended';
                 appui.success(bbn._('Suspended'));
-								this.$refs.table.updateData();
+              }
+              else {
+                appui.error(bbn._('Error'));
+              }
+            });
+          });
+        }
+      },
+      play(row, obj, idx){
+        if ( row.id ){
+          appui.confirm(bbn._("Are you sure you want to reactivate this mailing?"), () => {
+            this.post(this.source.root + "actions/mailing/change_state", {
+              id: row.id,
+              state: 'ready'
+            }, (d) => {
+              if ( d.success ){
+								if ( d.count ){
+                  this.source.count = d.count;
+                }
+                this.getRef('table').currentData[idx].data.state = 'ready';
+                appui.success(bbn._('Mailing reactivated'));
               }
               else {
                 appui.error(bbn._('Error'));
@@ -384,11 +427,12 @@
         if ( row.id ){
           this.getPopup().open({
             title: bbn._('Select users'),
-            width: 350,
-            height: 500,
+            scrolable: false,
+            width: 400,
+            height: 600,
             component: 'appui-emails-test',
             source: {
-              users: null,
+              users: [],
               id: row.id
             }
           });

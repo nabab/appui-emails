@@ -15,10 +15,10 @@ if ( !empty($model->data['id']) &&
   $notes = new \bbn\appui\notes($model->db);
   $mail = [
     'id_mailing' => $model->data['id'],
-    'titre' => '',
-    'texte' => '',
+    'subject' => '',
+    'text' => '',
     'cfg' => NULL,
-    'etat' => 'pret'
+    'status' => 'ready'
   ];
   if ( 
     ($ids = $model->db->rselect('bbn_emailings', ['id_note', 'version'], ['id' => $model->data['id']])) &&
@@ -26,8 +26,8 @@ if ( !empty($model->data['id']) &&
     !empty($note['title']) && 
     !empty($note['content'])
   ){
-    $mail['titre'] = $note['title'];
-    $mail['texte'] = $note['content'];
+    $mail['subject'] = $note['title'];
+    $mail['text'] = $note['content'];
     if ( !empty($note['medias']) ){
       $mail['cfg']['attachments'] = [];
       foreach ( $note['medias'] as $media ){
