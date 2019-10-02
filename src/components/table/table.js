@@ -70,7 +70,7 @@
         }
         if ( (row.status === 'cancelled') || (row.status === 'ready') || (row.status === 'success') ){
           res.push({
-            title: ((row.status === 'success') && !appui.app.user.isAdmin) ? bbn._('Only admin users can delete sent emails') : bbn._("Delete the email from db"),
+            title: ((row.status === 'success') && !appui.app.user.isAdmin) ? bbn._('Only admin users can delete sent emails') : bbn._("Delete the email from the database"),
             notext: true,
             icon: "nf nf-oct-trashcan",
             command: this.remove, 
@@ -280,7 +280,7 @@
                 this.post(this.root + 'actions/email/cancel', {selected: res}, (d) => {
                   if (d.success){
                     this.table.currentSelected = [];
-                    appui.success(bbn._('Emails successfully cancelleded'));
+                    appui.success(bbn._('Emails successfully cancelled'));
                     this.table.updateData()
                   }
                 })
@@ -319,7 +319,7 @@
             }
           },
           deleteAll(){
-            this.confirm(bbn._('Are you sure you want to completely delete all ready and cancelled emails? '), () => {
+            this.confirm(bbn._('Are you sure you want to completely delete all unsent emails? '), () => {
               let id = this.closest('appui-emails-table').source.id;
               this.post(this.root + 'actions/email/delete_all', {id: id}, (d) => {
                 if (d.success){
