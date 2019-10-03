@@ -27,6 +27,7 @@
                :width="100"
                cls="bbn-c"
                v-if="context !== 'details'"
+               :filterable="false"
   ></bbns-column>
   <bbns-column field="status"
                title="<?=_('Status')?>"
@@ -34,7 +35,7 @@
                :render="renderEtat"
                cls="bbn-c"
                :width="80"
-               :filterable="true"
+               :filterable="false"
   ></bbns-column>
   <bbns-column field="delivery"
                title="<?=_('Date')?>"
