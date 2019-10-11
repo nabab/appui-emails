@@ -7,8 +7,23 @@
           @failure="failure"          
 >
   <div class="bbn-padded bbn-grid-fields">
-    <label><?=_("Sender email")?></label>
-    <bbn-dropdown placeholder="<?=_("Choose")?>"
+    <div v-if="emails.source.senders.length === 2" class="bbn-grid-full bbn-middle">
+      <span v-text="emails.source.senders[0].text"
+            :title="emails.source.senders[0].desc"
+            class="bbn-iblock bbn-h-100 bbn-spadded bbn-m bbn-b">
+      </span>
+      <bbn-switch :value="emails.source.senders[0].value"
+                  :novalue="emails.source.senders[1].value"
+                  v-model="source.row.sender">
+      </bbn-switch>
+      <span v-text="emails.source.senders[1].text"
+            :title="emails.source.senders[1].desc"
+            class="bbn-iblock bbn-h-100 bbn-spadded bbn-m bbn-b">
+      </span>
+    </div>
+    <label v-if="emails.source.senders.length > 2"><?=_("Sender email")?></label>
+    <bbn-dropdown v-if="emails.source.senders.length > 2"
+                  placeholder="<?=_("Choose")?>"
                   v-model="source.row.sender"
                   :source="emails.source.senders"
     ></bbn-dropdown>

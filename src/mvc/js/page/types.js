@@ -26,7 +26,7 @@
       toolbar(){
         return [{
           text: bbn._('Insert new '),
-          command: this.insert,
+          action: this.insert,
           icon: 'nf nf-fa-plus'
         }]
       },
@@ -35,12 +35,12 @@
           text: bbn._("Mod."),
           icon: "nf nf-fa-edit",
           notext: true,
-          command: this.edit,
+          action: this.edit,
         }, {
           text: bbn._("Suppr."),
           icon: "nf nf-fa-trash",
           notext: true,
-          command: this.remove,
+          action: this.remove,
           disabled: !!row.default
         }];
       },

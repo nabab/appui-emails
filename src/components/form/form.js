@@ -49,9 +49,9 @@
           else {
             appui.success(bbn._('Saved'));
           }
-          if ( t.source.row.count && d.count ){
+          /*if ( t.source.row.count && d.count ){
             t.source.row.count = d.count;
-          }
+          }*/
         }
         else {
           appui.error(bbn._('Error'));

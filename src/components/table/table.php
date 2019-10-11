@@ -51,7 +51,7 @@
   <bbns-column width="100"
                :cls="{
                  'bbn-buttons-flex': (context !== 'sent'),
-                 'bbn-c' : (context === 'sent')
+                 'bbn-c' : true
                }"
               :buttons="renderButtons"
   >

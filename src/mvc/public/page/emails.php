@@ -13,6 +13,7 @@ $ctrl->obj->data = $d;
 echo $views['html'] ?: $ctrl->get_view();
 $ctrl->add_script($views['js'] ?: $ctrl->get_view('', 'js'));
 $ctrl->obj->css = $views['css'] ?: $ctrl->get_less();*/
+
 $ctrl
-  ->set_icon('nf nf-fa-list')
+  ->set_icon('nf nf-fa-envelope_o')
   ->combo(_("e-Mails ready"));

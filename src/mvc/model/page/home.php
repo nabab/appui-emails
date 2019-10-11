@@ -8,6 +8,7 @@
  * @var $model \bbn\mvc\model
  */
 
+
 //$recipients = $model->inc->options->full_options($model->inc->options->from_code('emails_listes'));
 return [
   'root' => APPUI_EMAILS_ROOT,
@@ -26,5 +27,11 @@ return [
   "),
   'count' => $model->get_model(APPUI_EMAILS_ROOT.'data/count'),
   'recipients' => $model->inc->options->text_value_options('emails_listes'),
-  'senders' => $model->inc->options->text_value_options('senders', 'mailings', 'appui')
+  'senders' => array_map(function($a){
+    return [
+      'text' => $a['text'],
+      'value' => $a['id'],
+      'desc' => $a['desc']
+    ];
+  }, $model->inc->options->full_options('sender', 'mailings', 'appui'))
 ];

@@ -169,24 +169,24 @@
           text: bbn._("See"),
           notext: true,
           icon: "nf nf-fa-eye",
-          command: this.see
+          action: this.see
         },{
           text: bbn._('Send this email to') + ' ' + appui.app.user.name,
           notext: true,
           icon: "nf nf-fa-envelope",
-          command: this.selfSend
+          action: this.selfSend
         },{
             text: bbn._("Duplicate"),
             notext: true,
             icon: "nf nf-fa-copy",
-            command: this.duplicate
+            action: this.duplicate
           }];
         if ( ['sent', 'sending', 'suspended', 'cancelled'].includes(row.state) && (row.num_accuses > 0)){
           res.push({
             text: bbn._("Open"),
             notext: true,
             icon: "nf nf-fa-th_list",
-            command: this.open
+            action: this.open
           });
         }
         
@@ -196,20 +196,20 @@
             text: bbn._("Edit"),
             notext: true,
             icon: "nf nf-fa-edit",
-            command: this.edit
-          },{
+            action: this.edit
+          }/*,{
             text: bbn._("Send"),
             notext: true,
             icon: "nf nf-fa-paper_plane",
-            command: this.send
-          });
+            action: this.send
+          }*/);
         }
         if ( (row.state === 'ready') || (row.state === 'cancelled') ){
           res.push({
             text: bbn._("Delete"),
             notext: true,
             icon: "nf nf-oct-trashcan",
-            command: this.remove
+            action: this.remove
           })
         }
         
@@ -218,7 +218,7 @@
             text: bbn._("Send"),
             notext: true,
             icon: "nf nf-fa-paper_plane",
-            command: this.send
+            action: this.send
           });
         }
         if ( row.state === 'suspended' ){
@@ -226,7 +226,7 @@
             text: bbn._("Reactivate mailing"),
             notext: true,
             icon: "nf nf-fa-play_circle_o",
-            command: this.play
+            action: this.play
           });
         }
         if ( row.state !== 'sending' ){
@@ -234,19 +234,20 @@
             text: bbn._("Test"),
             notext: true,
             icon: "nf nf-fa-magic",
-            command: this.test
+            action: this.test
           });
         }
         else {
           res.push({
             icon: 'nf nf-mdi-close',
             title: 'Cancel mailing',
-            command: this.cancelMailing
+            action: this.cancelMailing,
+            notext: true
           },{
             text: bbn._("Suspend"),
             notext: true,
             icon: "nf nf-fa-stop_circle_o",
-            command: this.stop
+            action: this.stop
           })  
         }
         
@@ -395,7 +396,7 @@
                 if ( d.count ){
                   this.source.count = d.count;
                 }
-                this.$refs.table.updateData();
+                //this.$refs.table.updateData();
                 appui.success(bbn._('Deleted'));
               }
               else {

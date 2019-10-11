@@ -56,16 +56,18 @@
           res.push({
             icon: 'nf nf-mdi-close',
             title: bbn._('Cancel email'),
-            command: this.cancelEmail,
-            cls: 'bbn-button-icon-only'
+            action: this.cancelEmail,
+            cls: 'bbn-button-icon-only', 
+            notext: true
           });
         }
         if ( row.status === 'cancelled' ){
           res.push({
             icon: 'nf nf-weather-refresh',
             title: bbn._('Change state to ready'),
-            command: this.changeState,
-            cls: 'bbn-button-icon-only'
+            action: this.changeState,
+            cls: 'bbn-button-icon-only',
+            notext:true
           });
         }
         if ( (row.status === 'cancelled') || (row.status === 'ready') || (row.status === 'success') ){
@@ -73,7 +75,7 @@
             title: ((row.status === 'success') && !appui.app.user.isAdmin) ? bbn._('Only admin users can delete sent emails') : bbn._("Delete the email from the database"),
             notext: true,
             icon: "nf nf-oct-trashcan",
-            command: this.remove, 
+            action: this.remove, 
             disabled: ((row.status === 'success') && !appui.app.user.isAdmin)
           })
         }
@@ -234,7 +236,7 @@
               return true
             }
           },
-          //disable buttons just basing on the row selected in the table
+          //disable buttons just basing on the number of rows selected in the table
           disableButtons(){
             if ( this.table && ( this.table.currentSelected.length > 1 ) ){
               return false;

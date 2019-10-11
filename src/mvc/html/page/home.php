@@ -48,7 +48,6 @@
   <bbn-pane>
     <bbn-table ref="table"
                @ready="setSelected"
-               
                :source="source.root + 'data/home'"
                :info="true"
                :pageable="true"
@@ -60,22 +59,22 @@
                :toolbar="[{
                  text: '<?=_('New mailing')?>',
                  icon: 'nf nf-fa-plus',
-                 command: insert,
+                 action: insert,
                  class:'bbn-bg-teal bbn-white bbn-medium'
                }, {
                  text: '<?=_('Emails ready')?>',
                  icon: 'nf nf-fa-envelope_o',
-                 command: openEmailsTab,
+                 action: openEmailsTab,
                  class:'bbn-bg-teal bbn-white bbn-medium'
                },{
                  text: '<?=_('Emails sent')?>',
                  icon: 'nf nf-fa-envelope',
-                 command: openEmailsSentTab,
+                 action: openEmailsSentTab,
                  class:'bbn-bg-teal bbn-white bbn-medium'
                },{
                  text: '<?=_('Letters types')?>',
                  icon: 'nf nf-fa-list',
-                 command: openLettersTypesTab, 
+                 action: openLettersTypesTab, 
                  class:'bbn-bg-teal bbn-white bbn-medium'
                }]"
                editor="appui-emails-form"

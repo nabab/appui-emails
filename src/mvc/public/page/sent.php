@@ -1,5 +1,5 @@
 <?php
 
 $ctrl
-  ->set_icon('nf nf-fa-list')
+  ->set_icon('nf nf-fa-envelope')
   ->combo(_("e-Mails sent"));

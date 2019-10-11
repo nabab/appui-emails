@@ -17,6 +17,7 @@ if ( !empty($ctrl->arguments[0]) && \bbn\str::is_uid($ctrl->arguments[0]) ){
       $model['title'] = substr($model['title'], 0, 20) . '...';
     }
     echo $ctrl
+      ->set_icon('nf nf-fa-th_list')
       ->set_title($model['title'] ?: _('Untitled'))
       ->add_js($ctrl->data)
       ->get_view();
