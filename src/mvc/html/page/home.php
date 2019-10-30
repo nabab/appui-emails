@@ -90,6 +90,13 @@
                   :sortable="false"
                   :hidden="true"
       ></bbns-column>
+
+      <bbns-column title="<?=_("Officiel")?>"
+                   field="sender"
+                   :render="renderOfficiel"
+                   cls="bbn-c"
+                   :width="30"
+      ></bbns-column>
       <bbns-column title="<?=_("Object")?>"
                   field="title"
                   :required="true"

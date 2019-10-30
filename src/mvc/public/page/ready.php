@@ -15,5 +15,6 @@ $ctrl->add_script($views['js'] ?: $ctrl->get_view('', 'js'));
 $ctrl->obj->css = $views['css'] ?: $ctrl->get_less();*/
 
 $ctrl
+  ->set_url(APPUI_EMAILS_ROOT.'page/ready')
   ->set_icon('nf nf-fa-envelope_o')
   ->combo(_("e-Mails ready"));

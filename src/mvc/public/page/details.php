@@ -18,6 +18,7 @@ if ( !empty($ctrl->arguments[0]) && \bbn\str::is_uid($ctrl->arguments[0]) ){
     }
     echo $ctrl
       ->set_icon('nf nf-fa-th_list')
+      ->set_url(APPUI_EMAILS_ROOT.'page/details/'.$ctrl->arguments[0])
       ->set_title($model['title'] ?: _('Untitled'))
       ->add_js($ctrl->data)
       ->get_view();

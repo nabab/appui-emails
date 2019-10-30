@@ -7,8 +7,11 @@
  *
  * @var $ctrl \bbn\mvc\controller
  */
+
+
 $ctrl
   ->set_color('teal', 'white')
   ->set_icon('nf nf-fa-envelope')
   ->combo(_("eMails"), ['root' => APPUI_EMAILS_ROOT]);
 $ctrl->obj->url = APPUI_EMAILS_ROOT . 'page';
+

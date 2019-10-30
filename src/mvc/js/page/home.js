@@ -46,7 +46,8 @@
 				},
         updateCount: 0,
         disableTree: false,
-        mountedTable: false
+        mountedTable: false, 
+        nodeId: ''
       }
     },
     computed: {
@@ -147,6 +148,19 @@
     },
     methods: {
       get_field: bbn.fn.get_field,
+      renderOfficiel(row){
+        if ( row.sender ){
+          let sender = bbn.fn.search(this.source.senders, 'value', row.sender), 
+              text = this.source.senders[sender].text;
+          //remake this basing on a code that has to arrive in this.source.senders
+          if ( text === 'Com officielle' ){
+            return '<i title="' + text + '" class="nf nf-fa-circle bbn-red"></i>'
+          }
+          else if ( text === 'Com abonnés' ){
+            return '<i title="' + text + '" class="nf nf-fa-circle bbn-blue"></i>'
+          }
+        }
+      },
       renderRecipients(row){
         if ( row.recipients ){
           let text = bbn.fn.get_field(this.source.recipients, 'value', row.recipients, 'text');
@@ -441,6 +455,13 @@
       },
       setFilter(node){
         if ( this.mountedTable ){
+         
+          if ( node.data.id ){
+            this.closest('bbn-router').currentURL = 'home/'+ node.data.id;
+            bbn.fn.happy('qui')
+            bbn.fn.log(node.data.id, this.closest('bbn-router'))
+            this.nodeId = node.data.id
+          }
           if ( node.level === 0 ){
             let idx = bbn.fn.search(this.getRef('table').currentOrder, {field: 'bbn_notes_versions.creation'});
             if ( idx > -1 ){
@@ -482,7 +503,7 @@
         bbn.fn.link(this.source.root + 'page/types');
       },
       openEmailsTab() {
-        bbn.fn.link(this.source.root + 'page/emails');
+        bbn.fn.link(this.source.root + 'page/ready');
       },
       openEmailsSentTab(){
         bbn.fn.link(this.source.root + 'page/sent');

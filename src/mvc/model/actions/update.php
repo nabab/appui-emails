@@ -15,18 +15,24 @@ if ( !empty($model->data['id']) &&
   !empty($model->data['content']) &&
   !empty($model->data['title']) &&
   !empty($model->data['ref']) &&
-  isset($model->data['recipients'])
+  isset($model->data['recipients']) &&
+  !empty($model->data['sender'])
 ){
   $notes = new \bbn\appui\notes($model->db);
   // Get emailing's info
   $info = $model->db->rselect('bbn_emailings', [], ['id' => $model->data['id']]);
-  if ( !empty($info['id_note']) && !empty($info['version']) ){
+  if (!empty($info['id_note']) && !empty($info['version']) && ($info['state'] === 'ready')){
+    $to_update = [];
     // Get note's info
     $note = $notes->get($info['id_note'], $info['version']);
+    // Are they different???
+    if (($note['title'] !== $model->data['title']) || ($note['content'] !== $model->data['content'])
+        && $notes->insert_version($info['id_note'], $model->data['title'], $model->data['content'])
+    ) {
+      $to_update['version'] = $notes->latest($info['id_note']);
+    }
+    if ()
     // Insert the new note's verion and get the version number
-    if ( $notes->insert_version($info['id_note'], $model->data['title'], $model->data['content']) &&
-      ($version = $notes->latest($info['id_note']))
-    ){
       $ok = true;
       // Files
       if ( !empty($model->data['fichiers']) ){
@@ -50,6 +56,7 @@ if ( !empty($model->data['id']) &&
         'success' => !empty($ok) && $model->db->update('bbn_emailings', [
           'version' => $version,
           'recipients' => $model->data['recipients'],
+          'sender' => $model->data['sender'],
           'sent' => !empty($model->data['sent']) && \bbn\date::validateSQL($model->data['sent']) ? $model->data['sent'] : NULL
         ], ['id' => $model->data['id']]),
         'count' => $model->get_model(APPUI_EMAILS_ROOT.'data/count')

@@ -5,8 +5,9 @@
  * Date: 20/03/2018
  * Time: 15:39
  *
- * @var $model bbn\mvc\model
  */
+
+/* @var $model bbn\mvc\model */
 
 if (
     (!empty($model->data['recipients']) || empty($model->data['sent']) ) &&

@@ -12,8 +12,8 @@
             :title="emails.source.senders[0].desc"
             class="bbn-iblock bbn-h-100 bbn-spadded bbn-m bbn-b">
       </span>
-      <bbn-switch :value="emails.source.senders[0].value"
-                  :novalue="emails.source.senders[1].value"
+      <bbn-switch :value="emails.source.senders[1].value"
+                  :novalue="emails.source.senders[0].value"
                   v-model="source.row.sender">
       </bbn-switch>
       <span v-text="emails.source.senders[1].text"
