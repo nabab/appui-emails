@@ -16,12 +16,24 @@ if ( isset($model->data['content'], $model->data['title'], $model->data['sender'
   if ( empty($model->data['sent']) || !\bbn\date::validateSQL($model->data['sent']) ){
     $model->data['sent'] = null;
   }
+  // For duplicating
+  if (!empty($model->data['id_parent'])) {
+    $o = $mailings->get_mailing($model->data['id_parent']);
+    if ($o) {
+      $medias = $mailings->get_medias($o['id'], $o['version']);
+      die(\bbn\x::dump($medias));
+    }
+  }
   $attachments = [];
-  if ( !empty($model->data['fichiers']) ){
-    foreach ( $model->data['fichiers'] as $f ){
+  if ( \bbn\x::has_props($model->data, ['attachments', 'ref']) ){
+    $temp_path = BBN_USER_PATH.'tmp/'.$model->data['ref'].'/';
+    foreach ( $model->data['attachments'] as $f ){
       if ( is_file($temp_path.$f['name']) ){
         // Add media
-        $attachments[] = $temp_path.$f['name'];
+        $attachments[] = $model->data['ref'].'/'.$f['name'];
+      }
+      else if (isset($model->data['id_parent'])) {
+        
       }
     }
   }
@@ -81,7 +93,7 @@ if ( isset($model->data['content'], $model->data['title'], $model->data['sender'
               _('Values returned by result model').': <br><pre>'.print_r($res, true).'</pre>';
     }
     else{
-      $message = _('The mnailing has been inserted but will not be sent until a delivery date is chosen');
+      $message = _('The mailing has been inserted but will not be sent until a delivery date is chosen');
     }
     return [
       'success' => true,

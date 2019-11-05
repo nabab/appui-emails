@@ -169,8 +169,8 @@
         
       },
       renderFiles(row){
-        return row.fichiers ?
-          (bbn.fn.isArray(row.fichiers) ? row.fichiers.length : JSON.parse(row.fichiers).length)
+        return row.attachments ?
+          (bbn.fn.isArray(row.attachments) ? row.attachments.length : JSON.parse(row.attachments).length)
           : '-';
       },
       renderSent(row){
@@ -318,7 +318,8 @@
             height: "90%",
             title: row.title,
             component: 'appui-emails-view',
-            source: row
+            source: row,
+            scrollable: false
           });
         }
         else{
@@ -335,29 +336,13 @@
       },
       duplicate(row, ob){
         if ( row.id ){
-          appui.confirm(bbn._("Are you sure you want duplicate this mailing?"), () => {
-            this.post(this.source.root + "actions/duplicate", {id: row.id}, (d) => {
-              if ( d.success && d.id ){
-                if ( d.count ){
-                  this.source.count = d.count;
-                }
-                //gets all the nodes to find the one with text  'draft'
-                let nodes = this.findAll('bbn-tree-node'),
-                  idx = bbn.fn.search(nodes, 'data.id', 'draft')
-                if ( idx > -1 ){
-                  this.setFilter(nodes[idx]);
-                  let copiedRow = bbn.fn.clone(row);
-                  copiedRow.id = d.id;
-                  copiedRow.state = 'ready'
-                  copiedRow.sent = null; 
-                  this.getRef('table').edit(copiedRow);
-                }
-              }
-              else {
-                appui.error(bbn._('Error'));
-              }
-            });
-          });
+          let tmp = bbn.fn.extend({}, row, {state: 'ready', num_accuses: 0, sent: null});
+          this.getRef('table').copy(tmp, {
+            title: bbn._("Mailing edit"),
+            width: this.getPopup().defaultWidth,
+            height: this.getPopup().defaultHeight,
+            data: {id_parent: row.id}
+          }, 0);
         }
       },
       stop(row, obj, idx){

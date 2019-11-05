@@ -1,8 +1,9 @@
 <bbn-form :source="source.row"
-          :data="{ref: ref}"
+          :data="dataToSend"
           ref="form"
           confirm-leave="<?=_("Are you sure you want to leave this form without saving your changes?")?>"
           :action="emails.source.root + 'actions/' + (source.row.id ? 'update' : 'insert')"
+          :prefilled="prefilled"
           @success="success"
           @failure="failure"          
 >
@@ -39,6 +40,16 @@
                           value-format="YYYY-MM-DD HH:mm:00"
       ></bbn-datetimepicker>
     </div>
+    <label v-if="source.row.sent"><?=_("Priority")?></label>
+    <div v-if="source.row.sent" class="bbn-vmiddle">
+      <span v-text="_('Normal')"
+            class="bbn-iblock bbn-hmargin">
+      </span>
+      <bbn-switch v-model="priority"></bbn-switch>
+      <span v-text="_('High')"
+            class="bbn-iblock bbn-hmargin">
+      </span>
+    </div>
     <!--label><?=_("Letter type")?></label>
     <bbn-dropdown placeholder="<?=_("Choose")?>"
                   v-model="source.row.lettre_type"
@@ -54,7 +65,7 @@
     <label><?=_("Attachments")?></label>
     <bbn-upload :save-url="'file/save/' + ref"
                 :remove-url="'file/delete/' + ref"
-                v-model="source.row.fichiers"
+                v-model="source.row.attachments"
                 :paste="true"
     ></bbn-upload>
     <label><?=_("Text")?></label>

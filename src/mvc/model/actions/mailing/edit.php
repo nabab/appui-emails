@@ -37,8 +37,8 @@ if (
     $to_insert = true;
   }
   $attachments = [];
-  if ( !empty($model->data['fichiers']) ){
-    foreach ( $model->data['fichiers'] as $f ){
+  if ( !empty($model->data['attachments']) ){
+    foreach ( $model->data['attachments'] as $f ){
       if ( is_file($temp_path.$f['name']) ){
         // Add media
         $attachments[] = $temp_path.$f['name'];

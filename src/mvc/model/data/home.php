@@ -49,7 +49,7 @@
               ];
             }, $note['medias']);
           }
-          $d['fichiers'] = $note['medias'] ?? [];
+          $d['attachments'] = $note['medias'] ?? [];
         }
         return $d;
       }, $ret['data']);
@@ -118,17 +118,7 @@
     $notes = new \bbn\appui\notes($model->db);
     if ( !empty($ret['data']) ){
       $ret['data'] = array_map(function($d) use($notes){
-        if ( !empty($d['id_note']) ){
-          if ( $medias = $notes->get_medias($d['id_note']) ){
-            $medias = array_map(function($m){
-              return [
-                'name' => $m['name'],
-                'extension' => '.'.\bbn\str::file_ext($m['name'])
-              ];
-            }, $medias);
-          }
-          $d['fichiers'] = $medias;
-        }
+        $d['attachments'] = $notes->get_medias($d['id_note'], $d['version']);
         return $d;
       }, $ret['data']);
     }

@@ -51,6 +51,7 @@
                :source="source.root + 'data/home'"
                :info="true"
                :pageable="true"
+               uid="id"
                :sortable="true"
                :filterable="true"
                :showable="true"
@@ -101,12 +102,11 @@
                   field="title"
                   :required="true"
       ></bbns-column>
-      <bbns-column field="fichiers"
+      <bbns-column field="attachments"
                   :render="renderFiles"
                   :width="50"
                   title="<i class='nf nf-fa-paperclip bbn-xl'></i>"
                   ftitle="<?=_("Number of attached files")?>"
-                  type="number"
                   :sortable="false"
                   :filterable="false"
       ></bbns-column>
@@ -130,7 +130,7 @@
                   
                   :required="true"
       ></bbns-column>
-      <bbns-column title="<?=_("Send")?>"
+      <bbns-column title="<?=_("Date")?>"
                   field="sent"
                   :width="100"
                   type="date"
@@ -146,7 +146,7 @@
                   :sortable="false"
       ></bbns-column>
       <bbns-column title="<?=_("Received")?>"
-                  field="num_accuses"
+                  field="content"
                   :width="60"
                   :render="renderSent"
                   :editable="false"

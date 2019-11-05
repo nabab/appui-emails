@@ -9,9 +9,12 @@
     props: ['source'],
     data(){
       return {
+        dataToSend: null,
         ref: (new Date()).getTime(),
         today: moment().format('YYYY-MM-DD HH:mm:ss'),
-        emails: bbn.vue.closest(this, 'bbn-container').getComponent()
+        emails: bbn.vue.closest(this, 'bbn-container').getComponent(),
+        prefilled: false,
+        priority: 0
       }
     },
     methods: {
@@ -66,6 +69,14 @@
             }
           });
         }
+      }
+    },
+    mounted(){
+      this.dataToSend = {ref: this.ref};
+      let fl = this.closest('bbn-floater');
+      if (fl && fl.data && fl.data.id_parent){
+        this.prefilled = true;
+        this.dataToSend.id_parent = fl.data.id_parent;
       }
     }
   }

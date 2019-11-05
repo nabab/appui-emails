@@ -35,9 +35,9 @@ if ( !empty($model->data['id']) &&
     // Insert the new note's verion and get the version number
       $ok = true;
       // Files
-      if ( !empty($model->data['fichiers']) ){
+      if ( !empty($model->data['attachments']) ){
         $temp_path = BBN_USER_PATH.'tmp/'.$model->data['ref'].'/';
-        foreach ( $model->data['fichiers'] as $f ){
+        foreach ( $model->data['attachments'] as $f ){
           if ( is_file($temp_path.$f['name']) ){
             // Add the new file to the new version
             if ( !$notes->add_media($info['id_note'], $temp_path.$f['name']) ){

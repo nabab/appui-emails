@@ -8,10 +8,20 @@
   return {
     props: ['source'],
     data(){
+      let emails = bbn.vue.closest(this, 'bbn-container').getComponent()
       return {
-        link: 'emails/view/' + this.source.id_note,
-        emails: bbn.vue.closest(this, 'bbn-container').getComponent()
+        link: emails.source.root + 'view/' + this.source.id_note,
+        emails: emails
       }
+    },
+    methods: {
+      download(file){
+        bbn.fn.log("hhh", {id_media: file.id, id: this.source.id}, file);
+        bbn.fn.post_out(this.emails.source.root + 'actions/download', {id_media: file.id, id: this.source.id});
+      }
+    },
+    mounted(){
+      bbn.fn.log(this.source)
     }
   }
 })();
