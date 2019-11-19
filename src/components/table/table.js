@@ -337,9 +337,7 @@
           this.root = this.closest('appui-emails-table').root;
           this.context = this.closest('appui-emails-table').context;
 
-        }, 
-
-        
+        }
       }, 
     }
   }

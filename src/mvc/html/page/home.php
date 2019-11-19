@@ -46,118 +46,122 @@
 		</bbn-splitter>
 	</bbn-pane>
   <bbn-pane>
-    <bbn-table ref="table"
-               @ready="setSelected"
-               :source="source.root + 'data/home'"
-               :info="true"
-               :pageable="true"
-               uid="id"
-               :sortable="true"
-               :filterable="true"
-               :showable="true"
-               :multifilter="true"
-               :editable="true"
-               :toolbar="[{
-                 text: '<?=_('New mailing')?>',
-                 icon: 'nf nf-fa-plus',
-                 action: insert,
-                 class:'bbn-bg-teal bbn-white bbn-medium'
-               }, {
-                 text: '<?=_('Emails ready')?>',
-                 icon: 'nf nf-fa-envelope_o',
-                 action: openEmailsTab,
-                 class:'bbn-bg-teal bbn-white bbn-medium'
-               },{
-                 text: '<?=_('Emails sent')?>',
-                 icon: 'nf nf-fa-envelope',
-                 action: openEmailsSentTab,
-                 class:'bbn-bg-teal bbn-white bbn-medium'
-               },{
-                 text: '<?=_('Letters types')?>',
-                 icon: 'nf nf-fa-list',
-                 action: openLettersTypesTab, 
-                 class:'bbn-bg-teal bbn-white bbn-medium'
-               }]"
-               editor="appui-emails-form"
-               :order="[{
-                 field: 'sent',
-                 dir: 'DESC'
-               }]"
-               
-    >
-      <bbns-column title="<?=_("ID")?>"
-                  field="id"
-                  :editable="false"
-                  :sortable="false"
-                  :hidden="true"
-      ></bbns-column>
+    <bbn-router :autoload="false" :url="tableURL" v-if="tableURL">
+      <bbn-container :pinned="true" :url="tableURL" :load="false">
+        <bbn-table ref="table"
+                   @ready="setSelected"
+                   :source="source.root + 'data/home'"
+                   :info="true"
+                   :pageable="true"
+                   uid="id"
+                   :sortable="true"
+                   :filterable="true"
+                   :showable="true"
+                   :multifilter="true"
+                   :editable="true"
+                   :popup="getPopup()"
+                   :toolbar="[{
+                     text: '<?=_('New mailing')?>',
+                     icon: 'nf nf-fa-plus',
+                     action: insert,
+                   }, {
+                     text: '<?=_('Emails ready')?>',
+                     icon: 'nf nf-fa-envelope_o',
+                     action: openEmailsTab,
+                   },{
+                     text: '<?=_('Emails sent')?>',
+                     icon: 'nf nf-fa-envelope',
+                     action: openEmailsSentTab,
+                   },{
+                     text: '<?=_('Letters types')?>',
+                     icon: 'nf nf-fa-list',
+                     action: openLettersTypesTab, 
+                   }]"
+                   editor="appui-emails-form"
+                   :order="[{
+                     field: 'sent',
+                     dir: 'DESC'
+                   }]"
 
-      <bbns-column title="<?=_("Officiel")?>"
-                   field="sender"
-                   :render="renderOfficiel"
-                   cls="bbn-c"
-                   :width="30"
-      ></bbns-column>
-      <bbns-column title="<?=_("Object")?>"
-                  field="title"
-                  :required="true"
-      ></bbns-column>
-      <bbns-column field="attachments"
-                  :render="renderFiles"
-                  :width="50"
-                  title="<i class='nf nf-fa-paperclip bbn-xl'></i>"
-                  ftitle="<?=_("Number of attached files")?>"
-                  :sortable="false"
-                  :filterable="false"
-      ></bbns-column>
-      <bbns-column title="<?=_("Status")?>"
-                  field="state"
-                  :width="80"
-                  :source="status"
-      ></bbns-column>
-      <bbns-column title="<?=_("Sender")?>"
-                  field="sender"
-                  :width="160"
-                  :sortable="false"
-                  :source="source.senders"
-                  :required="true"
-                  :hidden="true"
-      ></bbns-column>
-      <bbns-column title="<?=_("Recipients")?>"
-                  field="recipients"
-                  :width="160"
-                  :render="renderRecipients"
-                  
-                  :required="true"
-      ></bbns-column>
-      <bbns-column title="<?=_("Date")?>"
-                  field="sent"
-                  :width="100"
-                  type="date"
-                  :required="true"
-                  :nullable="true"
-      ></bbns-column>
-      <bbns-column title="<?=_("Sent")?>"
-                  field="num_accuses"
-                  :width="60"
-                  type="number"
-                  :editable="false"
-                  :filterable="false"
-                  :sortable="false"
-      ></bbns-column>
-      <bbns-column title="<?=_("Received")?>"
-                  field="content"
-                  :width="60"
-                  :render="renderSent"
-                  :editable="false"
-                  :filterable="false"
-                  :sortable="false"
-      ></bbns-column>
-      <bbns-column :width="130"
-                  ftitle="<?=_("Actions")?>"
-                  :buttons="renderButtons"
-									cls="bbn-l appui-emails-tbuttons bbn-buttons-flex"
-      ></bbns-column>
-    </bbn-table>
+        >
+          <bbns-column title="<?=_("ID")?>"
+                      field="id"
+                      :editable="false"
+                      :sortable="false"
+                      :hidden="true"
+          ></bbns-column>
+
+          <bbns-column title="<?=_("Officiel")?>"
+                       field="sender"
+                       :render="renderOfficiel"
+                       cls="bbn-c"
+                       :width="30"
+          ></bbns-column>
+          <bbns-column title="<?=_("Object")?>"
+                      field="title"
+                      :required="true"
+          ></bbns-column>
+          <bbns-column field="attachments"
+                      :render="renderFiles"
+                      :width="50"
+                      title="<i class='nf nf-fa-paperclip bbn-xl'></i>"
+                      ftitle="<?=_("Number of attached files")?>"
+                      :sortable="false"
+                      :filterable="false"
+          ></bbns-column>
+          <bbns-column title="<?=_("Status")?>"
+                      field="state"
+                      :width="80"
+                      :source="status"
+          ></bbns-column>
+          <bbns-column title="<?=_("Sender")?>"
+                      field="sender"
+                      :width="160"
+                      :sortable="false"
+                      :source="source.senders"
+                      :default="source.senders[0].value"
+                      :required="true"
+                      :hidden="true"
+          ></bbns-column>
+          <bbns-column title="<?=_("Recipients")?>"
+                      field="recipients"
+                      :width="160"
+                      :render="renderRecipients"
+
+                      :required="true"
+          ></bbns-column>
+          <bbns-column title="<?=_("Date")?>"
+                      field="sent"
+                      :width="100"
+                      type="date"
+                      :required="true"
+                      :nullable="true"
+          ></bbns-column>
+          <bbns-column title="<?=_("Sent")?>"
+                      field="num_accuses"
+                      :width="60"
+                      type="number"
+                      :editable="false"
+                      :filterable="false"
+                      :sortable="false"
+          ></bbns-column>
+          <bbns-column title="<?=_("Received")?>"
+                      field="content"
+                      :width="60"
+                      :render="renderSent"
+                      :editable="false"
+                      :filterable="false"
+                      :sortable="false"
+          ></bbns-column>
+          <bbns-column width="100"
+                       title="<?=_("Action")?>"
+                       :component="$options.components.menu"
+                       :source="sourceMenu"
+          >
+          </bbns-column>
+        </bbn-table>
+      </bbn-container>
+      <bbn-container :url="pageUrl" :load="false" v-if="pageUrl.length"></bbn-container>
+    </bbn-router>
   </bbn-pane>
 </bbn-splitter>

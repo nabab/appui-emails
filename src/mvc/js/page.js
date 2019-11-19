@@ -5,5 +5,11 @@
  * Time: 20:18
  */
 (() => {
-  return {}
+  return {
+    data(){
+      return {
+        tableUrl: ''
+      }
+    }
+  }
 })();

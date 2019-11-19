@@ -11,7 +11,7 @@ if (\bbn\x::has_props($model->data, ['id_media', 'id'])) {
   if ($medias = $mailing->get_medias($model->data['id'])) {
     $idx = \bbn\x::find($medias, ['id' => $model->data['id_media']]);
     if ($medias[$idx]) {
-      $file = $model->plugin_data_path($model->plugin_url('appui-notes')).$medias[$idx]['file'];
+      $file = $medias[$idx]['file'];
     }
   }
 }

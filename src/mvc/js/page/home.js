@@ -5,10 +5,13 @@
  * Time: 16:24
  */
 (() => {
+  let mailings;
   return {
     props: ['source'],
     data(){
       return {
+        pageUrl: '',
+        tableURL: 'all',
         status: [{
           text: bbn._("Suspended"),
           value: "suspended"
@@ -25,7 +28,7 @@
           text: bbn._("In progress"),
           value: "sending"
         }],
-        treePath: ['all'],
+        treePath: [],
 				info: {
           current: {
             id: '',
@@ -297,7 +300,7 @@
         })
       }, 
       insert(){
-        return this.$refs.table.insert({}, {
+        this.$refs.table.insert({}, {
           title: bbn._("New mailing"),
           width: this.getPopup().defaultWidth,
           height: this.getPopup().defaultHeight
@@ -439,20 +442,21 @@
         }
       },
       setFilter(node){
+        bbn.fn.warning('set filter')
+        bbn.fn.log('node before',this.getRef('tree'),this.getRef('tree').selectedNode )
         if ( this.mountedTable ){
-         
           if ( node.data.id ){
+            //set the url whan a node is selected from the tree
             this.closest('bbn-router').currentURL = 'home/'+ node.data.id;
-            bbn.fn.happy('qui')
-            bbn.fn.log(node.data.id, this.closest('bbn-router'))
             this.nodeId = node.data.id
           }
           if ( node.level === 0 ){
+            
             let idx = bbn.fn.search(this.getRef('table').currentOrder, {field: 'bbn_notes_versions.creation'});
             if ( idx > -1 ){
               this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'sent');
             }
-            this.treePath = ['all'];
+            //this.treePath = ['all'];
             if ( this.$refs.table !== undefined ){
               return this.$refs.table.unsetFilter();
             }
@@ -461,16 +465,36 @@
           if ( idx > -1 ){
             this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'bbn_notes_versions.creation');
           }
-          this.treePath = ['all', node.data.id];
+          //this.treePath = ['all', node.data.id];
           this.$refs.table.currentFilters = {
             conditions: node.data.filters,
             logic: 'AND'
           };
         }
-        
       },
       setSelected(){
+        bbn.fn.happy('set selected')
+        let current = this.closest('bbn-tabnav').closest('bbn-container').current, 
+            bit = current.split('/').pop();
+        this.tableURL = bit;
+        let nodes = this.findAll('bbn-tree-node')
+        if ( bit && (bit !== 'home') && nodes.length ){
+          let node = bbn.fn.filter(nodes, (a) => {
+            return a.data.id === bit
+          });
+          if ( node[0] ){
+            node[0].isSelected = true;
+            bbn.fn.log('node in setSelected',node[0])
+          }
+        }
+        this.mountedTable = true;
+        
+            
+      },
+      /*setSelected(){
         let filters = [];
+        bbn.fn.happy('set selected')
+        bbn.fn.log(this.closest('bbn-tabnav').closest('bbn-container').current)
         for ( let filter of this.$refs.table.currentFilters.conditions ){
           filters.push(bbn.fn.extend({}, filter));
         }
@@ -478,20 +502,25 @@
           for ( let m of this.menu[0].items ){
             if ( bbn.fn.isSame(filters, m.filters) ){
               this.treePath.push(m.id);
+              bbn.fn.warning('filters')
+              bbn.fn.log(this.treePath)
               break;
             }
           }
         }
         this.mountedTable = true;
-      },
+      },*/
       openLettersTypesTab() {
-        bbn.fn.link(this.source.root + 'page/types');
+        this.pageUrl = 'types'
+        this.closest('bbn-router').route('types')
       },
       openEmailsTab() {
-        bbn.fn.link(this.source.root + 'page/ready');
+        this.pageUrl = 'ready'
+        this.closest('bbn-router').route('ready')
       },
       openEmailsSentTab(){
-        bbn.fn.link(this.source.root + 'page/sent');
+        this.pageUrl = 'sent'
+        this.closest('bbn-router').route('sent')
       },
       fixDate(d){
         return moment(d).format('DD/MM/YYYY HH:mm:ss');
@@ -533,6 +562,14 @@
         else {
           this.setGetInfo();
         }
+      },
+      sourceMenu(a){
+        bbn.fn.log("douceMenu", a);
+        return {
+          menu: [
+            {text: 'Hello', value: 'world'}
+          ]
+        }
       }
     },
     watch: {
@@ -554,19 +591,114 @@
       }
     },
     created(){
-      /* if ( Vue.options.components['appui-emails-form'] !== undefined ){
-        delete Vue.options.components['appui-emails-form'];
-      }
-      if ( Vue.options.components['appui-emails-view'] !== undefined ){
-        delete Vue.options.components['appui-emails-view'];
-      } */
+      mailings = this;
     },
-		mounted(){
+    mounted(){
+      appui.register('appui-emails', this);
       this.clearGetInfo();
-			//this.setGetInfo();
-		},
+      let current = this.closest('bbn-tabnav').closest('bbn-container').current, 
+            bit = current.split('/').pop();
+      this.tableURL = bit;
+      bbn.fn.happy('MOUNTED', this.tableURL)
+    },
 		beforeDestroy(){
 			this.clearGetInfo();
-		}
+      appui.unregister('appui-emails', this);
+    },
+    components: {
+      menu: {
+        template: `<bbn-dropdown :source="menu" :template="tpl" @input="select" :placeholder="_('Choose')"></bbn-dropdown>`,
+        props: ['source'],
+        data(){
+          let row = this.source;
+          let res = [{
+            text: bbn._("See"),
+            icon: "nf nf-fa-eye",
+            value: 'see'
+          },{
+            text: bbn._('Send to myself'),
+            icon: "nf nf-fa-envelope",
+            value: 'selfSend'
+          },{
+            text: bbn._("Duplicate"),
+            icon: "nf nf-fa-copy",
+            value: 'duplicate'
+          }];
+          if ( ['sent', 'sending', 'suspended', 'cancelled'].includes(row.state) && (row.num_accuses > 0)){
+            res.push({
+              text: bbn._("Open"),
+              icon: "nf nf-fa-th_list",
+              value: 'open'
+            });
+          }
+          
+          
+          if ( (row.state === 'ready') ){
+            res.push({
+              text: bbn._("Edit"),
+              icon: "nf nf-fa-edit",
+              value: 'edit'
+            }/*,{
+              text: bbn._("Send"),
+              notext: true,
+              icon: "nf nf-fa-paper_plane",
+              action: this.send
+            }*/);
+          }
+          if ( (row.state === 'ready') || (row.state === 'cancelled') ){
+            res.push({
+              text: bbn._("Delete"),
+              icon: "nf nf-oct-trashcan",
+              value: 'remove'
+            })
+          }
+          
+          if( (row.state === 'ready') && (row.sent === null) ){
+            res.push({
+              text: bbn._("Send"),
+              icon: "nf nf-fa-paper_plane",
+              value: 'send'
+            });
+          }
+          if ( row.state === 'suspended' ){
+            res.push({
+              text: bbn._("Reactivate mailing"),
+              icon: "nf nf-fa-play_circle_o",
+              value: 'play'
+            });
+          }
+          if ( row.state !== 'sending' ){
+            res.push({
+              text: bbn._("Test"),
+              icon: "nf nf-fa-magic",
+              value: 'test'
+            });
+          }
+          else {
+            res.push({
+              icon: 'nf nf-mdi-close',
+              title: 'Cancel mailing',
+              value: 'cancelMailing'
+            },{
+              text: bbn._("Suspend"),
+              icon: "nf nf-fa-stop_circle_o",
+              value: 'stop'
+            })  
+          }
+          return {
+            menu: res,
+            tpl: `<div class="bbn-w-100"><i :class="'bbn-m bbn-right-space ' + source.icon"></i><div class="bbn-iblock" v-text="source.text"></div></div>` 
+          };
+  
+        },
+        methods: {
+          select(action){
+            if (mailings && bbn.fn.isFunction(mailings[action])) {
+              mailings[action](this.source);
+            }
+          }
+        }
+      }
+    }
   }
 })();

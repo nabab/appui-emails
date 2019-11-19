@@ -8,10 +8,10 @@
  * @var $model \bbn\mvc\model
  */
 
-if ( empty($model->data['recipients']) && !empty($model->data['sent']) ){
-  return false;
-}
-if ( isset($model->data['content'], $model->data['title'], $model->data['sender']) ){
+if ($model->check_action(['content', 'title', 'sender'], true)) {
+  if ( empty($model->data['recipients']) && !empty($model->data['sent']) ){
+    return false;
+  }
   $mailings = new \bbn\appui\mailings($model->db);
   if ( empty($model->data['sent']) || !\bbn\date::validateSQL($model->data['sent']) ){
     $model->data['sent'] = null;
@@ -25,12 +25,12 @@ if ( isset($model->data['content'], $model->data['title'], $model->data['sender'
     }
   }
   $attachments = [];
-  if ( \bbn\x::has_props($model->data, ['attachments', 'ref']) ){
-    $temp_path = BBN_USER_PATH.'tmp/'.$model->data['ref'].'/';
+  if ( \bbn\x::has_props($model->data, ['attachments', 'ref'], true) ){
+    $temp_path = $model->user_tmp_path().$model->data['ref'].'/';
     foreach ( $model->data['attachments'] as $f ){
       if ( is_file($temp_path.$f['name']) ){
         // Add media
-        $attachments[] = $model->data['ref'].'/'.$f['name'];
+        $attachments[] = $temp_path.$f['name'];
       }
       else if (isset($model->data['id_parent'])) {
         
@@ -51,7 +51,7 @@ if ( isset($model->data['content'], $model->data['title'], $model->data['sender'
       $num_undone = 0;
       $num_emails = 0;
       $res = [];
-      $data = $model->get_plugin_model('data/mailist', $model->data, 'emails');
+      $data = $model->get_plugin_model('data/mailist', ['id_mailist' => $model->data['recipients']], 'emails');
       if (!empty($data['success']) && isset($data['data'])) {
         foreach ($data['data'] as $item) {
           $num_emails++;

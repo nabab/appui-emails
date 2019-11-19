@@ -12,9 +12,11 @@
         dataToSend: null,
         ref: (new Date()).getTime(),
         today: moment().format('YYYY-MM-DD HH:mm:ss'),
-        emails: bbn.vue.closest(this, 'bbn-container').getComponent(),
+        emails: null,
         prefilled: false,
-        priority: 0
+        priority: 0,
+        isNumLoading: false,
+        numRecipients: 0
       }
     },
     methods: {
@@ -29,19 +31,18 @@
       },
       success(d){
         if ( d.success ){
-          let t = this.closest('bbn-container').getComponent(),
-              treePath = ['all'];
+          let treePath = ['all'];
           if ( this.source.row.sent && this.source.row.sent.length ){
             treePath.push('ready');
           }
           else {
             treePath.push('draft');
           }
-          if ( bbn.fn.isSame(t.treePath, treePath) ){
-            bbn.vue.find(t, 'bbn-table').updateData();
+          if ( !bbn.fn.isSame(this.emails.treePath, treePath) ){
+            this.$set(this.emails, 'treePath', treePath);
           }
-          else {
-            t.$set(t, 'treePath', treePath);
+          else{
+            this.emails.find('bbn-table').updateData();
           }
           if ( d.count ){
             this.closest('bbn-container').getComponent().source.count = d.count;
@@ -69,14 +70,44 @@
             }
           });
         }
+      },
+      setRecipientsNum(old){
+        let url = this.emails.source.root + 'data/mailist/num';
+        let odata = {id_mailist: old, sender: this.source.row.sender};
+        if (this.isNumLoading) {
+          let idURL = bbn.fn.getIdURL(url, odata);
+          bbn.fn.log("ABORT", idURL)
+          bbn.fn.abort(idURL);
+        }
+        if (this.source.row.recipients) {
+          this.isNumLoading = true;
+          this.post(url, {id_mailist: this.source.row.recipients}, (d) => {
+            if (d.success) {
+              this.numRecipients = d.num || 0;
+            }
+            else if (this.numRecipients){
+              this.numRecipients = 0;
+            }
+            this.isNumLoading = false;
+          }, () => {
+            this.isNumLoading = false;
+          });
+        }
       }
     },
     mounted(){
+      this.emails = appui.getRegistered('appui-emails');
       this.dataToSend = {ref: this.ref};
       let fl = this.closest('bbn-floater');
       if (fl && fl.data && fl.data.id_parent){
         this.prefilled = true;
         this.dataToSend.id_parent = fl.data.id_parent;
+      }
+      this.setRecipientsNum();
+    },
+    watch: {
+      "source.row.recipients"(v, o){
+        this.setRecipientsNum(o);
       }
     }
   }
