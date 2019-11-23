@@ -592,6 +592,11 @@
     },
     created(){
       mailings = this;
+      let router = this.closest('bbn-router');
+      let id = bbn.fn.search(router.views,'url', 'home');
+      if ( id > -1 ){
+        router.views[id].static = true;
+      }
     },
     mounted(){
       appui.register('appui-emails', this);
@@ -687,7 +692,7 @@
           }
           return {
             menu: res,
-            tpl: `<div class="bbn-w-100"><i :class="'bbn-m bbn-right-space ' + source.icon"></i><div class="bbn-iblock" v-text="source.text"></div></div>` 
+            tpl: `<div class="bbn-w-100 bbn-vxspadded bbn-hspadded"><i :class="'bbn-m bbn-right-space ' + source.icon"></i><div class="bbn-iblock" v-text="source.text"></div></div>` 
           };
   
         },

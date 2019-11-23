@@ -4,7 +4,6 @@
               :autoload="true"
   >
     <bbns-container url="home"
-                    :static="true"
                     :load="true"
                     title="<?=_('Mailings')?>"
                     icon="nf nf-fa-newspaper"

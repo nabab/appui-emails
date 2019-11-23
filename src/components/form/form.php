@@ -66,7 +66,10 @@
       <span v-text="_('Normal')"
             class="bbn-iblock bbn-hmargin">
       </span>
-      <bbn-switch v-model="priority"></bbn-switch>
+      <bbn-switch v-model="source.row.priority"
+                  :value="4"
+                  :novalue="5"
+                  ></bbn-switch>
       <span v-text="_('High')"
             class="bbn-iblock bbn-hmargin">
       </span>

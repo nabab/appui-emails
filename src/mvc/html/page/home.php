@@ -90,6 +90,11 @@
                       :sortable="false"
                       :hidden="true"
           ></bbns-column>
+          <bbns-column title="<?=_("Priority")?>"
+                      field="priority"
+                      :sortable="false"
+                      :hidden="true"
+          ></bbns-column>
 
           <bbns-column title="<?=_("Officiel")?>"
                        field="sender"
@@ -127,17 +132,16 @@
                       field="recipients"
                       :width="160"
                       :render="renderRecipients"
-
                       :required="true"
           ></bbns-column>
           <bbns-column title="<?=_("Date")?>"
                       field="sent"
                       :width="100"
-                      type="date"
+                      type="datetime"
                       :required="true"
                       :nullable="true"
           ></bbns-column>
-          <bbns-column title="<?=_("Sent")?>"
+          <bbns-column title="<?=_("#eMails")?>"
                       field="num_accuses"
                       :width="60"
                       type="number"

@@ -8,7 +8,13 @@
   return {
     data(){
       return {
-        tableUrl: ''
+        tableUrl: '',
+      }
+    },
+    mounted(){
+      //in case of reroute
+      if( this.source.page !== 'home' ){
+        this.closest('bbn-router').route('emails/page/'+this.source.page);
       }
     }
   }

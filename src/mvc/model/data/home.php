@@ -85,7 +85,16 @@
           FROM bbn_emails
           WHERE bbn_emails.id_mailing = bbn_emailings.id
             AND bbn_emails.status LIKE 'success'
-        ) AS recus
+        ) AS recus,
+        (
+        	SELECT IFNULL(priority, 5)
+          FROM bbn_emails
+          WHERE bbn_emails.id_mailing = bbn_emailings.id
+          	AND (bbn_emails.status LIKE 'ready'
+            OR bbn_emails.status LIKE 'sent')
+         ORDER BY delivery DESC
+         LIMIT 1
+        ) AS priority
       FROM bbn_emailings
         JOIN bbn_history_uids
           ON bbn_emailings.id = bbn_history_uids.bbn_uid
