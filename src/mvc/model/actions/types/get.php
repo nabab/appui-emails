@@ -11,9 +11,28 @@
 if ( !empty($model->data['id_note']) ){
   $masks = new \bbn\appui\masks($model->db);
   if ( $mask = $masks->get($model->data['id_note']) ){
-    return [
-      'success' => true,
-      'data' => $mask
-    ];
-  }
+    if($last_creator = $model->db->select_one([
+      'table' => 'bbn_notes_versions',
+      'fields' => ['id_user'],
+      'where' => [
+        'logic' => 'AND',
+        'conditions' => [[
+          'field' => 'id_note',
+          'operator' => '=',
+          'value' => $mask['id_note']
+        ]]
+        ],
+        'order' => [[
+          'field' => 'version',
+          'dir' => 'DESC'
+        ]]
+    ])
+    ){
+      $mask['creator'] = $last_creator;
+        return [
+          'success' => true,
+          'data' => $mask
+        ];
+      }
+    }
 }

@@ -20,7 +20,8 @@ if (
     'title' => $model->data['title'],
     'content' => $model->data['content'],
     'name' => $model->data['name'],
-    'default' => $model->data['default']    
+    'default' => $model->data['default'],
+    'id_user' =>  $model->data['id_user'],
   ]) ){
     return [
       'success' => true,

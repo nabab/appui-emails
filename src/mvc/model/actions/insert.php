@@ -7,7 +7,6 @@
  *
  * @var $model \bbn\mvc\model
  */
-
 if ($model->check_action(['content', 'title', 'sender'], true)) {
   if ( empty($model->data['recipients']) && !empty($model->data['sent']) ){
     return false;
@@ -43,9 +42,8 @@ if ($model->check_action(['content', 'title', 'sender'], true)) {
       }
     }
   }
-  $data = empty($model->data['sent']) ? [] : $model->get_plugin_model('data/mailist', [
-    'id_mailist' => $model->data['recipients']
-  ], 'emails');
+  $data = empty($model->data['sent']) ? [] : $model->get_plugin_model('data/mailist', $model->data, 'emails');
+  
   if (!empty($data['success']) && isset($data['data'])
   && ($model->data['id'] = $mailings->add([
     'content' => $model->data['content'],

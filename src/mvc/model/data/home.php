@@ -59,7 +59,7 @@
 }
  */
 
- if ( isset($model->data['start']) && !empty($model->data['limit']) ){
+if ( isset($model->data['start']) && !empty($model->data['limit']) ){
   $grid = new \bbn\appui\grid($model->db, $model->data, [
     'tables' => ['bbn_emailings', 'bbn_notes_versions'],
     'fields' => [
@@ -71,10 +71,10 @@
       'bbn_emailings.recipients',
       'bbn_emailings.sent',
       'bbn_notes_versions.title',
-      'bbn_notes_versions.content'
+      'bbn_notes_versions.content', 
     ],
     'query' => "
-      SELECT bbn_emailings.*, bbn_notes_versions.title, bbn_notes_versions.content,
+      SELECT bbn_emailings.*, bbn_notes_versions.title, bbn_notes_versions.content, bbn_notes_versions.id_user,
         (
           SELECT COUNT(bbn_emails.id)
           FROM bbn_emails
@@ -128,6 +128,7 @@
     if ( !empty($ret['data']) ){
       $ret['data'] = array_map(function($d) use($notes){
         $d['attachments'] = $notes->get_medias($d['id_note'], $d['version']);
+        $d['creator'] = $d['id_user'];
         return $d;
       }, $ret['data']);
     }

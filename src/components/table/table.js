@@ -2,7 +2,7 @@
   return {
     data(){
       return {
-        isAdmin: appui.app.user.isAdmin,
+        isAutorizedUser: appui.app.user.isAdmin && appui.app.user.isDev,
         root: appui.plugins['appui-emails'] + '/',
         status: [{
           text: bbn._('Error'),
@@ -49,6 +49,22 @@
       }
     },
     methods: {
+      renderFiles(row){
+        if(row.attachments && row.attachments.length){
+          return row.attachments.length
+        }
+      },
+      renderPriority(row){
+        if ( row.priority === 5 ){
+          return '<i title="'+ bbn._('Normal priority') +'" class="bbn-large nf nf-fa-dot_circle_o bbn-orange"></i>'
+        }
+        else if ( row.priority < 5 ){
+          return '<i title="'+ bbn._('High priority') +'" class="bbn-large nf nf-fa-dot_circle_o bbn-red"></i>'
+        }
+        else if ( row.priority > 5 ){
+          return '<i title="'+ bbn._('Low priority') +'" class="bbn-large nf nf-fa-dot_circle_o bbn-green"></i>'
+        }
+      },
       renderButtons(row){
         let res = [];
           
@@ -70,7 +86,7 @@
             notext:true
           });
         }
-        if ( (row.status === 'cancelled') || (row.status === 'ready') || (row.status === 'success') ){
+        if ( appui.app.user.isAdmin && appui.app.user.isDev && ( (row.status === 'cancelled') || (row.status === 'ready') || (row.status === 'success') )){
           res.push({
             title: ((row.status === 'success') && !appui.app.user.isAdmin) ? bbn._('Only admin users can delete sent emails') : bbn._("Delete the email from the database"),
             notext: true,
@@ -178,11 +194,11 @@
             table: false, 
             root: '', 
             context: '',
-            isAdmin: appui.app.user.isAdmin
+            isAutorizedUser: appui.app.user.isAdmin && appui.app.user.isDev
           }
         },
         template: `
-          <div class="bbn-xspadded bbn-l" ref="toolbar">
+          <div class="bbn-xspadded bbn-l bbn-header bbn-vmiddle bbn-h-100" ref="toolbar">
             <bbn-button text="`+ bbn._('Check/uncheck all emails')+`" 
                         icon="nf nf-fa-check"
                         @click="checkAll"
@@ -199,9 +215,9 @@
             <bbn-button text="`+ bbn._('Delete selected emails') +`"
                         icon="nf nf-oct-trashcan"
                         @click="deleteSelected"
-                        :disabled="( context === 'ready' ) ? disableButtons : (disableButtons || !isAdmin) "
+                        :disabled="( context === 'ready' ) ? disableButtons : (disableButtons || !isAutorizedUser) "
                         class="bbn-bg-teal bbn-white"
-                        :title="(!isAdmin) ? _('Only admin users can remove sent emails') :  _('Remove selected emails') " 
+                        :title="(!isAutorizedUser) ? _('Only admin and dev users can remove sent emails') :  _('Remove selected emails') " 
 
             ></bbn-button>
             <bbn-button text="`+ bbn._('Delete all emails') +`"
@@ -209,7 +225,7 @@
                         @click="deleteAll"
                         class="bbn-bg-teal bbn-white"
                         title="`+ bbn._('Delete all ready or cancelled emails') +`"
-                        v-if="(context === 'ready') && isAdmin"
+                        v-if="(context === 'ready') && isAutorizedUser"
             ></bbn-button>
           </div>`,
         props: ['source'],
@@ -221,7 +237,7 @@
                   nr_ready = 0;
               
               bbn.fn.each(selected, (v, i) => {
-                if ( this.table.currentData[v].data.status === 'ready' ){
+                if ( this.table.currentData[v] && this.table.currentData[v].data.status === 'ready' ){
                   nr_ready++;
                 }
               })
@@ -298,7 +314,7 @@
                 let res = [];
                 bbn.fn.each(this.table.currentSelected, (v, i) => {
                   if ( (this.table.currentData[v].data.status === 'ready') || (this.table.currentData[v].data.status === 'cancelled') ||
-                  (this.table.currentData[v].data.status === 'success' && this.isAdmin)){
+                  (this.table.currentData[v].data.status === 'success' && this.isAutorizedUser)){
                     res.push( this.table.currentData[v].data);
                   }
                 })
@@ -306,7 +322,7 @@
                
                 this.post(this.root + 'actions/email/delete', {
                   selected: res,
-                  id_user: this.isAdmin ? appui.app.user.id : false
+                  id_user: this.isAutorizedUser ? appui.app.user.id : false
                   }, (d) => {
                   if (d.success){
                     this.table.currentSelected = [];
@@ -321,11 +337,12 @@
             }
           },
           deleteAll(){
-            this.confirm(bbn._('Are you sure you want to completely delete all unsent emails? '), () => {
-              let id = this.closest('appui-emails-table').source.id;
-              this.post(this.root + 'actions/email/delete_all', {id: id}, (d) => {
+            this.confirm(bbn._('Are you really sure you want to completely delete all ready emails? '), () => {
+              let table = this.closest('appui-emails-table'),
+                  id = table.source ? table.source.id : null;
+              this.post(this.root + 'actions/email/delete_all', {id_user: appui.app.user.id}, (d) => {
                 if (d.success){
-                  appui.success(bbn._('Emails successfully deleted'));
+                  appui.success(d.num + ' ' + bbn._('emails successfully deleted'));
                   this.table.updateData()
                 }
               })

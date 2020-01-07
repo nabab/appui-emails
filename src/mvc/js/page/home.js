@@ -308,7 +308,8 @@
       },
       
       edit(row, col, idx){
-        return this.$refs.table.edit(row, {
+        return this.$refs.table.edit(
+          bbn.fn.extend(row, {hasVersions: row.version > 1} ), {
           title: bbn._("Mailing edit"),
           width: this.getPopup().defaultWidth,
           height: this.getPopup().defaultHeight
@@ -331,7 +332,9 @@
       },
 			open(row){
         if ( row.id ){
-          bbn.fn.link(this.source.root + 'page/details/' + row.id);
+          this.pageUrl = 'details/' + row.id
+          this.closest('bbn-router').route('details/'+ row.id)
+          //bbn.fn.link(this.source.root + 'page/details/' + row.id);
         }
       },
       openList(row){

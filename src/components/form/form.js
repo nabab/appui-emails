@@ -16,10 +16,29 @@
         prefilled: false,
         priority: 0,
         isNumLoading: false,
-        numRecipients: 0
+        numRecipients: 0, 
+        root: this.closest('bbn-container').getComponent().source.root
       }
     },
     methods: {
+      getVersion(d){
+        bbn.fn.log('before',this.source)
+        this.$set(this.source.row, 'id_note', d.id);
+        this.$set(this.source.row, 'id_type', d.id_type);
+        this.$set(this.source.row, 'title', d.title);
+        this.$set(this.source.row, 'content', d.content);
+        this.$set(this.source.row, 'creation', d.creation);
+        //this.$set(this.source.row, 'version', d.version);
+        this.$set(this.source.row, 'creator', d.id_user);
+        this.$set(this.source.row, 'sender', d.sender);
+        this.$set(this.source.row, 'recipients', d.recipients);
+        this.$set(this.source.row, 'attachments', d.files);
+        this.$nextTick(() => {
+          this.getRef('editor').onload();
+        });
+        bbn.fn.log('after',this.source)
+        bbn.fn.log('version',d)
+      },
       /*
       changeDate(){
         if ( this.source.row.sent < (new Date()) ){
@@ -73,7 +92,7 @@
       },
       setRecipientsNum(old){
         let url = this.emails.source.root + 'data/mailist/num';
-        let odata = {id_mailist: old, sender: this.source.row.sender};
+        let odata = {recipients: old, sender: this.source.row.sender};
         if (this.isNumLoading) {
           let idURL = bbn.fn.getIdURL(url, odata);
           bbn.fn.log("ABORT", idURL)
@@ -81,7 +100,7 @@
         }
         if (this.source.row.recipients) {
           this.isNumLoading = true;
-          this.post(url, {id_mailist: this.source.row.recipients}, (d) => {
+          this.post(url, {recipients: this.source.row.recipients, sender: this.source.row.sender}, (d) => {
             if (d.success) {
               this.numRecipients = d.num || 0;
             }

@@ -24,3 +24,8 @@ if ( !empty($ctrl->arguments[0]) && \bbn\str::is_uid($ctrl->arguments[0]) ){
       ->get_view();
   }
 }
+else{
+  return false;
+  //$ctrl->obj->url = APPUI_EMAILS_ROOT.'page/details/';
+  $ctrl->combo();
+}

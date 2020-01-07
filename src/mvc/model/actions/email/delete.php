@@ -36,10 +36,7 @@ else if ( !empty($model->data['selected']) ){
       }
     }
     $success = $n;
-
-    
   }
-  
 }
 return [
   'success' => $success

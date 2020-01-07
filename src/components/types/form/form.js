@@ -23,8 +23,25 @@
       }
     },
     methods: {
+      getVersion(d){
+        this.$set(this.source, 'id_note', d.id);
+        this.$set(this.source, 'id_type', d.id_type);
+        this.$set(this.source, 'title', d.title);
+        this.$set(this.source, 'content', d.content);
+        this.$set(this.source, 'creation', d.creation);
+        this.$set(this.source, 'creator', d.id_user);
+        this.$nextTick(() => {
+          let editor = this.getRef('editor');
+          if ( editor ){
+            editor.onload();
+          }
+        });
+      },
       success(d){
         if ( d.success ){
+          bbn.fn.happy('here')
+          bbn.fn.log(d)
+        
 					let t = bbn.vue.closest(this, 'bbn-container').getComponent(),
 							table = bbn.vue.find(t, 'bbn-table');
           if ( this.source.id_note ){

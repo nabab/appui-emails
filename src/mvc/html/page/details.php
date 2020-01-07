@@ -28,4 +28,5 @@
                     :tableData="{id: source.id}"
                     :filterable="false"
                     context="details"
+                    v-if="source.id"
 ></appui-emails-table>

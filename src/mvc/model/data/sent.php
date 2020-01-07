@@ -11,7 +11,9 @@ if ( isset($model->data['limit']) ){
       'bbn_emails.cfg',
       'bbn_emails.status',
       'bbn_emails.delivery',
-      'bbn_emails.read'
+      'bbn_emails.read', 
+      'bbn_emails.priority',
+      'bbn_emailings.id_note'
     ],
     'join' => [[
       'table' => 'bbn_emailings',
@@ -34,9 +36,20 @@ if ( isset($model->data['limit']) ){
     'order' => [[
       'field' => 'bbn_emails.delivery',
       'dir' => 'DESC'
-    ]]
+    ]],
+    'count' => "SELECT COUNT(bbn_emails.id) FROM bbn_emails LEFT JOIN bbn_emailings ON bbn_emailings.id = bbn_emails.id_mailing"
   ]);
+  
   if ( $grid->check() ){
-    return $grid->get_datatable();
+    $note = new \bbn\appui\notes($model->db);
+    $tmp_grid = $grid->get_datatable();
+    $tmp_grid['data'] = array_map(function($a)use($note){
+      if(!empty($a['id_note'])){
+        $a['attachments'] = $note->get_medias($a['id_note']);
+        return $a;
+      }
+      return $a;
+    }, $tmp_grid['data']);
+    return $tmp_grid;
   }
 }

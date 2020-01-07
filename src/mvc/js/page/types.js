@@ -57,7 +57,10 @@
               width: 800,
               height: '90%',
               component: 'appui-emails-types-form',
-              source: d.data,              
+              source: bbn.fn.extend(d.data, {
+                  hasVersions: d.data.version > 1,
+                }
+              ), 
               title: bbn._("Edit letter type")
             })
           }

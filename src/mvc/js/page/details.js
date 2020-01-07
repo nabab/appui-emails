@@ -43,6 +43,10 @@
         }
         return '';
       }
+    },
+    beforeMount(){
+      bbn.fn.happy('before mount detail')
+      bbn.fn.log(bbn.env.params, this.source.id)
     }
 	}
 })();

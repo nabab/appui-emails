@@ -48,6 +48,23 @@
                :width="80"
                :hidden="true"
   ></bbns-column>
+  <bbns-column :render="renderFiles"
+               field="attachments" 
+               cls="bbn-c"
+               :width="50"
+               title="<i class='nf nf-fa-paperclip bbn-xl'></i>"
+               ftitle="<?=_("Number of attached files")?>"
+               :sortable="false"
+               :filterable="false"
+  ></bbns-column>
+  <bbns-column field="priority"
+               ftitle="<?=_('Priorité')?>"
+               title="<i class='nf nf-mdi-truck_fast'></i>"
+               :width="30"
+               cls="bbn-c"
+               :render="renderPriority"
+               :filterable="false"
+  ></bbns-column>
   <bbns-column width="100"
                :cls="{
                  'bbn-buttons-flex': (context !== 'sent'),

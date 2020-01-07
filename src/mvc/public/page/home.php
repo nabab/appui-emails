@@ -7,8 +7,6 @@
  *
  * @var $ctrl \bbn\mvc\controller
  */
-
-
 //if the page home set the url the tabnav will be doubled or tripled!!  the forcing you see when you reload the page is only on the selectedNode of the tree
 if ( !empty($ctrl->arguments) &&  ($ctrl->arguments[0] !== 'home') ){
   
