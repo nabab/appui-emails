@@ -8,7 +8,6 @@
  * @var $ctrl \bbn\mvc\controller
  */
 
-
 $ctrl->obj->url = APPUI_EMAILS_ROOT . 'page';
 
 $ctrl->set_color('teal', 'white')

@@ -1,4 +1,3 @@
-
 <bbn-form :source="source"
           ref="form"
           @success="success"
@@ -25,7 +24,7 @@
     <label><?=_('Text')?></label>
     <div style="height: 400px;">
       <div class="bbn-h-100">
-        <bbn-rtef v-model="source.content" ref="editor"></bbn-rtef>
+        <bbn-rte v-model="source.content" ref="editor"></bbn-rte>
       </div>
     </div>
   </div>

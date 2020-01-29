@@ -8,9 +8,6 @@
  * @var $model \bbn\mvc\model
  */
 if ($model->check_action(['content', 'title', 'sender'], true)) {
-  if ( empty($model->data['recipients']) && !empty($model->data['sent']) ){
-    return false;
-  }
   $attachments = [];
   $medias = [];
   $mailings = new \bbn\appui\mailings($model->db);
@@ -43,34 +40,28 @@ if ($model->check_action(['content', 'title', 'sender'], true)) {
     }
   }
   $data = empty($model->data['sent']) ? [] : $model->get_plugin_model('data/mailist', $model->data, 'emails');
-  
-  if (!empty($data['success']) && isset($data['data'])
-  && ($model->data['id'] = $mailings->add([
+  if ($model->data = $mailings->add([
     'content' => $model->data['content'],
     'title' => $model->data['title'],
     'sender' => $model->data['sender'],
     'recipients' => $model->data['recipients'],
     'sent' => $model->data['sent'],
+    'priority' => $model->data['priority'] ?? 5,
     'attachments' => $attachments,
-    'emails' => $data['data']
-  ])) ){
-    /*
-    $keys = array_keys($mailing);
-    $keys[] = 'success';
-    $data = $model->get_plugin_model('data/result', $model->data, 'emails');
-    $res = [];
-    foreach ($data as $k => $v) {
-      if (!in_array($k, $keys, true)) {
-        $res[$k] = $v;
-      }
+    'emails' => $data['data'] ?? []
+  ])){
+    if (
+      !empty($data['success'])
+      && isset($data['data'])
+      && $model->has_data('sent', true)
+    ) {
+      $model->data['res'] = $data['data'];
+      $data = $model->get_plugin_model('data/result', $model->data, 'emails');
+      $message = _('The mailing has been inserted with all its recipients');
     }
-    $message = _('Mailing ID').': '.$model->data['id'].'<br>'.
-            _('With the title').': '.$model->data['title'].'<br>'.
-            _('Number of users with a valid email address').': '.$num_emails.'<br>'.
-            _('Number of users treated').': '.$num_done.'<br>'.
-            _('Number of users already treated').': '.$num_undone.'<br>'.
-            _('Values returned by result model').': <br><pre>'.print_r($res, true).'</pre>';
-            */
+    else{
+      $message = _('The mailing has been inserted and will be sent accordingly to your settings.');
+    }
   }
   else{
     $message = _('The mailing has been inserted but will not be sent until a delivery date is chosen');

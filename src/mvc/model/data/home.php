@@ -71,7 +71,7 @@ if ( isset($model->data['start']) && !empty($model->data['limit']) ){
       'bbn_emailings.recipients',
       'bbn_emailings.sent',
       'bbn_notes_versions.title',
-      'bbn_notes_versions.content', 
+      'bbn_notes_versions.content'
     ],
     'query' => "
       SELECT bbn_emailings.*, bbn_notes_versions.title, bbn_notes_versions.content, bbn_notes_versions.id_user,
@@ -79,19 +79,29 @@ if ( isset($model->data['start']) && !empty($model->data['limit']) ){
           SELECT COUNT(bbn_emails.id)
           FROM bbn_emails
           WHERE bbn_emails.id_mailing = bbn_emailings.id
-        ) AS num_accuses,
+        ) AS total,
         (
           SELECT COUNT(bbn_emails.id)
           FROM bbn_emails
           WHERE bbn_emails.id_mailing = bbn_emailings.id
             AND bbn_emails.status LIKE 'success'
-        ) AS recus,
+        ) AS success,
+        (
+          SELECT COUNT(bbn_emails.id)
+          FROM bbn_emails
+          WHERE bbn_emails.id_mailing = bbn_emailings.id
+            AND bbn_emails.status LIKE 'ready'
+        ) AS ready,
+        (
+          SELECT COUNT(bbn_emails.id)
+          FROM bbn_emails
+          WHERE bbn_emails.id_mailing = bbn_emailings.id
+            AND bbn_emails.status LIKE 'failure'
+        ) AS failure,
         (
         	SELECT IFNULL(priority, 5)
           FROM bbn_emails
           WHERE bbn_emails.id_mailing = bbn_emailings.id
-          	AND (bbn_emails.status LIKE 'ready'
-            OR bbn_emails.status LIKE 'sent')
          ORDER BY delivery DESC
          LIMIT 1
         ) AS priority

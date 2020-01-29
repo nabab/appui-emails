@@ -10,6 +10,7 @@
 
 $success = false;
 if ( !empty($model->data['id']) && !empty($model->data['state']) && (($model->data['state'] === 'ready') || ($model->data['state'] === 'cancelled')) ){
+  
   $mailings = new \bbn\appui\mailings($model->db);
   
   $success = $mailings->delete($model->data['id']);

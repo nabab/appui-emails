@@ -152,17 +152,56 @@
     methods: {
       get_field: bbn.fn.get_field,
       renderOfficiel(row){
-        if ( row.sender ){
+        let st = '';
+        if (row.sender) {
           let sender = bbn.fn.search(this.source.senders, 'value', row.sender), 
               text = this.source.senders[sender].text;
-          //remake this basing on a code that has to arrive in this.source.senders
-          if ( text === 'Com officielle' ){
-            return '<i title="' + text + '" class="nf nf-fa-circle bbn-red"></i>'
+          st += '<i title="' + text + '" class="nf nf-fa-circle bbn-lg bbn-' +
+            (text === 'Com officielle' ? 'red' : 'blue') +
+            '"></i> &nbsp; ';
+          if (row.attachments) {
+            let att = row.attachments;
+            if (bbn.fn.isString(att)) {
+              att = JSON.parse(att);
+            }
+            if (bbn.fn.isArray(att) && att.length) {
+              st += '<i class="nf nf-fa-paperclip bbn-m"></i> <strong> &nbsp;' +
+                att.length +
+                '</strong> &nbsp; ';
+            }
           }
-          else if ( text === 'Com abonnés' ){
-            return '<i title="' + text + '" class="nf nf-fa-circle bbn-blue"></i>'
+          if (row.priority) {
+            if (row.priority < 5) {
+              st += '<strong>' + bbn._('Prioritary') + '</strong>';
+            }
+            else if (row.priority > 5) {
+              st += bbn._('Non prioritary');
+            }
+          }
+          st += '<br>';
+          if (row.total) {
+            st += '<span title="' +
+              bbn._('Total emails') +
+              '"><i class="nf nf-fa-envelope bbn-m"></i> ' +
+              (row.total || '-') +
+              '&nbsp; </span>';
+            if (row.success) {
+              st += '<span title="' +
+                bbn._('Total sent') +
+                '"><i class="nf nf-fa-envelope bbn-m bbn-green"></i> ' +
+                (row.success || '-') +
+                '&nbsp; </span>'
+            }
+            if (row.failure) {
+              st += '<span title="' +
+                bbn._('Total failed') +
+                '"><i class="nf nf-fa-envelope bbn-m bbn-red"></i> ' +
+                (row.failure || '-') +
+                '&nbsp;</span>'
+            }
           }
         }
+        return st;
       },
       renderRecipients(row){
         if ( row.recipients ){
@@ -177,7 +216,7 @@
           : '-';
       },
       renderSent(row){
-        return (row.state === 'sent') && (row.recus !== 0) ?
+        return row.recus > 0 ?
           Math.round(100 / row.num_accuses * row.recus) + ' %' :
           '-';
       },
@@ -343,6 +382,8 @@
       duplicate(row, ob){
         if ( row.id ){
           let tmp = bbn.fn.extend({}, row, {state: 'ready', num_accuses: 0, sent: null});
+          bbn.fn.happy('tmp')
+          bbn.fn.log(tmp, row)
           this.getRef('table').copy(tmp, {
             title: bbn._("Mailing edit"),
             width: this.getPopup().defaultWidth,
@@ -364,6 +405,7 @@
                 }
                 this.getRef('table').currentData[idx].data.state = 'suspended';
                 appui.success(bbn._('Suspended'));
+
               }
               else {
                 appui.error(bbn._('Error'));
@@ -403,6 +445,7 @@
                 }
                 //this.$refs.table.updateData();
                 appui.success(bbn._('Deleted'));
+                this.getRef('table').updateData();
               }
               else {
                 appui.error(bbn._('Error'));
@@ -604,7 +647,7 @@
     mounted(){
       appui.register('appui-emails', this);
       this.clearGetInfo();
-      let current = this.closest('bbn-tabnav').closest('bbn-container').current, 
+      let current = this.closest('bbn-tabnav').closest('bbn-container').currentURL, 
             bit = current.split('/').pop();
       this.tableURL = bit;
       bbn.fn.happy('MOUNTED', this.tableURL)
@@ -653,7 +696,8 @@
               action: this.send
             }*/);
           }
-          if ( (row.state === 'ready') || (row.state === 'cancelled') ){
+          //only mailings without emails sent can be deleted
+          if ( ((row.state === 'ready') || (row.state === 'cancelled')) && ( row.total === 0 ) && appui.app.user.isAdmin ){
             res.push({
               text: bbn._("Delete"),
               icon: "nf nf-oct-trashcan",

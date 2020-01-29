@@ -2,6 +2,7 @@
 /** @var \bbn\mvc\model $model */
 
 if ( isset($model->data['limit']) ){
+  
   $grid = new \bbn\appui\grid($model->db, $model->data, [
     'table' => 'bbn_emails',
     'fields' => [

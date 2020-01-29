@@ -58,13 +58,15 @@
             treePath.push('draft');
           }
           if ( !bbn.fn.isSame(this.emails.treePath, treePath) ){
+            bbn.fn.log('errore js',this.emails, this.emails.treePath, treePath)
             this.$set(this.emails, 'treePath', treePath);
           }
           else{
             this.emails.find('bbn-table').updateData();
           }
           if ( d.count ){
-            this.closest('bbn-container').getComponent().source.count = d.count;
+            //let home = this.closest('bbn-container').getComponent().find('bbn-container').getComponent();
+            this.emails.source.count = d.count;
           }
           if ( this.source.row.id ){
             appui.success(bbn._('Modified'));

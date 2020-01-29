@@ -7,46 +7,31 @@
  *
  * @var $model \bbn\mvc\model
  */
-
-if ( !empty($model->data['id']) &&
-  \bbn\str::is_uid($model->data['id']) &&
+if (
+  $model->has_data(['id', 'users'], true)
+  && ($mailings = new \bbn\appui\mailings($model->db))
+  && ($mail = $mailings->get_mailing($model->data['id'])) &&
   !empty($model->data['users'])
 ){
-  $notes = new \bbn\appui\notes($model->db);
-  $mail = [
-    'id_mailing' => $model->data['id'],
-    'subject' => '',
-    'text' => '',
-    'cfg' => NULL,
-    'status' => 'ready'
+  $num = 0;
+  $cfg = [
+    'subject' => $mail['title'],
+    'text' => $mail['content'],
   ];
-  if ( 
-    ($ids = $model->db->rselect('bbn_emailings', ['id_note', 'version'], ['id' => $model->data['id']])) &&
-    ($note = $notes->get_full($ids['id_note'], $ids['version'])) && 
-    !empty($note['title']) && 
-    !empty($note['content'])
-  ){
-    $mail['subject'] = $note['title'];
-    $mail['text'] = $note['content'];
-    if ( !empty($note['medias']) ){
-      $mail['cfg']['attachments'] = [];
-      foreach ( $note['medias'] as $media ){
-        $mail['cfg']['attachments'][$media['name']] = $media['file'];
-      }
-      $mail['cfg'] = json_encode($mail['cfg']);
+  if ( !empty($mail['medias']) ){
+    $cfg['attachments'] = [];
+    foreach ( $mail['medias'] as $media ){
+      $cfg['attachments'][$media['name']] = $media['file'];
     }
-    $add = function($id_user) use($model, $mail){
-      if ( ($email = $model->db->select_one('bbn_users', 'email', ['id' => $id_user])) ){
-        $model->db->insert('bbn_emails', array_merge(['email' => $email], $mail));
-      }
-    };
-    if ( is_array($model->data['users']) ){
-      array_walk($model->data['users'], $add);
-    }
-    else {
-      $add($model->data['users']);
-    }
-    return ['success' => true];
   }
+  if (is_string($model->data['users'])) {
+    $model->data['users'] = [$model->data['users']];
+  }
+  foreach ($model->data['users'] as $u) {
+    if ($cfg['to'] = $model->db->select_one('bbn_users', 'email', ['id' => $u])) {
+      $num += (int)$mailings->send($cfg, $mail['sender']);
+    }
+  }
+  return ['success' => true, 'num' => $num];
 }
 return ['success' => false];
