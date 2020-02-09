@@ -7,12 +7,14 @@
  *
  * @var $model \bbn\mvc\model
  */
+
 if (
-  $model->has_data(['id', 'users'], true)
+  !empty($model->data['id']) 
+  && !empty($model->data['users'])
   && ($mailings = new \bbn\appui\mailings($model->db))
   && ($mail = $mailings->get_mailing($model->data['id'])) &&
-  !empty($model->data['users'])
 ){
+ 
   $num = 0;
   $cfg = [
     'subject' => $mail['title'],

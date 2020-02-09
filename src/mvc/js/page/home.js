@@ -654,7 +654,7 @@
     },
 		beforeDestroy(){
 			this.clearGetInfo();
-      appui.unregister('appui-emails', this);
+      appui.unregister('appui-emails');
     },
     components: {
       menu: {
