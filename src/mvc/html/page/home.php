@@ -47,7 +47,7 @@
 	</bbn-pane>
   <bbn-pane>
     <bbn-router :autoload="false" :url="tableURL" v-if="tableURL" class="bbn-h-100">
-      <bbn-container :pinned="true" :url="tableURL" :load="false">
+      <bbn-container :pinned="true" url="home" :load="false">
         <bbn-table ref="table"
                    @ready="setSelected"
                    :source="source.root + 'data/home'"

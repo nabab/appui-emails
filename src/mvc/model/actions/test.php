@@ -12,7 +12,7 @@ if (
   !empty($model->data['id']) 
   && !empty($model->data['users'])
   && ($mailings = new \bbn\appui\mailings($model->db))
-  && ($mail = $mailings->get_mailing($model->data['id'])) &&
+  && ($mail = $mailings->get_mailing($model->data['id']))
 ){
  
   $num = 0;
