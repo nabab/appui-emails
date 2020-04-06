@@ -1,12 +1,13 @@
 <div class="appui-emails bbn-overlay">
-  <bbn-tabnav class="appui_emails_tabnav"
+  <bbn-router class="appui_emails_nav"
               :scrollable="true"
               :autoload="true"
+              :nav="true"
   >
     <bbns-container url="home"
                     :load="true"
                     title="<?=_('Mailings')?>"
                     icon="nf nf-fa-newspaper"
     ></bbns-container>
-  </bbn-tabnav>
+  </bbn-router>
 </div>

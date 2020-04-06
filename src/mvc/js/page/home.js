@@ -497,7 +497,6 @@
             this.nodeId = node.data.id
           }
           if ( node.level === 0 ){
-            
             let idx = bbn.fn.search(this.getRef('table').currentOrder, {field: 'bbn_notes_versions.creation'});
             if ( idx > -1 ){
               this.getRef('table').$set(this.getRef('table').currentOrder[idx], 'field', 'sent');
@@ -520,7 +519,7 @@
       },
       setSelected(){
         bbn.fn.happy('set selected')
-        let current = this.closest('bbn-tabnav').closest('bbn-container').current, 
+        let current = this.closest('bbn-router').closest('bbn-container').current,
             bit = current.split('/').pop();
         this.tableURL = bit;
         let nodes = this.findAll('bbn-tree-node')
@@ -534,13 +533,11 @@
           }
         }
         this.mountedTable = true;
-        
-            
       },
       /*setSelected(){
         let filters = [];
         bbn.fn.happy('set selected')
-        bbn.fn.log(this.closest('bbn-tabnav').closest('bbn-container').current)
+        bbn.fn.log(this.closest('bbn-router').closest('bbn-container').current)
         for ( let filter of this.$refs.table.currentFilters.conditions ){
           filters.push(bbn.fn.extend({}, filter));
         }
@@ -647,7 +644,7 @@
     mounted(){
       appui.register('appui-emails', this);
       this.clearGetInfo();
-      let current = this.closest('bbn-tabnav').closest('bbn-container').currentURL, 
+      let current = this.closest('bbn-router').closest('bbn-container').currentURL,
             bit = current.split('/').pop();
       this.tableURL = bit;
       bbn.fn.happy('MOUNTED', this.tableURL)
@@ -682,8 +679,6 @@
               value: 'open'
             });
           }
-          
-          
           if ( (row.state === 'ready') ){
             res.push({
               text: bbn._("Edit"),
