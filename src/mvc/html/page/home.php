@@ -11,8 +11,7 @@
                   :path="treePath"
                   uid="id"
                   :style="{'pointer-events': disableTree ? 'none' : 'auto'}"
-        >
-        </bbn-tree>
+        ></bbn-tree>
       </bbn-pane>
 			<bbn-pane size="50%">
 				<div class="bbn-100 bbn-block info">

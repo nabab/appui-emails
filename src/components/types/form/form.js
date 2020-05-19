@@ -65,7 +65,7 @@
     created(){
       if ( this.emptyCategories ){
         this.$watch('source.id_type', (newVal) => {
-          this.source.name = bbn.fn.get_field(this.emptyCategories, 'id', newVal, 'text');
+          this.source.name = bbn.fn.getField(this.emptyCategories, 'text', 'id', newVal);
         });
       }
     }

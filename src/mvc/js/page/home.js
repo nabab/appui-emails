@@ -150,7 +150,7 @@
       }
     },
     methods: {
-      get_field: bbn.fn.get_field,
+      getField: bbn.fn.getField,
       renderOfficiel(row){
         let st = '';
         if (row.sender) {
@@ -205,7 +205,7 @@
       },
       renderRecipients(row){
         if ( row.recipients ){
-          let text = bbn.fn.get_field(this.source.recipients, 'value', row.recipients, 'text');
+          let text = bbn.fn.getField(this.source.recipients, 'text', 'value', row.recipients);
           return '<a href="listes/liste/' + row.recipients+'">'+text+'</a>'
         }
         
@@ -618,7 +618,7 @@
     watch: {
       'info.current.idRecipients'(newVal){
         if ( newVal && this.source.recipients ){
-          this.info.current.recipients = bbn.fn.get_field(this.source.recipients, 'value', this.info.current.idRecipients, 'text');
+          this.info.current.recipients = bbn.fn.getField(this.source.recipients, 'text', 'value', this.info.current.idRecipients);
         }
         else {
           this.info.current.recipients = '';
@@ -626,7 +626,7 @@
       },
       'info.next.idRecipients'(newVal){
         if ( newVal && this.source.recipients ){
-          this.info.next.recipients = bbn.fn.get_field(this.source.recipients, 'value', this.info.next.idRecipients, 'text');
+          this.info.next.recipients = bbn.fn.getField(this.source.recipients, 'text', 'value', this.info.next.idRecipients);
         }
         else {
           this.info.next.recipients = '';
