@@ -41,8 +41,8 @@ if ( isset($model->data['limit']) ){
     $tmp_grid['data'] = array_map(function($a)use($note){
       if(!empty($a['id_note'])){
         $a['attachments'] = $note->get_medias($a['id_note']);
-        return $a;
       }
+      return $a;
     }, $tmp_grid['data']);
     return $tmp_grid;
   }
