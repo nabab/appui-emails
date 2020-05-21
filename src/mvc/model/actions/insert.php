@@ -55,7 +55,6 @@ if ($model->check_action(['content', 'title', 'sender'], true)) {
       && isset($data['data'])
       && $model->has_data('sent', true)
     ) {
-      $model->data['res'] = $data['data'];
       $data = $model->get_plugin_model('data/result', $model->data, 'emails');
       $message = _('The mailing has been inserted with all its recipients');
     }
