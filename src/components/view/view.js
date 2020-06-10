@@ -17,7 +17,7 @@
     methods: {
       download(file){
         bbn.fn.log("hhh", {id_media: file.id, id: this.source.id}, file);
-        //bbn.fn.post_out(this.emails.source.root + 'actions/download', {id_media: file.id, id: this.source.id});
+        //bbn.fn.postOut(this.emails.source.root + 'actions/download', {id_media: file.id, id: this.source.id});
         bbn.fn.download(this.emails.source.root + 'actions/download', file.name, {id_media: file.id, id: this.source.id});
       }
     },
