@@ -96,9 +96,10 @@
         let url = this.emails.source.root + 'data/mailist/num';
         let odata = {recipients: old, sender: this.source.row.sender};
         if (this.isNumLoading) {
-          let idURL = bbn.fn.getIdURL(url, odata);
-          bbn.fn.log("ABORT", idURL)
-          bbn.fn.abort(idURL);
+          let idURL = bbn.fn.getRequestId(url, odata);
+          if (idURL) {
+            bbn.fn.abort(idURL);
+          }
         }
         if (this.source.row.recipients) {
           this.isNumLoading = true;
