@@ -5,7 +5,7 @@
                 "columns": [
                     "id"
                 ],
-                "ref_db": "apst_app",
+                "ref_db": null,
                 "ref_table": "bbn_history_uids",
                 "ref_column": "bbn_uid",
                 "constraint": "bbn_emailings_ibfk_3",
@@ -30,7 +30,7 @@
                 "columns": [
                     "recipients"
                 ],
-                "ref_db": "apst_app",
+                "ref_db": null,
                 "ref_table": "bbn_options",
                 "ref_column": "id",
                 "constraint": "bbn_emailings_ibfk_5",
@@ -42,7 +42,7 @@
                 "columns": [
                     "sender"
                 ],
-                "ref_db": "apst_app",
+                "ref_db": null,
                 "ref_table": "bbn_options",
                 "ref_column": "id",
                 "constraint": "bbn_emailings_ibfk_6",
@@ -190,7 +190,7 @@
                 "columns": [
                     "id_mailing"
                 ],
-                "ref_db": "apst_app",
+                "ref_db": null,
                 "ref_table": "bbn_emailings",
                 "ref_column": "id",
                 "constraint": "bbn_emails_ibfk_3",
@@ -347,5 +347,5 @@
                 "maxlength": 1
             }
         }
-    },
+    }
 }
