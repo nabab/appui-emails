@@ -1,0 +1,30 @@
+{
+  "text": "Mailings",
+  "code": "mailings",
+  "icon": "nf nf-oct-mail",
+  "cfg": {
+      "show_code": 1,
+      "allow_children": 1
+  },
+  "items": [
+      {
+          "text": "eMails de test",
+          "code": "test",
+          "icon": "nf nf-fa-at",
+          "cfg": {
+              "show_code": 1,
+              "desc": "Adresses email utilisées pour l'envoi de mails de test (pas aux entités de la base)",
+              "show_value": 1,
+              "sortable": 1
+          }
+      },
+      {
+          "text": "Expéditeur",
+          "code": "sender",
+          "cfg": {
+              "show_code": 1,
+              "show_value": 1
+          }
+      }
+  ]
+}
