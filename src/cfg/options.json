@@ -8,18 +8,18 @@
   },
   "items": [
       {
-          "text": "eMails de test",
+          "text": "Test eMails",
           "code": "test",
           "icon": "nf nf-fa-at",
           "cfg": {
               "show_code": 1,
-              "desc": "Adresses email utilisées pour l'envoi de mails de test (pas aux entités de la base)",
+              "desc": "Email addresses used for sending test emails",
               "show_value": 1,
               "sortable": 1
           }
       },
       {
-          "text": "Expéditeur",
+          "text": "Sender",
           "code": "sender",
           "cfg": {
               "show_code": 1,
