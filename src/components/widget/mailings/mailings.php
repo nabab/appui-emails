@@ -1,4 +1,4 @@
-<div class="bbn-padded bbn-block">
+<div class="bbn-padded bbn-w-100">
   <div class="bbn-w-100">
     <div class="bbn-header bbn-b bbn-spadded bbn-no-border-bottom"><?=_('READY')?></div>
     <div class="bbn-w-100 bbn-bordered bbn-background bbn-no-border-top">
