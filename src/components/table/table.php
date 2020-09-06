@@ -58,14 +58,14 @@
                :filterable="false"
   ></bbns-column>
   <bbns-column field="priority"
-               ftitle="<?=_('Priorité')?>"
+               ftitle="<?=_('Priority')?>"
                title="<i class='nf nf-mdi-truck_fast'></i>"
                :width="30"
                cls="bbn-c"
                :render="renderPriority"
                :filterable="false"
   ></bbns-column>
-  <bbns-column width="100"
+  <bbns-column width="120"
                :cls="{
                  'bbn-buttons-flex': (context !== 'sent'),
                  'bbn-c' : true
