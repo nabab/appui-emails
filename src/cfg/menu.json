@@ -1,9 +1,13 @@
 {
   "text": "Emails",
+  "num": 12,
   "icon": "nf nf-mdi-email",
-  "items": [{
-    "text": "Electronic messages",
-    "icon": "nf nf-fa-rocket",
-    "link": "page/home"
-  }]
+  "items": [
+    {
+      "text": "Messages électroniques",
+      "num": 1,
+      "icon": "nf nf-fa-rocket",
+      "link": "page/home"
+    }
+  ]
 }
