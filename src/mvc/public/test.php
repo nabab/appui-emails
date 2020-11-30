@@ -27,13 +27,17 @@ $added[]  = $em->delete_account('07d079aa2ba011eba49b366237393031');
 $done = [];
 $accounts = $em->get_accounts();
 foreach ($accounts as $a) {
+  $deleted[] = $em->reset($a['id']);
+  $em->sync_folders($a['id']);
+  /*
   if ($a['host'] === 'server.babna.com') {
-    $deleted[] = $em->reset($a['id']);
-    $em->sync_folders($a['id']);
     x::map(
       function ($folder) use (&$em, &$done) {
-        if ($em->check_folder($folder)) {
-          $done[$folder['uid']] = $em->sync_emails($folder);
+        var_dump($folder);
+        if ($folder === 'Perso') {
+          if ($em->check_folder($folder)) {
+            $done[$folder['uid']] = $em->sync_emails($folder);
+          }
         }
         return $folder;
       },
@@ -42,6 +46,7 @@ foreach ($accounts as $a) {
     );
     $subscribed[$a['login']] = $em->get_folders($a['id']);
   }
+  */
 }
 
 x::adump([
