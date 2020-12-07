@@ -8,6 +8,7 @@
                     :load="true"
                     title="<?=_('Mailings')?>"
                     icon="nf nf-fa-newspaper"
+                    :static="true"
     ></bbns-container>
   </bbn-router>
 </div>

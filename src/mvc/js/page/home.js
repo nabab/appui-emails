@@ -11,7 +11,7 @@
     data(){
       return {
         pageUrl: '',
-        tableURL: 'all',
+        tableURL: '',
         status: [{
           text: bbn._("Suspended"),
           value: "suspended"
@@ -519,13 +519,11 @@
       },
       setSelected(){
         bbn.fn.happy('set selected')
-        let current = this.closest('bbn-router').closest('bbn-container').current,
-            bit = current.split('/').pop();
-        this.tableURL = bit;
+        let current = this.tableURL;
         let nodes = this.findAll('bbn-tree-node')
-        if ( bit && (bit !== 'home') && nodes.length ){
+        if ( current && (current !== 'home') && nodes.length ){
           let node = bbn.fn.filter(nodes, (a) => {
-            return a.data.id === bit
+            return a.data.id === current
           });
           if ( node[0] ){
             node[0].isSelected = true;
@@ -646,7 +644,18 @@
       this.clearGetInfo();
       let current = this.closest('bbn-router').closest('bbn-container').currentURL,
             bit = current.split('/').pop();
+      if (bit === 'home') {
+        bit = 'all';
+      }
       this.tableURL = bit;
+      this.$nextTick(() => {
+        if (bit === 'all') {
+          let router = this.getRef('tableRouter');
+          if (bbn.fn.isVue(router)) {
+            router.route('all')
+          }
+        }
+      })
       bbn.fn.happy('MOUNTED', this.tableURL)
     },
 		beforeDestroy(){

@@ -45,8 +45,8 @@
 		</bbn-splitter>
 	</bbn-pane>
   <bbn-pane>
-    <bbn-router :autoload="false" :url="tableURL" v-if="tableURL" class="bbn-h-100">
-      <bbn-container :pinned="true" url="home" :load="false">
+    <bbn-router :autoload="false" class="bbn-h-100" :single="true" ref="tableRouter">
+      <bbn-container :pinned="true" :load="false" :url="tableURL">
         <bbn-table ref="table"
                    @ready="setSelected"
                    :source="source.root + 'data/home'"
@@ -184,7 +184,6 @@
           </bbns-column>
         </bbn-table>
       </bbn-container>
-      <bbn-container :url="pageUrl" :load="false" v-if="pageUrl.length"></bbn-container>
     </bbn-router>
   </bbn-pane>
 </bbn-splitter>

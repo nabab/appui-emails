@@ -27,26 +27,21 @@ $added[]  = $em->delete_account('07d079aa2ba011eba49b366237393031');
 $done = [];
 $accounts = $em->get_accounts();
 foreach ($accounts as $a) {
-  $deleted[] = $em->reset($a['id']);
-  $em->sync_folders($a['id']);
-  /*
-  if ($a['host'] === 'server.babna.com') {
-    x::map(
-      function ($folder) use (&$em, &$done) {
-        var_dump($folder);
-        if ($folder === 'Perso') {
-          if ($em->check_folder($folder)) {
-            $done[$folder['uid']] = $em->sync_emails($folder);
-          }
-        }
-        return $folder;
-      },
-      $em->get_folders($a['id']),
-      'items'
-    );
-    $subscribed[$a['login']] = $em->get_folders($a['id']);
-  }
-  */
+  //$deleted[] = $em->reset($a['id']);
+  //$em->sync_folders($a['id']);
+  x::map(
+    function ($folder) use (&$em, &$done, &$a) {
+      $check = $em->check_folder($folder);
+      if ($check) {
+        $done[$a['host'].' - '.$folder['uid']] = $em->sync_emails($folder);
+      }
+      return $folder;
+    },
+    $em->get_folders($a['id']),
+    'items'
+  );
+  $subscribed[$a['login']] = $em->get_folders($a['id']);
+  //var_dump($em->get_folders($a['id']));
 }
 
 x::adump([
@@ -55,6 +50,6 @@ x::adump([
   //'folders' => bbn\user\emails::get_options('folders'),
   //'added' => $added,
   'subscribed' => $subscribed,
-  //'deleted' => $deleted,
-  //'data' => $accounts
+  'deleted' => $deleted,
+  //'data' => $accounts,
 ]);

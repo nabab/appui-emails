@@ -5,4 +5,7 @@
  * @var $ctrl \bbn\mvc\controller 
  *
  */
-var_dump($ctrl->get_model());
+if (isset($ctrl->post['data'], $ctrl->post['data']['id_folder'])) {
+  $ctrl->add_data(['id_folder' => $ctrl->post['data']['id_folder']])
+    ->action();
+}
