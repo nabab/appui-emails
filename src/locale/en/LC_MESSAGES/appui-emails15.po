@@ -7,10 +7,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-09-01 22:14+0200\n"
-"POT-Revision-Date: 2020-09-01 22:14+0200\n"
+"POT-Creation-Date: 2020-12-07 02:18+0100\n"
+"POT-Revision-Date: 2020-12-07 02:18+0100\n"
 "Language: en\n"
-"X-Domain: appui-emails12\n"
+"X-Domain: appui-emails15\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/cli/process.php
@@ -311,6 +311,46 @@ msgstr "Sent"
 msgid "Mailings"
 msgstr "Mailings"
 
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/webmail.php
+msgid "You have no account configured yet"
+msgstr "You have no account configured yet"
+
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/webmail.php
+msgid "Create a new mail account"
+msgstr "Create a new mail account"
+
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/webmail.php
+msgid "Account type"
+msgstr "Account type"
+
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/webmail.php
+msgid "Choose a type of account"
+msgstr "Choose a type of account"
+
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/webmail.php
+msgid "Main eMail address for this account"
+msgstr "Main eMail address for this account"
+
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/webmail.php
+msgid "Login"
+msgstr "Login"
+
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/webmail.php
+msgid "Password"
+msgstr "Password"
+
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/webmail.php
+msgid "Incoming server"
+msgstr "Incoming server"
+
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/webmail.php
+msgid "Click here to change the outgoing server configuration if it is different"
+msgstr "Click here to change the outgoing server configuration if it is different"
+
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/webmail.php
+msgid "Outgoing server"
+msgstr "Outgoing server"
+
 #: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/details.php
 msgid "Recipient"
 msgstr "Recipient"
@@ -404,6 +444,10 @@ msgstr "Last edit"
 #: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/html/page/types.php
 msgid "Actions"
 msgstr "Actions"
+
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/webmail.js
+msgid "eMail account configuration"
+msgstr "eMail account configuration"
 
 #: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/js/page/home.js
 msgid "Suspended"
@@ -582,9 +626,17 @@ msgstr "The mailing has been modified with all its recipients"
 msgid "The mailing has been modified and will be sent accordingly to your settings."
 msgstr "The mailing has been modified and will be sent accordingly to your settings."
 
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/public/accounts.php
+msgid "eMails accounts"
+msgstr "eMails accounts"
+
 #: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/public/page.php
 msgid "eMails"
 msgstr "eMails"
+
+#: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/public/webmail.php
+msgid "Webmail"
+msgstr "Webmail"
 
 #: /home/thomas/domains/apstapp.thomas.lan/_appui/vendor/bbn/appui-emails/src/mvc/public/actions/download.php
 msgid "Impossible to find the requested file"
