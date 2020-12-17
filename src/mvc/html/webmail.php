@@ -128,62 +128,93 @@
     </div>
   </div>
   <script type="text/x-template" :id="scpName + '-editor'">
-    <bbn-form :source="account">
-    	<div class="bbn-grid-fields bbn-padded bbn-m">
-        <div class="bbn-label">
-          <?=_("Account type")?>
-        </div>
-        <bbn-dropdown :source="types"
-                      source-value="id"
-                      placeholder="<?=_("Choose a type of account")?>"
-                      v-model="account.type"
-                      :required="true"/>
-
-        <div class="bbn-label">
-          <?=_("Main eMail address for this account")?>
-        </div>
-        <bbn-input v-model="account.email"
-                   type="email"
-                   :required="true"/>
-
-        <div class="bbn-label">
-          <?=_("Login")?>
-        </div>
-        <bbn-input v-model="account.login"
-                   :required="true"/>
-
-        <div class="bbn-label">
-          <?=_("Password")?>
-        </div>
-        <bbn-input v-model="account.pass"
-                   type="password"
-                   :no-save="true"
-                   :required="true"/>
-
-        <div v-if="['imap', 'pop3'].includes(accountCode)"
-             class="bbn-label">
-          <?=_("Incoming server")?>
-        </div>
-        <bbn-input v-if="['imap', 'pop3'].includes(accountCode)"
-                   type="hostname"
-                   v-model="account.host"
-                   :required="true"/>
-
-        <div class="bbn-grid-full bbn-c"
-             v-if="account.host && ['imap', 'pop3'].includes(accountCode)">
-          <a href="javascript:;" @click="hasSMTP = !hasSMTP">
-            <?=_("Click here to change the outgoing server configuration if it is different")?>
-    			</a>
+    <bbn-form :source="account"
+              @success="success"
+              :data="{action: 'save'}"
+              :validation="() => account.folders.length > 0"
+              :action="cp.source.root + 'actions/account'">
+      <div class="bbn-overlay" v-show="tree.length">
+        <div class="bbn-flex-height">
+          <div class="bbn-w-100">
+            <div class="bbn-padded">
+              <bbn-button @click="backToConfig"><?=_("Back")?></bbn-button>
+            </div>
+            <div class="bbn-m bbn-b bbn-c">
+                <?=_("Choose the folders you want to keep synchronized")?>
+            </div>
+          </div>
+          <div class="bbn-padded bbn-flex-fill">
+            <bbn-tree :source="tree"
+                      ref="tree"
+                      :selection="true"
+                      uid="uid"
+                      :opened="true"/>
+          </div>
 		    </div>
+	    </div>
+      <div class="bbn-w-100" v-show="!tree.length">
+        <div class="bbn-grid-fields bbn-padded bbn-m">
+          <div class="bbn-label">
+            <?=_("Account type")?>
+          </div>
+          <bbn-dropdown :source="types"
+                        source-value="id"
+                        placeholder="<?=_("Choose a type of account")?>"
+                        v-model="account.type"
+                        :required="true"/>
 
-        <div v-if="hasSMTP && ['imap', 'pop3'].includes(accountCode)"
-             class="bbn-label">
-          <?=_("Outgoing server")?>
-        </div>
-        <bbn-input v-if="hasSMTP && ['imap', 'pop3'].includes(accountCode)"
-                   v-model="account.smtp"
-                   type="hostname"
-                   :required="true"/>
+          <div class="bbn-label">
+            <?=_("Main eMail address for this account")?>
+          </div>
+          <bbn-input v-model="account.email"
+                     type="email"
+                     :required="true"/>
+
+          <div class="bbn-label">
+            <?=_("Login")?>
+          </div>
+          <bbn-input v-model="account.login"
+                     :required="true"/>
+
+          <div class="bbn-label">
+            <?=_("Password")?>
+          </div>
+          <bbn-input v-model="account.pass"
+                     type="password"
+                     :no-save="true"
+                     :required="true"/>
+
+          <div v-if="['imap', 'pop3'].includes(accountCode)"
+               class="bbn-label">
+            <?=_("Incoming server")?>
+          </div>
+          <bbn-input v-if="['imap', 'pop3'].includes(accountCode)"
+                     type="hostname"
+                     v-model="account.host"
+                     :required="true"/>
+
+          <div class="bbn-grid-full bbn-c"
+               v-if="account.host && ['imap', 'pop3'].includes(accountCode)">
+            <a href="javascript:;" @click="hasSMTP = !hasSMTP">
+              <?=_("Click here to change the outgoing server configuration if it is different")?>
+            </a>
+          </div>
+
+          <div v-if="hasSMTP && ['imap', 'pop3'].includes(accountCode)"
+               class="bbn-label">
+            <?=_("Outgoing server")?>
+          </div>
+          <bbn-input v-if="hasSMTP && ['imap', 'pop3'].includes(accountCode)"
+                     v-model="account.smtp"
+                     type="hostname"
+                     :required="true"/>
+
+          <div class="bbn-grid-full bbn-c bbn-b bbn-state-error"
+               v-if="errorState">
+            <?=_("Impossible to connect to the mail server")?>
+          </div>
+
+    		</div>
 	    </div>
     </bbn-form>
   </script>

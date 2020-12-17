@@ -27,7 +27,9 @@ $added[]  = $em->delete_account('07d079aa2ba011eba49b366237393031');
 $done = [];
 $accounts = $em->get_accounts();
 foreach ($accounts as $a) {
-  //$deleted[] = $em->reset($a['id']);
+  x::adump($em->get_folders($a['id']));
+  //$deleted[] = $em->delete_account($a['id']);
+  /*
   //$em->sync_folders($a['id']);
   x::map(
     function ($folder) use (&$em, &$done, &$a) {
@@ -42,6 +44,7 @@ foreach ($accounts as $a) {
   );
   $subscribed[$a['login']] = $em->get_folders($a['id']);
   //var_dump($em->get_folders($a['id']));
+  */
 }
 
 x::adump([
