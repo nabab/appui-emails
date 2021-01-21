@@ -9,7 +9,7 @@
  */
 
 if ( !empty($model->data['id']) ){
-  $notes = new \bbn\appui\notes($model->db);
+  $notes = new \bbn\appui\note($model->db);
   if ( ($mail = $model->db->rselect('bbn_emailings', ['id_note', 'version'], ['id' => $model->data['id']])) &&
     ($note = $notes->get($mail['id_note'], $mail['version'], true))
   ){

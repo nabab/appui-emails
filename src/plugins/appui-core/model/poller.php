@@ -2,7 +2,7 @@
 use bbn\x;
 /*
 return [[
-  'id' => 'appui-emails-0',
+  'id' => 'appui-email-0',
   'frequency' => 30,
   'function' => function(array $data) use($model){
     $em = new bbn\user\emails($model->db);

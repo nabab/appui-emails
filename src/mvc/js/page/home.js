@@ -360,7 +360,7 @@
             width: 1050,
             height: "90%",
             title: row.title,
-            component: 'appui-emails-view',
+            component: 'appui-email-view',
             source: row,
             scrollable: false
           });
@@ -479,7 +479,7 @@
             scrolable: false,
             width: 400,
             height: 600,
-            component: 'appui-emails-test',
+            component: 'appui-email-test',
             source: {
               users: [],
               id: row.id
@@ -640,7 +640,7 @@
       }
     },
     mounted(){
-      appui.register('appui-emails', this);
+      appui.register('appui-email', this);
       this.clearGetInfo();
       let current = this.closest('bbn-router').closest('bbn-container').currentURL,
             bit = current.split('/').pop();
@@ -660,7 +660,7 @@
     },
 		beforeDestroy(){
 			this.clearGetInfo();
-      appui.unregister('appui-emails');
+      appui.unregister('appui-email');
     },
     components: {
       menu: {

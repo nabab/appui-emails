@@ -3,7 +3,7 @@
 
 
 if ( isset($model->data['action']) ){
-  $notes = new \bbn\appui\notes($model->db);
+  $notes = new \bbn\appui\note($model->db);
   switch ( $model->data['action'] ){
     case 'select':
       if ( isset($model->data['value']) && \bbn\str::is_integer($model->data['value']) ){

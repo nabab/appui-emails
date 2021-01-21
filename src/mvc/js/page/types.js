@@ -12,7 +12,7 @@
         this.getPopup().open({
           width: 800,
           height: '90%',
-          component: 'appui-emails-types-form',
+          component: 'appui-email-types-form',
           source: {
             empty_categories: this.source.empty_categories,
             id_type: '',
@@ -56,7 +56,7 @@
             this.getPopup().open({
               width: 800,
               height: '90%',
-              component: 'appui-emails-types-form',
+              component: 'appui-email-types-form',
               source: bbn.fn.extend(d.data, {
                   hasVersions: d.data.version > 1,
                 }

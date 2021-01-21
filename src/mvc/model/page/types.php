@@ -41,7 +41,7 @@ return [
           'operator' => 'isnull'
         ],[
           'field' => 'bbn_options.id_parent',
-          'value' => $model->inc->options->from_code('masks', 'appui')
+          'value' => $model->inc->options->from_code('mask', 'appui')
         ]]
       ]
 

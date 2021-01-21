@@ -13,7 +13,7 @@
         delete this.source.empty_categories;
       }
 			return {
-        root: appui.plugins['appui-emails'], 
+        root: appui.plugins['appui-email'], 
         emptyCategories: emptyCategories
       }
 		},

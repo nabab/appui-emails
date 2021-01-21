@@ -3,7 +3,7 @@
     data(){
       return {
         isAutorizedUser: appui.app.user.isAdmin && appui.app.user.isDev,
-        root: appui.plugins['appui-emails'] + '/',
+        root: appui.plugins['appui-email'] + '/',
         status: [{
           text: bbn._('Error'),
           value: 'echec'
@@ -338,7 +338,7 @@
           },
           deleteAll(){
             this.confirm(bbn._('Are you really sure you want to completely delete all ready emails? '), () => {
-              let table = this.closest('appui-emails-table'),
+              let table = this.closest('appui-email-table'),
                   id = table.source ? table.source.id : null;
               this.post(this.root + 'actions/email/delete_all', {id_user: appui.app.user.id}, (d) => {
                 if (d.success){
@@ -350,9 +350,9 @@
           },
         },
         mounted(){
-          this.table = this.closest('appui-emails-table').find('bbn-table');
-          this.root = this.closest('appui-emails-table').root;
-          this.context = this.closest('appui-emails-table').context;
+          this.table = this.closest('appui-email-table').find('bbn-table');
+          this.root = this.closest('appui-email-table').root;
+          this.context = this.closest('appui-email-table').context;
 
         }
       }, 

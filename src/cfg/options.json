@@ -29,7 +29,7 @@
   "text": "Mailings",
   "code": "mailings",
   "id_parent": ["default","dashboard","appui"],
-  "id_alias": ["mailings","appui-dashboard","plugins","|*appui-emails*|/","page","permissions","appui"],
-  "value": "{\"limit\":5,\"observe\":false,\"options\":{},\"closable\":true,\"component\":\"appui-emails-widget-mailings\",\"buttonsLeft\":[],\"buttonsRight\":[]}",
+  "id_alias": ["mailings","appui-dashboard","plugins","|*appui-email*|/","page","permissions","appui"],
+  "value": "{\"limit\":5,\"observe\":false,\"options\":{},\"closable\":true,\"component\":\"appui-email-widget-mailings\",\"buttonsLeft\":[],\"buttonsRight\":[]}",
   "after": 1
 }]

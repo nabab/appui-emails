@@ -16,7 +16,7 @@
               ftitle="<?=_("Default")?>"
               field="default"
               :width="50"
-              component="appui-emails-types-default"
+              component="appui-email-types-default"
               cls="bbn-c"
   ></bbns-column>
   <bbns-column title="<?=_("Version")?>"
@@ -27,7 +27,7 @@
   ></bbns-column>
   <bbns-column title="<?=_("Type")?>"
               field="type"
-              component="appui-emails-types-type"
+              component="appui-email-types-type"
   ></bbns-column>
   <bbns-column title="<?=_("Name")?>"
                field="name"

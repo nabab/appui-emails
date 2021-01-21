@@ -5,8 +5,8 @@
  **/
 
 /** @var $model \bbn\mvc\model */
-$id_accounts = $model->inc->options->from_code('accounts', 'emails', 'appui');
-$id_types = $model->inc->options->from_code('types', 'emails', 'appui');
+$id_accounts = $model->inc->options->from_code('accounts', 'email', 'appui');
+$id_types = $model->inc->options->from_code('types', 'email', 'appui');
 
 return [
   'types' => array_map(function($a){

@@ -3,10 +3,10 @@
 if ( 
   !empty($model->data['id_note']) && 
   !empty($model->data['version']) &&
-  ($notes = new \bbn\appui\notes($model->db)) &&
+  ($notes = new \bbn\appui\note($model->db)) &&
   ($version = $notes->get_full($model->data['id_note'], $model->data['version'])) &&
-  ($ftype = $model->inc->options->from_root_code('file', 'media', 'notes', 'appui')) &&
-  ($ltype = $model->inc->options->from_root_code('link', 'media', 'notes', 'appui'))
+  ($ftype = $model->inc->options->from_root_code('file', 'media', 'note', 'appui')) &&
+  ($ltype = $model->inc->options->from_root_code('link', 'media', 'note', 'appui'))
 ){
   $version['name'] = $model->db->select_one([
     'table' => 'bbn_notes_masks',

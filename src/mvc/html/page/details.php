@@ -23,10 +23,10 @@
               cls="bbn-c"
   ></bbns-column>
 </bbn-table-->
-<appui-emails-table :source="source"
+<appui-email-table :source="source"
                     tableSource="data/details"  
                     :tableData="{id: source.id}"
                     :filterable="false"
                     context="details"
                     v-if="source.id"
-></appui-emails-table>
+></appui-email-table>

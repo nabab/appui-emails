@@ -1,8 +1,8 @@
 {
-  "name": "bbn/appui-emails",
+  "name": "bbn/appui-email",
   "description": "eMailing management for appui",
   "keywords": ["emails","newsletter","appui"],
-  "homepage": "https://github.com/nabab/appui-emails",
+  "homepage": "https://github.com/nabab/appui-email",
   "license": "MIT",
   "authors": [
     {

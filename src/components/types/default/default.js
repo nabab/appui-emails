@@ -10,9 +10,9 @@
     methods: {
       setDefault(source){
 
-        this.post(appui.plugins['appui-emails'] + '/actions/types/default', {id_note: this.source.id_note}, (d) => {
+        this.post(appui.plugins['appui-email'] + '/actions/types/default', {id_note: this.source.id_note}, (d) => {
           let table = this.closest('bbn-table'),
-              defaults = table.findAll('appui-emails-types-default').filter((a) => {
+              defaults = table.findAll('appui-email-types-default').filter((a) => {
                 return (a.source.id_type === this.source.id_type) && (a.source.default === 1);
               });
           if ( d.success ){

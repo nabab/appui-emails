@@ -1,5 +1,5 @@
 <bbn-splitter orientation="horizontal"
-              class="appui-emails-mailings"
+              class="appui-email-mailings"
 >
   <bbn-pane :size="250" class="bbn-bordered-right">
 		<bbn-splitter orientation="vertical">
@@ -76,7 +76,7 @@
                      icon: 'nf nf-fa-list',
                      action: openLettersTypesTab, 
                    }]"
-                   editor="appui-emails-form"
+                   editor="appui-email-form"
                    :order="[{
                      field: 'sent',
                      dir: 'DESC'

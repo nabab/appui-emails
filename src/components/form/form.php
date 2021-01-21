@@ -8,12 +8,12 @@
           @success="success"
           @failure="failure"          
 >
-  <appui-notes-toolbar-version :source="source.row" 
+  <appui-note-toolbar-version :source="source.row" 
                                :data="{id: source.row.id_note}" 
                                @version="getVersion" 
                                v-if="source.row.hasVersions" 
                                :actionUrl="root + 'data/mailing_version'"                              
-  ></appui-notes-toolbar-version>
+  ></appui-note-toolbar-version>
   <div class="bbn-padded bbn-grid-fields">
 
     <div v-if="emails.source.senders.length === 2" class="bbn-grid-full bbn-middle">

@@ -34,7 +34,7 @@
   if ( $grid->check() &&
     ($ret = $grid->get_datatable())
   ){
-    $notes = new \bbn\appui\notes($model->db);
+    $notes = new \bbn\appui\note($model->db);
     if ( !empty($ret['data']) ){
       $ret['data'] = array_map(function($d) use($notes){
         if ( !empty($d['id_note']) ){
@@ -134,7 +134,7 @@ if ( isset($model->data['start']) && !empty($model->data['limit']) ){
   if ( $grid->check() &&
     ($ret = $grid->get_datatable())
   ){
-    $notes = new \bbn\appui\notes($model->db);
+    $notes = new \bbn\appui\note($model->db);
     if ( !empty($ret['data']) ){
       $ret['data'] = array_map(function($d) use($notes){
         $d['attachments'] = $notes->get_medias($d['id_note'], $d['version']);

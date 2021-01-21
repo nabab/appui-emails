@@ -23,7 +23,7 @@
                :width="250"
                :buttons="['edit', 'delete']"/>
 </bbn-table>
-<script type="text/x-template" id="appui-emails-accounts-form-template">
+<script type="text/x-template" id="appui-email-accounts-form-template">
 	<bbn-form :source="source.row"
             action="emails/accounts/update">
     <div class="bbn-grid-fields bbn-padded bbn-m">

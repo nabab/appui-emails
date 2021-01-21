@@ -48,7 +48,7 @@
                :hidden="true"
   ></bbns-column>
 </bbn-table-->
-<appui-emails-table :source="source" 
+<appui-email-table :source="source" 
                     tableSource="data/sent"
                     :filters="{
                       logic: 'AND',
@@ -59,4 +59,4 @@
                       }]
                     }"
                     context="sent"
-></appui-emails-table>
+></appui-email-table>

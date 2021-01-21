@@ -2,7 +2,7 @@
   return {
     data(){
       return {
-        root: appui.plugins['appui-emails'] + '/',
+        root: appui.plugins['appui-email'] + '/',
         status: [{
           text: bbn._('Error'),
           value: 'echec'

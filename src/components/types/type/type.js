@@ -17,7 +17,7 @@
         this.getPopup().open({
           width: 800,
           height: '90%',
-          component: 'appui-emails-types-form',
+          component: 'appui-email-types-form',
           source: {
             id_type: this.source.id_type,
             title: '',

@@ -1,4 +1,4 @@
-<appui-emails-table :source="source" 
+<appui-email-table :source="source" 
                     tableSource="data/emails"
                     :filters="{
                       logic: 'AND',
@@ -9,4 +9,4 @@
                       }]
                     }"
                     context="ready"
-></appui-emails-table>
+></appui-email-table>

@@ -8,7 +8,7 @@
       <bbn-tree :source="treeData"
                 uid="uid"
                 :opened="true"
-                storage-full-name="appui-emails-webmail-tree"
+                storage-full-name="appui-email-webmail-tree"
                 @select="selectFolder"/>
     </bbn-pane>
     <bbn-pane>
@@ -19,7 +19,7 @@
           <bbn-toolbar>
           </bbn-toolbar>
           <bbn-table :source="source.sroot + 'webmail'"
-                     storage-full-name="appui-emails-webmail-table"
+                     storage-full-name="appui-email-webmail-table"
                      :filterable="true"
                      :selection="true"
                      @focus="selectMessage"

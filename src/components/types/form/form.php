@@ -3,12 +3,12 @@
           @success="success"
           :action="action"
 >
-  <appui-notes-toolbar-version :source="source" 
+  <appui-note-toolbar-version :source="source" 
                                :data="{id: source.id_note}" 
                                @version="getVersion" 
                                v-if="source.hasVersions" 
                                :actionUrl="root + '/data/version'"                              
-  ></appui-notes-toolbar-version>
+  ></appui-note-toolbar-version>
   <div class="bbn-padded bbn-grid-fields">
     <label v-if="emptyCategories && emptyCategories.length"><?=_('Type')?></label>
     <bbn-dropdown v-if="emptyCategories && emptyCategories.length" 

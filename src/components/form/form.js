@@ -84,7 +84,7 @@
       },
       loadLettre(id){
         if ( id ){
-          this.post(appui.plugins['appui-emails'] + "/actions/get", {id: id}, (e) => {
+          this.post(appui.plugins['appui-email'] + "/actions/get", {id: id}, (e) => {
             if ( e.success && e.template ){
               this.source.row.title = e.template.title;
               this.source.row.content = e.template.content;
@@ -118,7 +118,7 @@
       }
     },
     mounted(){
-      this.emails = appui.getRegistered('appui-emails');
+      this.emails = appui.getRegistered('appui-email');
       this.dataToSend = {ref: this.ref};
       let fl = this.closest('bbn-floater');
       if (fl && fl.data && fl.data.id_parent){

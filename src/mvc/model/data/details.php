@@ -46,7 +46,7 @@ if ( !empty($model->data['data']) && !empty($model->data['data']['id']) ){
     ]
   ]);
   if ( $grid->check() ){
-    $note = new \bbn\appui\notes($model->db);
+    $note = new \bbn\appui\note($model->db);
     $tmp_grid = $grid->get_datatable();
     $tmp_grid['data'] = array_map(function($a)use($note){
       if ( !empty($a['id_note']) ){

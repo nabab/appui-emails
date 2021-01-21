@@ -33,5 +33,5 @@ return [
       'value' => $a['id'],
       'desc' => $a['desc']
     ];
-  }, $model->inc->options->full_options('sender', 'mailings', 'appui'))
+  }, $model->inc->options->full_options('sender', 'mailing', 'appui'))
 ];
