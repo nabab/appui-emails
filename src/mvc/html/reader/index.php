@@ -1,2 +1,0 @@
-<!-- HTML Document -->
-<?=$html?>
